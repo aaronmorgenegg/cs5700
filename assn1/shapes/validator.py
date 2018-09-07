@@ -32,3 +32,30 @@ class Validator():
         if value < 0:
             raise ShapeException(errorMessage)
 
+    def validatePoint(value, errorMessage):
+        """
+        Method that validates that value is a valid point
+
+        :raises: ShapeException: If value is not a valid point
+        """
+        if not isinstance(value, Point):
+            raise ShapeException(errorMessage)
+
+    def validatePointsAreUnique(points, errorMessage):
+        """
+        Method that validates that each given point has a unique position
+
+        :raises: ShapeException: If any of the points are invalid or share positions
+        """
+        try:
+            for point in points:
+                validatePoint(point, "Invalid point")
+                unique_count = 0
+                for other_point in points:
+                    if point == other_point:
+                        unique_count += 1
+                if unique_count > 1: # More than 1 point in a unique location
+                    raise ShapeException(errorMessage)
+        except TypeError: # Not given a list of points
+            raise ShapeException(errorMessage)
+        

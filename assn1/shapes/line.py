@@ -20,9 +20,8 @@ class Line:
             self.__point1 = point1
             self.__point2 = point2
 
-        if self.__point1 == self.__point2:
-            raise ShapeException("Line must have non-zero length.")
-    
+        Validator.validatePointsAreUnique([self.__point1, self.__point2], "A Line must have a length greater than 0")
+
     @property
     def point1(self):
         return self.__point1
