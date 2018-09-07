@@ -7,6 +7,8 @@ This class represents line objects that can be moved.
 Users of a line can also get its length and slope.
 """
 
+import math
+
 class Line:
     def __init__(self, x1=None, y1=None, x2=None, y2=None, point1=None, point2=None):
         try: # Construct with x1, y1, x2, y2
@@ -42,10 +44,10 @@ class Line:
         self.point2.move(deltaX, deltaY)
 
     def computeLength():
-        pass
+        return math.sqrt( ((self.point1.x - self.point2.x)**2) + ((self.point1.y - self.point2.y)**2) )
 
     def computeSlope():
-        pass
+        return ( (self.point2.y - self.point1.y)/(self.point2.x - self.point1.x) )
 
   
 
