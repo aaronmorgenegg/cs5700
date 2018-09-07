@@ -7,7 +7,7 @@ This class represents point objects that can be moved and copied
 """
 
 class Point:
-    def __init__(self, x, y):
+    def __init__(self, x=None, y=None):
         Validator.validateDouble(x, "Invalid x-location")
         Validator.validateDouble(y, "Invalid y-location")
         self.__x = x
@@ -37,4 +37,10 @@ class Point:
 
     def copy():
         return self.__deepcopy__()
+
+    def __eq__(self, other):
+        """Override the default comparison operator"""
+        if isinstance(other, Point):
+            return (self.x == other.x and self.y == other.y)
+        return False
 
