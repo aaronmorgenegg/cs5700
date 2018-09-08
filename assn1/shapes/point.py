@@ -8,10 +8,10 @@ This class represents point objects that can be moved and copied
 
 class Point:
     def __init__(self, x=None, y=None):
-        Validator.validateDouble(x, "Invalid x-location")
-        Validator.validateDouble(y, "Invalid y-location")
         self.__x = x
         self.__y = y
+        
+        Validator.validatePoint(self)
 
     @property
     def x(self):

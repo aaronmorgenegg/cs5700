@@ -40,6 +40,9 @@ class Validator():
         """
         if not isinstance(value, Point):
             raise ShapeException(errorMessage)
+        Validator.validateDouble(value.x, "Invalid x-location")
+        Validator.validateDouble(value.y, "Invalid y-location")
+ 
 
     def validatePointsAreUnique(points, errorMessage):
         """
@@ -58,4 +61,21 @@ class Validator():
                     raise ShapeException(errorMessage)
         except TypeError: # Not given a list of points
             raise ShapeException(errorMessage)
-        
+       
+    def validateLine(value, errorMessage):
+        """
+        Method that validates that a line is valid.
+
+        :raises: ShapeException: If the line is invalid
+        """
+        if not isinstance(value, Line):
+            raise ShapeException(errorMessage)
+        Validator.validatePoint(value.point1, "Invalid point1")
+        Validator.validatePoint(value.point2, "Invalid point2")
+        Validator.validatePointsAreUnique([value.point1, value.point2], "A Line must have a length greater than 0")
+
+    def validateTriangle(value, errorMessage):
+        # TODO: Verify points are not on the same line
+        # TODO: Validate points are seperate and connected
+        if not isinstance(value, Triangle):
+            raise ShapeException(errorMessage)
