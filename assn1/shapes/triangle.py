@@ -4,8 +4,10 @@
 Triangle
 
 This class represents triangle objects that can be moved.
-Users of a triangel can also compute its area.
+Users of a triangle can also compute its area.
 """
+
+import math
 
 class Triangle:
     def __init__(self, x1=None, y1=None, x2=None, y2=None, x3=None, y3=None, point1=None, point2=None, point3=None, line1=None, line2=None, line3=None):
@@ -73,5 +75,10 @@ class Triangle:
         self.__line3.move(deltaX, deltaY)
 
     def computeArea():
-        pass
+        """Compute area using Heron's formula"""
+        a = self.__line1.computeLength()
+        b = self.__line2.computeLength()
+        c = self.__line3.computeLength()
+        s = (a+b+c)/2
+        return math.sqrt(s*(s-a)*(s-b)*(s-c))
 
