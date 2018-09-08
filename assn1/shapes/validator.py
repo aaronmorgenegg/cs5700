@@ -89,6 +89,22 @@ class Validator():
             if count != 1: 
                 raise ShapeException(errorMessage)
 
+    def validateLinesFormRightAngles(lines, errorMessage):
+        for i in range(len(lines)):
+            m1 = lines[i].computeSlope()
+            m2 = lines[(i+1)%len(lines)].computeSlope()
+            angle = math.degrees(math.atan(((m1-m2)/(1 + m1*m2))))
+            if angle != 90:
+                raise ShapeException(errorMessage)
+
+    def validateLinesAreSameLength(lines, errorMessage):
+        last_length = lines[0].computeLength()
+        for line in lines:
+            length = line.computeLength()
+            if length != last_length
+                raise ShapeException(errorMessage)
+            last_length = length
+
     def validateTriangle(value, errorMessage):
         if not isinstance(value, Triangle):
             raise ShapeException(errorMessage)
@@ -100,4 +116,22 @@ class Validator():
         Validator.validateSlopesAreDifferent([value.line1, value.line2, value.line3], "Angles of lines form an invalid triangle")
 
         Validator.validateLinesFormLoop([value.line1, value.line2, value.line3], "Lines do not form an enclosed triangle")
+
+    def validateRectangle(value, errorMessage):
+        if not isinstance(value, Rectangle):
+            raise ShapeException(errorMessage)
+
+        Validator.validateLine(value.line1, "Line 1 is not a valid line.")
+        Validator.validateLine(value.line2, "Line 2 is not a valid line.")
+        Validator.validateLine(value.line3, "Line 3 is not a valid line.")
+        Validator.validateLine(value.line4, "Line 4 is not a valid line.")
+        
+        Validator.validateLinesFormLoop([value.line1, value.line2, value.line3, value.line4], "Lines do not form an enclosed rectangle.")
+        
+        Validator.validateLinesFormRightAngles([value.line1, value.line2, value.line3, value.line4], "Lines do not form 90 degree angles.")
+
+    def validateSquare(value, errorMessage):
+        validateRectangle(value, errorMessage)
+
+        validateLinesAreSameLength([value.line1, value.line2, value.line3, value.line4], "Lines of square are not same length.")
 
