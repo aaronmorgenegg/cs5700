@@ -7,9 +7,9 @@ This class represents point objects that can be moved and copied
 """
 
 class Point:
-    def __init__(self, x=None, y=None):
-        self.__x = x
-        self.__y = y
+    def __init__(self, *args, **kwargs):
+        self.__x = args[0]
+        self.__y = args[1]
         
         Validator.validatePoint(self)
 

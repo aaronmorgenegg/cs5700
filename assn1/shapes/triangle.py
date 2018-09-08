@@ -10,17 +10,17 @@ Users of a triangle can also compute its area.
 import math
 
 class Triangle:
-    def __init__(self, x1=None, y1=None, x2=None, y2=None, x3=None, y3=None, point1=None, point2=None, point3=None, line1=None, line2=None, line3=None):
+    def __init__(self, *args, **kwargs):
         try: # Construct with x1, y1, x2, y2, x3, y3
-            self.__constructWithCoords(x1, y1, x2, y2, x3, y3)
+            self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5])
         except ShapeException:
             pass
         try: # Construct with point1, point2, point3
-            self.__constructWithPoints(point1, point2, point3)
+            self.__constructWithPoints(args[0], args[1], args[2])
         except ShapeException:
             pass
         # Construct with line1, line2, line3
-        self.__constructWithLines(line1, line2, line3)
+        self.__constructWithLines(args[0], args[1], args[2])
 
         Validator.validateTriangle(self, "Triangle is invalid")
 

@@ -10,14 +10,14 @@ Users of a line can also get its length and slope.
 import math
 
 class Line:
-    def __init__(self, x1=None, y1=None, x2=None, y2=None, point1=None, point2=None):
+    def __init__(self, *args, **kwargs):
         try: # Construct with x1, y1, x2, y2
-            self.__constructWithCoords(x1, y1, x2, y2)
+            self.__constructWithCoords(args[0], args[1], args[2], args[3])
         except ShapeException:
             pass
         
         # Construct with point1, point2
-        self.__constructWithPoints(point1, point2)
+        self.__constructWithPoints(args[0], args[1])
 
         Validator.validateLine(self, "Line is invalid")
 
