@@ -38,9 +38,6 @@ class Triangle:
         self.__line3 = Line(point1=point3, point2=point1)
 
     def __constructWithLines(line1, line2, line3):
-        Validator.validateLine(self.line1, "Line 1 has is not a valid line.")
-        Validator.validateLine(self.line2, "Line 2 has is not a valid line.")
-        Validator.validateLine(self.line3, "Line 3 has is not a valid line.")
         self.__line1 = line1
         self.__line2 = line2
         self.__line3 = line3

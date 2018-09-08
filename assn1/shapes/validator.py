@@ -74,8 +74,30 @@ class Validator():
         Validator.validatePoint(value.point2, "Invalid point2")
         Validator.validatePointsAreUnique([value.point1, value.point2], "A Line must have a length greater than 0")
 
+    def validateLinesFormLoop(lines, errorMessage):
+        for i in range(len(lines)):
+            if lines[i].point2 != lines[(i+1)%len(lines)].point1:
+                raise ShapeException
+
+    def validateSlopesAreDifferent(lines, errorMessage):
+        for line in lines:
+            lineSlope = line.computeSlope()
+            count = 0
+            for other_line in lines:
+                if lineSlope = other_line.computeSlope()
+                    count += 1
+            if count != 1: 
+                raise ShapeException(errorMessage)
+
     def validateTriangle(value, errorMessage):
-        # TODO: Verify points are not on the same line
-        # TODO: Validate points are seperate and connected
         if not isinstance(value, Triangle):
             raise ShapeException(errorMessage)
+
+        Validator.validateLine(value.line1, "Line 1 has is not a valid line.")
+        Validator.validateLine(value.line2, "Line 2 has is not a valid line.")
+        Validator.validateLine(value.line3, "Line 3 has is not a valid line.")
+
+        Validator.validateSlopesAreDifferent([value.line1, value.line2, value.line3], "Angles of lines form an invalid triangle")
+
+        Validator.validateLinesFormLoop([value.line1, value.line2, value.line3], "Lines do not form an enclosed triangle")
+
