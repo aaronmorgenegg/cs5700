@@ -2,6 +2,9 @@
 
 import numbers
 
+from shapes.shape_exception import ShapeException
+from shapes.point import Point
+
 def isInfinite(value):
     """
     Function that checks if a value is infinite
@@ -20,7 +23,7 @@ class Validator():
         :raises: ShapeException: If value is not a valid double
         """
         if not isinstance(value, numbers.Real) or isInfinite(value):
-            raise ShapeException(errorMessage):
+            raise ShapeException(errorMessage)
     
     def validatePositiveDouble(value, errorMessage):
         """
@@ -69,7 +72,7 @@ class Validator():
             lineSlope = line.computeSlope()
             count = 0
             for other_line in lines:
-                if lineSlope = other_line.computeSlope()
+                if lineSlope == other_line.computeSlope():
                     count += 1
             if count != 1: 
                 raise ShapeException(errorMessage)
@@ -86,7 +89,7 @@ class Validator():
         last_length = lines[0].computeLength()
         for line in lines:
             length = line.computeLength()
-            if length != last_length
+            if length != last_length:
                 raise ShapeException(errorMessage)
             last_length = length
 

@@ -6,12 +6,14 @@ Point
 This class represents point objects that can be moved and copied
 """
 
+from shapes.validator import Validator
+
 class Point:
     def __init__(self, *args, **kwargs):
         self.__x = args[0]
         self.__y = args[1]
         
-        Validator.validatePoint(self)
+        Validator.validatePoint(self, "Point invalid")
 
     @property
     def x(self):
