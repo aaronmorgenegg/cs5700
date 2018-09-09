@@ -108,4 +108,9 @@ class TestPoint(unittest.TestCase):
         self.assertEqual(p1.x, p2.x)
         self.assertEqual(p1.y, p2.y)
 
-
+    def testEquality(self):
+        p1 = Point(1, 2)
+        p2 = Point(1, 2)
+        self.assertEqual(p1, p2)
+        p2.move(1, 1)
+        self.assertNotEqual(p1, p2)

@@ -34,8 +34,8 @@ class Point:
     def move(self, deltaX, deltaY):
         Validator.validateDouble(deltaX, "Invalid delta-x value")
         Validator.validateDouble(deltaY, "Invalid delta-y value")
-        self.x += deltaX
-        self.y += deltaY
+        self.__x += deltaX
+        self.__y += deltaY
 
     def copy(self):
         return Point(self.__x, self.__y)
@@ -43,6 +43,6 @@ class Point:
     def __eq__(self, other):
         """Override the default comparison operator"""
         if isinstance(other, Point):
-            return (self.x == other.x and self.y == other.y)
+            return (self.__x == other.x and self.__y == other.y)
         return False
 
