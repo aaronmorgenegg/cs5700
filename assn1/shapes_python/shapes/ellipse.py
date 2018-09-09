@@ -6,8 +6,10 @@ Ellipse
 This class represents ellipse objects that can be moved and scaled.
 Users of an ellipse can also compute its area.
 """
+from shapes.point import Point
+from shapes.shape_exception import ShapeException
+from shapes.validator import Validator
 
-import math
 
 class Ellipse:
     def __init__(self, *args, **kwargs):
@@ -23,25 +25,25 @@ class Ellipse:
 
         Validator.validateEllipse(self, "Ellipse is invalid")
 
-    def __constructWithCoords(x1, y1, x2, y2, x3, y3):
+    def __constructWithCoords(self, x1, y1, x2, y2, x3, y3):
         self.__center = Point(x1, y1)
         focus1 = Point(x2, y2)
         focus2 = Point(x3, y3)
-        mirror1 = __getMirrorFocus(self.__center, focus1)
-        mirror2 = __getMirrorFocus(self.__center, focus2)
+        mirror1 = self.__getMirrorFocus(self.__center, focus1)
+        mirror2 = self.__getMirrorFocus(self.__center, focus2)
         self.__foci1 = (focus1, mirror1)
         self.__foci2 = (focus2, mirror2)
 
-    def __constructWithPoints(point1, point2, point3):
+    def __constructWithPoints(self, point1, point2, point3):
         self.__center = point1
         focus1 = point2
         focus2 = point3
-        mirror1 = __getMirrorFocus(self.__center, focus1)
-        mirror2 = __getMirrorFocus(self.__center, focus2)
+        mirror1 = self.__getMirrorFocus(self.__center, focus1)
+        mirror2 = self.__getMirrorFocus(self.__center, focus2)
         self.__foci1 = (focus1, mirror1)
         self.__foci2 = (focus2, mirror2)
 
-    def __getMirrorFocus(center, focus):
+    def __getMirrorFocus(self, center, focus):
         Validator.validatePoint(center, "Center point invalid")
         Validator.validatePoint(focus, "Focus point invalid")
         dx = focus.x - center.x
@@ -70,15 +72,15 @@ class Ellipse:
     def focus2(self):
         return self.__foci2[0]
 
-    def move(deltaX, deltaY):
+    def move(self, deltaX, deltaY):
         self.__center.move(deltaX, deltaY)
         self.__focus1.move(deltaX, deltaY)
         self.__focus2.move(deltaX, deltaY)
 
-    def computeArea():
-        pass # TODO
+    def computeArea(self):
+        return 1 # TODO
 
-    def scale(scaleFactor):
+    def scale(self, scaleFactor):
         Validator.validatePositiveDouble(scaleFactor())
         f1_dx = self.__focus1.x - self.__center.x
         f1_dy = self.__focus1.y - self.__center.y

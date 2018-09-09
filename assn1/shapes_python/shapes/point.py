@@ -5,15 +5,15 @@ Point
 
 This class represents point objects that can be moved and copied
 """
-
 from shapes.validator import Validator
+
 
 class Point:
     def __init__(self, *args, **kwargs):
         self.__x = args[0]
         self.__y = args[1]
-        
-        Validator.validatePoint(self, "Point invalid")
+
+        Validator.validatePoint(value=self, errorMessage="Point invalid")
 
     @property
     def x(self):
@@ -31,14 +31,14 @@ class Point:
     def y(self, value):
         self.__y = value
 
-    def move(deltaX, deltaY):
+    def move(self, deltaX, deltaY):
         Validator.validateDouble(deltaX, "Invalid delta-x value")
         Validator.validateDouble(deltaY, "Invalid delta-y value")
         self.x += deltaX
         self.y += deltaY
 
-    def copy():
-        return self.__deepcopy__()
+    def copy(self):
+        return Point(self.__x, self.__y)
 
     def __eq__(self, other):
         """Override the default comparison operator"""

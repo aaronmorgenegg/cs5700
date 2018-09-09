@@ -6,8 +6,9 @@ Square
 This class represents square objects that can be moved.
 Users of a square can also compute its area, height, and width.
 """
+from shapes.rectangle import Rectangle
+from shapes.validator import Validator
 
-import math
 
 class Square(Rectangle):
     def __init__(self, *args, **kwargs):
