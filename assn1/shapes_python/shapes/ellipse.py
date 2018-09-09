@@ -42,6 +42,8 @@ class Ellipse:
         self.__foci2 = (focus2, mirror2)
 
     def __getMirrorFocus(center, focus):
+        Validator.validatePoint(center, "Center point invalid")
+        Validator.validatePoint(focus, "Focus point invalid")
         dx = focus.x - center.x
         dy = focus.y - center.y
         x = focus.x - dx*2
