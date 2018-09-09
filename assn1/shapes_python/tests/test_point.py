@@ -17,6 +17,7 @@ class TestPoint(unittest.TestCase):
         self.assertEqual(2.222, p2.y)
 
     def testInvalidConstruction(self):
+        self.assertRaises(ShapeException, Point)
         self.assertRaises(ShapeException, Point, 1, float('inf'))
         self.assertRaises(ShapeException, Point, 1, float('-inf'))
         self.assertRaises(ShapeException, Point, 1, None)

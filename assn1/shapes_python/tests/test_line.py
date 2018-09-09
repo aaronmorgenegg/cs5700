@@ -4,6 +4,7 @@ import unittest
 
 from shapes.line import Line
 from shapes.point import Point
+from shapes.shape_exception import ShapeException
 
 
 class TestLine(unittest.TestCase):
@@ -28,4 +29,17 @@ class TestLine(unittest.TestCase):
         self.assertEqual(4.444, l3.point2.x)
         self.assertEqual(5.5555, l3.point2.y)
 
-    
+    def testInvalidConstruction(self):
+        p1 = Point(1, 2)
+        p2 = Point(4, 10)
+
+        self.assertRaises(ShapeException, Line)
+        self.assertRaises(ShapeException, Line, p1, None)
+        self.assertRaises(ShapeException, Line, None, p2)
+        self.assertRaises(ShapeException, Line, float('inf'), 2, 3, 4)
+        self.assertRaises(ShapeException, Line, 1, float('inf'), 3, 4)
+        self.assertRaises(ShapeException, Line, 1, 2, float('inf'), 4)
+        self.assertRaises(ShapeException, Line, 1, 2, 3, float('inf'))
+        self.assertRaises(ShapeException, Line, p1, p1)
+        self.assertRaises(ShapeException, Line, 1, 2, 1, 2)
+

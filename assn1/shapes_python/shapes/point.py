@@ -5,15 +5,22 @@ Point
 
 This class represents point objects that can be moved and copied
 """
+from shapes.shape_exception import ShapeException
 from shapes.validator import Validator
 
 
 class Point:
     def __init__(self, *args, **kwargs):
-        self.__x = args[0]
-        self.__y = args[1]
+        try:
+            self.__constructWithCoords(args[0], args[1])
+        except IndexError:
+            raise ShapeException("Invalid number of arguments for point construction")
 
-        Validator.validatePoint(value=self, errorMessage="Point invalid")
+    def __constructWithCoords(self, x1, y1):
+        self.__x = x1
+        self.__y = y1
+
+        Validator.validatePoint(value=self, errorMessage="Point construction failed")
 
     @property
     def x(self):
