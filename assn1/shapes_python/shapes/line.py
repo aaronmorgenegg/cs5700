@@ -15,13 +15,10 @@ from shapes.validator import Validator
 
 class Line:
     def __init__(self, *args, **kwargs):
-        try: # Construct with x1, y1, x2, y2
+        try: # Construct with point1, point2
+            self.__constructWithPoints(args[0], args[1])
+        except ShapeException: # Construct with x1, y1, x2, y2
             self.__constructWithCoords(args[0], args[1], args[2], args[3])
-        except ShapeException:
-            pass
-        
-        # Construct with point1, point2
-        self.__constructWithPoints(args[0], args[1])
 
         Validator.validateLine(self, "Line is invalid")
 
@@ -30,6 +27,8 @@ class Line:
         self.__point2 = Point(x2, y2)
 
     def __constructWithPoints(self, point1, point2):
+        Validator.validatePoint(point1, "Invalid point1")
+        Validator.validatePoint(point2, "Invalid point2")
         self.__point1 = point1
         self.__point2 = point2
 
