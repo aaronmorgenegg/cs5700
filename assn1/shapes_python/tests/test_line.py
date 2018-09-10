@@ -43,3 +43,50 @@ class TestLine(unittest.TestCase):
         self.assertRaises(ShapeException, Line, p1, p1)
         self.assertRaises(ShapeException, Line, 1, 2, 1, 2)
 
+    def testMove(self):
+        l1 = Line(1, 2, 4, 10)
+
+        l1.move(3, 4)
+        self.assertEqual(4, l1.point1.x)
+        self.assertEqual(6, l1.point1.y)
+        self.assertEqual(7, l1.point2.x)
+        self.assertEqual(14, l1.point2.y)
+
+        l1.move(.4321, .7654)
+        self.assertEqual(4.4321, l1.point1.x)
+        self.assertEqual(6.7654, l1.point1.y)
+        self.assertEqual(7.4321, l1.point2.x)
+        self.assertEqual(14.7654, l1.point2.y)
+
+        l1.move(-.4321, -.7654)
+        self.assertEqual(4, l1.point1.x)
+        self.assertEqual(6, l1.point1.y)
+        self.assertEqual(7, l1.point2.x)
+        self.assertEqual(14, l1.point2.y)
+
+    def testComputeLength(self):
+        l1 = Line(1, 2, 4, 10)
+        self.assertAlmostEqual(8.544, l1.computeLength(), places=3)
+
+        l2 = Line(1, 2, 1, 3)
+        self.assertAlmostEqual(1, l2.computeLength(), places=3)
+
+        l3 = Line(3, -2, -4, 10)
+        self.assertAlmostEqual(13.892, l3.computeLength(), places=3)
+
+    def testComputeSlope(self):
+        l1 = Line(2, 2, 4, 10)
+        self.assertAlmostEqual(4, l1.computeSlope(), places=3)
+
+        l2 = Line(2, 2, 10, 4)
+        self.assertAlmostEqual(.25, l2.computeSlope(), places=3)
+
+        l3 = Line(2, 2, 4, 2)
+        self.assertAlmostEqual(0, l3.computeSlope(), places=3)
+
+        l4 = Line(2, 2, 2, 4)
+        self.assertAlmostEqual(float('inf'), l4.computeSlope(), places=3)
+
+        l5 = Line(2, 4, 2, 2)
+        self.assertAlmostEqual(float('-inf'), l5.computeSlope(), places=3)
+

@@ -58,7 +58,15 @@ class Line:
         return math.sqrt( ((self.point1.x - self.point2.x)**2) + ((self.point1.y - self.point2.y)**2) )
 
     def computeSlope(self):
-        return ( (self.point2.y - self.point1.y)/(self.point2.x - self.point1.x) )
+        numerator = self.point2.y - self.point1.y
+        denominator = self.point2.x - self.point1.x
+        try:
+            return numerator/denominator
+        except ZeroDivisionError:
+            if numerator > 0:
+                return float('inf')
+            else:
+                return float('-inf')
 
   
 
