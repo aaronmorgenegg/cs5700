@@ -78,3 +78,13 @@ class TestTriangle(unittest.TestCase):
         self.assertEqual(5, t1.point2.y)
         self.assertEqual(6, t1.point3.x)
         self.assertEqual(7, t1.point3.y)
+
+    def testComputeArea(self):
+        t1 = Triangle(1, 1, 2, 1, 1, 2)
+        self.assertAlmostEqual(.5, t1.computeArea(), places=4)
+
+        t2 = Triangle(1, 2, 5, 1, 3, 3)
+        self.assertAlmostEqual(3, t2.computeArea(), places=4)
+
+        t3 = Triangle(-3, 3, 2, 4, 3, -1)
+        self.assertAlmostEqual(13, t3.computeArea(), places=4)
