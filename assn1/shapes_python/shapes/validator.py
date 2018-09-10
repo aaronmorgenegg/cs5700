@@ -101,6 +101,24 @@ class Validator:
         Validator.__validateLinesAreSameLength([value.line1, value.line2, value.line3, value.line4], "Lines of square are not same length.")
 
     @staticmethod
+    def validateEllipse(value, errorMessage):
+        from shapes.ellipse import Ellipse
+        if not isinstance(value, Ellipse):
+            raise ShapeException(errorMessage)
+
+        Validator.validatePoint(value.center, "Center is not a valid point.")
+        Validator.validatePoint(value.focus1, "Focus1 is not a valid point.")
+        Validator.validatePoint(value.focus2, "Focus2 is not a valid point.")
+
+        #TODO: Finish ellipse validation
+
+    @staticmethod
+    def validateCircle(value, errorMessage):
+        Validator.validateEllipse(value, errorMessage)
+
+        #TODO: Finish circle validation
+
+    @staticmethod
     def __validateLineHasLength(value, errorMessage):
         if value.computeLength() <= 0:
             raise ShapeException(errorMessage)
