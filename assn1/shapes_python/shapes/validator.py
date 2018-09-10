@@ -135,8 +135,7 @@ class Validator:
                 else:
                     raise ShapeException(errorMessage)
             else:
-                print(m1, m2)
-                if m1 != -1/m2:
+                if round(m1, 2) != round(-1/m2, 2):
                     raise ShapeException(errorMessage)
 
     @staticmethod
