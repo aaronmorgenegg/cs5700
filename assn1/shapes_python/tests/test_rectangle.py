@@ -57,39 +57,65 @@ class TestRectangle(unittest.TestCase):
 
         self.assertRaises(ShapeException, Rectangle, -1, 0, 0, 2, 1, 1, 0, -1)
 
-    # def testMove(self):
-    #     t1 = Triangle(1, 2, 5, 1, 3, 3)
-    #
-    #     t1.move(3, 4)
-    #     self.assertEqual(4, t1.point1.x)
-    #     self.assertEqual(6, t1.point1.y)
-    #     self.assertEqual(8, t1.point2.x)
-    #     self.assertEqual(5, t1.point2.y)
-    #     self.assertEqual(6, t1.point3.x)
-    #     self.assertEqual(7, t1.point3.y)
-    #
-    #     t1.move(.4321, .7654)
-    #     self.assertEqual(4.4321, t1.point1.x)
-    #     self.assertEqual(6.7654, t1.point1.y)
-    #     self.assertEqual(8.4321, t1.point2.x)
-    #     self.assertEqual(5.7654, t1.point2.y)
-    #     self.assertEqual(6.4321, t1.point3.x)
-    #     self.assertEqual(7.7654, t1.point3.y)
-    #
-    #     t1.move(-.4321, -.7654)
-    #     self.assertEqual(4, t1.point1.x)
-    #     self.assertEqual(6, t1.point1.y)
-    #     self.assertEqual(8, t1.point2.x)
-    #     self.assertEqual(5, t1.point2.y)
-    #     self.assertEqual(6, t1.point3.x)
-    #     self.assertEqual(7, t1.point3.y)
-    #
-    # def testComputeArea(self):
-    #     t1 = Triangle(1, 1, 2, 1, 1, 2)
-    #     self.assertAlmostEqual(.5, t1.computeArea(), places=4)
-    #
-    #     t2 = Triangle(1, 2, 5, 1, 3, 3)
-    #     self.assertAlmostEqual(3, t2.computeArea(), places=4)
-    #
-    #     t3 = Triangle(-3, 3, 2, 4, 3, -1)
-    #     self.assertAlmostEqual(13, t3.computeArea(), places=4)
+    def testMove(self):
+        r1 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+
+        r1.move(3, 4)
+        self.assertAlmostEqual(2.2, r1.point1.x)
+        self.assertAlmostEqual(4.4, r1.point1.y)
+        self.assertAlmostEqual(3, r1.point2.x)
+        self.assertAlmostEqual(6, r1.point2.y)
+        self.assertAlmostEqual(3.8, r1.point3.x)
+        self.assertAlmostEqual(5.6, r1.point3.y)
+        self.assertAlmostEqual(3, r1.point4.x)
+        self.assertAlmostEqual(4, r1.point4.y)
+
+        r1.move(-.234, -1.987)
+        self.assertAlmostEqual(1.966, r1.point1.x)
+        self.assertAlmostEqual(2.413, r1.point1.y)
+        self.assertAlmostEqual(2.766, r1.point2.x)
+        self.assertAlmostEqual(4.013, r1.point2.y)
+        self.assertAlmostEqual(3.566, r1.point3.x)
+        self.assertAlmostEqual(3.613, r1.point3.y)
+        self.assertAlmostEqual(2.766, r1.point4.x)
+        self.assertAlmostEqual(2.013, r1.point4.y)
+
+        r1.move(.234, 1.987)
+        self.assertAlmostEqual(2.2, r1.point1.x)
+        self.assertAlmostEqual(4.4, r1.point1.y)
+        self.assertAlmostEqual(3, r1.point2.x)
+        self.assertAlmostEqual(6, r1.point2.y)
+        self.assertAlmostEqual(3.8, r1.point3.x)
+        self.assertAlmostEqual(5.6, r1.point3.y)
+        self.assertAlmostEqual(3, r1.point4.x)
+        self.assertAlmostEqual(4, r1.point4.y)
+
+    def testComputeWidth(self):
+        r1 = Rectangle(0, 1, 1, 1, 1, 0, 0, 0)
+        self.assertAlmostEqual(1, r1.computeWidth(), places=4)
+
+        r2 = Rectangle(-2, 2, 3, 2, 3, 0, -2, 0)
+        self.assertAlmostEqual(5, r2.computeWidth(), places=4)
+
+        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        self.assertAlmostEqual(1.7889, r3.computeWidth(), places=4)
+
+    def testComputeHeight(self):
+        r1 = Rectangle(0, 1, 1, 1, 1, 0, 0, 0)
+        self.assertAlmostEqual(1, r1.computeHeight(), places=4)
+
+        r2 = Rectangle(-2, 2, 3, 2, 3, 0, -2, 0)
+        self.assertAlmostEqual(2, r2.computeHeight(), places=4)
+
+        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        self.assertAlmostEqual(.8944, r3.computeHeight(), places=4)
+
+    def testComputeArea(self):
+        r1 = Rectangle(0, 1, 1, 1, 1, 0, 0, 0)
+        self.assertAlmostEqual(1, r1.computeArea(), places=4)
+
+        r2 = Rectangle(-2, 2, 3, 2, 3, 0, -2, 0)
+        self.assertAlmostEqual(10, r2.computeArea(), places=4)
+
+        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        self.assertAlmostEqual(1.6, r3.computeArea(), places=4)
