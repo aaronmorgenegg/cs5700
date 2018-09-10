@@ -52,23 +52,29 @@ class TestTriangle(unittest.TestCase):
         l6 = Line(3, 1, 3, 6)
         self.assertRaises(ShapeException, Triangle, l4, l5, l6)
 
-    # def testMove(self):
-    #     l1 = Line(1, 2, 4, 10)
-    #
-    #     l1.move(3, 4)
-    #     self.assertEqual(4, l1.point1.x)
-    #     self.assertEqual(6, l1.point1.y)
-    #     self.assertEqual(7, l1.point2.x)
-    #     self.assertEqual(14, l1.point2.y)
-    #
-    #     l1.move(.4321, .7654)
-    #     self.assertEqual(4.4321, l1.point1.x)
-    #     self.assertEqual(6.7654, l1.point1.y)
-    #     self.assertEqual(7.4321, l1.point2.x)
-    #     self.assertEqual(14.7654, l1.point2.y)
-    #
-    #     l1.move(-.4321, -.7654)
-    #     self.assertEqual(4, l1.point1.x)
-    #     self.assertEqual(6, l1.point1.y)
-    #     self.assertEqual(7, l1.point2.x)
-    #     self.assertEqual(14, l1.point2.y)
+    def testMove(self):
+        t1 = Triangle(1, 2, 5, 1, 3, 3)
+
+        t1.move(3, 4)
+        self.assertEqual(4, t1.point1.x)
+        self.assertEqual(6, t1.point1.y)
+        self.assertEqual(8, t1.point2.x)
+        self.assertEqual(5, t1.point2.y)
+        self.assertEqual(6, t1.point3.x)
+        self.assertEqual(7, t1.point3.y)
+
+        t1.move(.4321, .7654)
+        self.assertEqual(4.4321, t1.point1.x)
+        self.assertEqual(6.7654, t1.point1.y)
+        self.assertEqual(8.4321, t1.point2.x)
+        self.assertEqual(5.7654, t1.point2.y)
+        self.assertEqual(6.4321, t1.point3.x)
+        self.assertEqual(7.7654, t1.point3.y)
+
+        t1.move(-.4321, -.7654)
+        self.assertEqual(4, t1.point1.x)
+        self.assertEqual(6, t1.point1.y)
+        self.assertEqual(8, t1.point2.x)
+        self.assertEqual(5, t1.point2.y)
+        self.assertEqual(6, t1.point3.x)
+        self.assertEqual(7, t1.point3.y)
