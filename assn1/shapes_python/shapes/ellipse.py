@@ -80,8 +80,8 @@ class Ellipse:
 
     def move(self, deltaX, deltaY):
         self.__center.move(deltaX, deltaY)
-        self.__focus1.move(deltaX, deltaY)
-        self.__focus2.move(deltaX, deltaY)
+        self.focus1.move(deltaX, deltaY)
+        self.focus2.move(deltaX, deltaY)
 
     def computeArea(self):
         return 1 # TODO: Compute area

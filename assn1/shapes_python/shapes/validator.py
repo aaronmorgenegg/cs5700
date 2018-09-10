@@ -110,7 +110,11 @@ class Validator:
         Validator.validatePoint(value.focus1, "Focus1 is not a valid point.")
         Validator.validatePoint(value.focus2, "Focus2 is not a valid point.")
 
+        if value.computeArea() <= 0:
+            raise ShapeException(errorMessage)
+
         #TODO: Finish ellipse validation
+        # TODO: Verify foci are perpindicular to center
 
     @staticmethod
     def validateCircle(value, errorMessage):
