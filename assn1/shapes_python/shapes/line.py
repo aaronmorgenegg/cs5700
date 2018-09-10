@@ -20,7 +20,7 @@ class Line:
                 if not self.__constructWithCoords(args[0], args[1], args[2], args[3]):
                     raise ShapeException("Line Construction Failed")
         except IndexError: # If no construction method works, raise an exception
-            raise ShapeException("Invalid number of arguments for line construction")
+            raise ShapeException("Invalid arguments for line construction")
 
     def __constructWithCoords(self, x1, y1, x2, y2):
         try:

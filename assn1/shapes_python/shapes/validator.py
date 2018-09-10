@@ -127,9 +127,17 @@ class Validator:
         for i in range(len(lines)):
             m1 = lines[i].computeSlope()
             m2 = lines[(i+1)%len(lines)].computeSlope()
-            angle = math.degrees(math.atan(((m1-m2)/(1 + m1*m2))))
-            if angle != 90:
-                raise ShapeException(errorMessage)
+            if isInfinite(m1) or m1 == 0 or \
+               isInfinite(m2) or m2 == 0:
+                if isInfinite(m1) and m2 == 0 or \
+                   isInfinite(m2) and m1 == 0:
+                    pass
+                else:
+                    raise ShapeException(errorMessage)
+            else:
+                print(m1, m2)
+                if m1 != -1/m2:
+                    raise ShapeException(errorMessage)
 
     @staticmethod
     def __validateLinesAreSameLength(lines, errorMessage):

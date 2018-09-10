@@ -14,7 +14,7 @@ class Point:
         try:
             self.__constructWithCoords(args[0], args[1])
         except IndexError:
-            raise ShapeException("Invalid number of arguments for point construction")
+            raise ShapeException("Invalid arguments for point construction")
 
     def __constructWithCoords(self, x1, y1):
         self.__x = x1

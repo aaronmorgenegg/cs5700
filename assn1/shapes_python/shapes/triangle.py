@@ -22,7 +22,7 @@ class Triangle:
                     if not self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5]):
                         raise ShapeException("Triangle construction failed")
         except IndexError:
-            raise ShapeException("Invalid number of arguments for triangle construction")
+            raise ShapeException("Invalid arguments for triangle construction")
 
     def __constructWithCoords(self, x1, y1, x2, y2, x3, y3):
         try:

@@ -14,35 +14,45 @@ from shapes.validator import Validator
 class Rectangle:
     def __init__(self, *args, **kwargs):
         try: # Construct with x1, y1, x2, y2, x3, y3, x4, y4
-            self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7])
-        except ShapeException:
-            pass
-        try: # Construct with point1, point2, point3, point4
-            self.__constructWithPoints(args[0], args[1], args[2], args[3])
-        except ShapeException:
-            pass
-        # Construct with line1, line2, line3, line4
-        self.__constructWithLines(args[0], args[1], args[2], args[3])
-
-        Validator.validateRectangle(self, "Rectangle is invalid")
+            if not self.__constructWithPoints(args[0], args[1], args[2], args[3]):
+                if not self.__constructWithLines(args[0], args[1], args[2], args[3]):
+                    if not self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]):
+                        raise ShapeException("Rectangle construction failed")
+        except IndexError:
+            raise ShapeException("Invalid arguments for shape construction")
 
     def __constructWithCoords(self, x1, y1, x2, y2, x3, y3, x4, y4):
-        self.__line1 = Line(x1, y1, x2, y2)
-        self.__line2 = Line(x2, y2, x3, y3)
-        self.__line3 = Line(x3, y3, x4, y4)
-        self.__line4 = Line(x4, y4, x1, y1)
+        try:
+            self.__line1 = Line(x1, y1, x2, y2)
+            self.__line2 = Line(x2, y2, x3, y3)
+            self.__line3 = Line(x3, y3, x4, y4)
+            self.__line4 = Line(x4, y4, x1, y1)
+            Validator.validateRectangle(value=self, errorMessage="Invalid Rectangle")
+            return True
+        except ShapeException:
+            return False
 
     def __constructWithPoints(self, point1, point2, point3, point4):
-        self.__line1 = Line(point1, point2)
-        self.__line2 = Line(point2, point3)
-        self.__line3 = Line(point3, point4)
-        self.__line4 = Line(point4, point1)
+        try:
+            self.__line1 = Line(point1, point2)
+            self.__line2 = Line(point2, point3)
+            self.__line3 = Line(point3, point4)
+            self.__line4 = Line(point4, point1)
+            Validator.validateRectangle(value=self, errorMessage="Invalid Rectangle")
+            return True
+        except ShapeException:
+            return False
 
     def __constructWithLines(self, line1, line2, line3, line4):
-        self.__line1 = line1
-        self.__line2 = line2
-        self.__line3 = line3
-        self.__line4 = line4
+        try:
+            self.__line1 = line1
+            self.__line2 = line2
+            self.__line3 = line3
+            self.__line4 = line4
+            Validator.validateRectangle(value=self, errorMessage="Invalid Rectangle")
+            return True
+        except ShapeException:
+            return False
     
     @property
     def point1(self):
