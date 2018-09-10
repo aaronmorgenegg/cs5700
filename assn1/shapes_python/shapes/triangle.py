@@ -16,33 +16,43 @@ from shapes.validator import Validator
 
 class Triangle:
     def __init__(self, *args, **kwargs):
-        try: # Construct with x1, y1, x2, y2, x3, y3
-            self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5])
-        except ShapeException:
-            pass
-        try: # Construct with point1, point2, point3
-            self.__constructWithPoints(args[0], args[1], args[2])
-        except ShapeException:
-            pass
-        # Construct with line1, line2, line3
-        self.__constructWithLines(args[0], args[1], args[2])
-
-        Validator.validateTriangle(self, "Triangle is invalid")
+        try:
+            if not self.__constructWithPoints(args[0], args[1], args[2]):
+                if not self.__constructWithLines(args[0], args[1], args[2]):
+                    if not self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5]):
+                        raise ShapeException("Triangle construction failed")
+        except IndexError:
+            raise ShapeException("Invalid number of arguments for triangle construction")
 
     def __constructWithCoords(self, x1, y1, x2, y2, x3, y3):
-        self.__line1 = Line(x1, y1, x2, y2)
-        self.__line2 = Line(x2, y2, x3, y3)
-        self.__line3 = Line(x3, y3, x1, y1)
+        try:
+            self.__line1 = Line(x1, y1, x2, y2)
+            self.__line2 = Line(x2, y2, x3, y3)
+            self.__line3 = Line(x3, y3, x1, y1)
+            Validator.validateTriangle(value=self, errorMessage="Triangle invalid")
+            return True
+        except ShapeException:
+            return False
 
     def __constructWithPoints(self, point1, point2, point3):
-        self.__line1 = Line(point1, point2)
-        self.__line2 = Line(point2, point3)
-        self.__line3 = Line(point3, point1)
+        try:
+            self.__line1 = Line(point1, point2)
+            self.__line2 = Line(point2, point3)
+            self.__line3 = Line(point3, point1)
+            Validator.validateTriangle(value=self, errorMessage="Triangle invalid")
+            return True
+        except ShapeException:
+            return False
 
     def __constructWithLines(self, line1, line2, line3):
-        self.__line1 = line1
-        self.__line2 = line2
-        self.__line3 = line3
+        try:
+            self.__line1 = line1
+            self.__line2 = line2
+            self.__line3 = line3
+            Validator.validateTriangle(value=self, errorMessage="Triangle invalid")
+            return True
+        except ShapeException:
+            return False
     
     @property
     def point1(self):

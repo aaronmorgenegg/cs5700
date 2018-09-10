@@ -108,8 +108,8 @@ class Validator:
     @staticmethod
     def __validateLinesFormLoop(lines, errorMessage):
         for i in range(len(lines)):
-            if lines[i].point2 != lines[(i+1)%len(lines)].point1:
-                raise ShapeException
+            if lines[i].point2 != lines[(i + 1) % len(lines)].point1:
+                raise ShapeException(errorMessage)
 
     @staticmethod
     def __validateSlopesAreDifferent(lines, errorMessage):
