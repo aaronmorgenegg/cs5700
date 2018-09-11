@@ -97,4 +97,3 @@ class TestEllipse(unittest.TestCase):
         self.assertAlmostEqual(2, e2.focus2.y)
 
 
-
