@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import math
 import numbers
 
 from shapes.shape_exception import ShapeException
@@ -109,18 +108,21 @@ class Validator:
         Validator.validatePoint(value.center, "Center is not a valid point.")
         Validator.validatePoint(value.focus1, "Focus1 is not a valid point.")
         Validator.validatePoint(value.focus2, "Focus2 is not a valid point.")
+        Validator.validateLine(value.axis1, "Axis1 is not a valid line")
+        Validator.validateLine(value.axis2, "Axis2 is not a valid line")
 
         if value.computeArea() <= 0:
             raise ShapeException(errorMessage)
 
-        #TODO: Finish ellipse validation
-        # TODO: Verify foci are perpindicular to center
+        Validator.__validateLinesFormRightAngles([value.axis1, value.axis2], "Axis are not perpendicular")
+        Validator.__validateFociAreAligned(value, "Foci are not aligned")
 
     @staticmethod
     def validateCircle(value, errorMessage):
         Validator.validateEllipse(value, errorMessage)
 
-        #TODO: Finish circle validation
+        if value.axis1.computeLength() != value.axis2.computeLength():
+            raise ShapeException(errorMessage)
 
     @staticmethod
     def __validateLineHasLength(value, errorMessage):
@@ -168,3 +170,25 @@ class Validator:
             if length != last_length:
                 raise ShapeException(errorMessage)
             last_length = length
+
+    @staticmethod
+    def __validateFociAreAligned(ellipse, errorMessage):
+        try:
+            m1 = (ellipse.focus1.y-ellipse.center.y)/(ellipse.focus1.x-ellipse.center.x)
+        except ZeroDivisionError:
+            if (ellipse.center.y-ellipse.focus1.y) > 0:
+                m1 = float('inf')
+            else:
+                m1 = float('-inf')
+
+        try:
+            m2 = (ellipse.focus2.y-ellipse.center.y)/(ellipse.focus2.x-ellipse.center.x)
+        except ZeroDivisionError:
+            if (ellipse.center.y-ellipse.focus2.y) > 0:
+                m2 = float('-inf')
+            else:
+                m2 = float('inf')
+
+        if m1 != ellipse.axis1.computeSlope() or \
+           m2 != ellipse.axis2.computeSlope():
+            raise ShapeException(errorMessage)

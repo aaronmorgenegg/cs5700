@@ -17,7 +17,7 @@ class Circle(Ellipse):
         Validator.validateCircle(self, "Circle is invalid")
 
     def computeRadius(self):
-        return 1 # TODO: Compute Radius
+        return self.axis1.computeLength()
 
     def computeArea(self):
         return PI * (self.computeRadius()**2)

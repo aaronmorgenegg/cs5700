@@ -86,17 +86,17 @@ class TestValidator(unittest.TestCase):
         self.assertRaises(ShapeException, Validator.validateSquare, Point(1, 1), "Point is not a valid square")
 
     def testValidateEllipse(self):
-        e1 = Ellipse(0, 0, 2, 0, 1, 0)
+        e1 = Ellipse(0, 0, 2, 0, 0, 1, 3, 0, 0, 2)
         Validator.validateEllipse(e1, "Ellipse unexpectedly invalid")
 
-        self.assertRaises(ShapeException, Validator.validateEllipse, "(0, 0, 2, 0, 1, 0)",
-                          "String \'(0, 0, 2, 0, 1, 0)\' is not a valid ellipse")
+        self.assertRaises(ShapeException, Validator.validateEllipse, "(0, 0, 2, 0, 1, 0, 3, 0, 0, 2)",
+                          "String \'(0, 0, 2, 0, 0, 1, 3, 0, 0, 2)\' is not a valid ellipse")
         self.assertRaises(ShapeException, Validator.validateEllipse, Point(1, 1), "Point is not a valid ellipse")
 
     def testValidateCircle(self):
-        c1 = Circle(0, 0, 2, 0, 2, 0)
+        c1 = Circle(0, 0, 2, 0, 0, 2, 3, 0, 0, 3)
         Validator.validateCircle(c1, "Circle unexpectedly invalid")
 
-        self.assertRaises(ShapeException, Validator.validateCircle, "(0, 0, 2, 0, 2, 0)",
-                          "String \'(0, 0, 2, 0, 2, 0)\' is not a valid circle")
+        self.assertRaises(ShapeException, Validator.validateCircle, "(0, 0, 2, 0, 0, 2, 3, 0, 0, 3)",
+                          "String \'(0, 0, 2, 0, 0, 2, 3, 0, 0, 3)\' is not a valid circle")
         self.assertRaises(ShapeException, Validator.validateCircle, Point(1, 1), "Point is not a valid circle")
