@@ -64,3 +64,37 @@ class TestEllipse(unittest.TestCase):
         self.assertAlmostEqual(8, e1.focus1.y)
         self.assertAlmostEqual(2, e1.focus2.x)
         self.assertAlmostEqual(7, e1.focus2.y)
+
+    @unittest.skip
+    def testComputeArea(self):
+        e1 = Ellipse(0, 0, 1, 0, 0, 1)
+
+        self.assertEqual(1, e1.computeArea())
+
+        e2 = Ellipse(1, 1, 4, 4, -1, 3)
+
+        self.assertAlmostEqual(12, e2.computeArea())
+
+    def testScale(self):
+        e1 = Ellipse(0, 0, 1, 0, 0, 1)
+
+        e1.scale(2)
+        self.assertAlmostEqual(0, e1.center.x)
+        self.assertAlmostEqual(0, e1.center.y)
+        self.assertAlmostEqual(2, e1.focus1.x)
+        self.assertAlmostEqual(0, e1.focus1.y)
+        self.assertAlmostEqual(0, e1.focus2.x)
+        self.assertAlmostEqual(2, e1.focus2.y)
+
+        e2 = Ellipse(1, 1, 4, 4, -2, 4)
+
+        e2.scale(1/3)
+        self.assertAlmostEqual(1, e2.center.x)
+        self.assertAlmostEqual(1, e2.center.y)
+        self.assertAlmostEqual(2, e2.focus1.x)
+        self.assertAlmostEqual(2, e2.focus1.y)
+        self.assertAlmostEqual(0, e2.focus2.x)
+        self.assertAlmostEqual(2, e2.focus2.y)
+
+
+

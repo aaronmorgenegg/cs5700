@@ -28,8 +28,8 @@ class Ellipse:
             focus2 = Point(x3, y3)
             mirror1 = self.__getMirrorFocus(self.__center, focus1)
             mirror2 = self.__getMirrorFocus(self.__center, focus2)
-            self.__foci1 = (focus1, mirror1)
-            self.__foci2 = (focus2, mirror2)
+            self.__foci1 = [focus1, mirror1]
+            self.__foci2 = [focus2, mirror2]
             Validator.validateEllipse(value=self, errorMessage="Ellipse is invalid")
             return True
         except ShapeException:
@@ -42,8 +42,8 @@ class Ellipse:
             focus2 = point3
             mirror1 = self.__getMirrorFocus(self.__center, focus1)
             mirror2 = self.__getMirrorFocus(self.__center, focus2)
-            self.__foci1 = (focus1, mirror1)
-            self.__foci2 = (focus2, mirror2)
+            self.__foci1 = [focus1, mirror1]
+            self.__foci2 = [focus2, mirror2]
             Validator.validateEllipse(value=self, errorMessage="Ellipse is invalid")
             return True
         except ShapeException:
@@ -87,12 +87,16 @@ class Ellipse:
         return 1 # TODO: Compute area
 
     def scale(self, scaleFactor):
-        Validator.validatePositiveDouble(scaleFactor())
-        f1_dx = self.__focus1.x - self.__center.x
-        f1_dy = self.__focus1.y - self.__center.y
-        f2_dx = self.__focus2.x - self.__center.x
-        f2_dy = self.__focus2.y - self.__center.y
-        self.__focus1.x = f1_dx*scaleFactor + self.__center.x
-        self.__focus1.y = f1_dy*scaleFactor + self.__center.y
-        self.__focus2.x = f2_dx*scaleFactor + self.__center.x
-        self.__focus2.y = f2_dy*scaleFactor + self.__center.y
+        Validator.validatePositiveDouble(scaleFactor, "Scale Factor not a valid double")
+        f1_dx = self.foci1[0].x - self.__center.x
+        f1_dy = self.foci1[0].y - self.__center.y
+        f2_dx = self.foci2[0].x - self.__center.x
+        f2_dy = self.foci2[0].y - self.__center.y
+        self.foci1[0].x = f1_dx*scaleFactor + self.__center.x
+        self.foci1[0].y = f1_dy*scaleFactor + self.__center.y
+        self.foci1[1].x = f1_dx*scaleFactor + self.__center.x
+        self.foci1[1].y = f1_dy*scaleFactor + self.__center.y
+        self.foci2[0].x = f2_dx*scaleFactor + self.__center.x
+        self.foci2[0].y = f2_dy*scaleFactor + self.__center.y
+        self.foci2[1].x = f2_dx*scaleFactor + self.__center.x
+        self.foci2[1].y = f2_dy*scaleFactor + self.__center.y
