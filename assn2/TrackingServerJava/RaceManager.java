@@ -11,17 +11,25 @@ public class RaceManager {
 
     RaceManager() throws SocketException {
         communicator = new Communicator(12000);
-        messageProcessor = new MessageProcessor("Message Processor");
+        messageProcessor = new MessageProcessor(this);
         communicator.setProcessor(messageProcessor);
     }
 
     RaceManager(int localPort) throws SocketException {
         communicator = new Communicator(localPort);
-        messageProcessor = new MessageProcessor("Message Processor");
+        messageProcessor = new MessageProcessor(this);
         communicator.setProcessor(messageProcessor);
     }
 
     public void start(){
         communicator.start();
+    }
+
+    public void addRace(Race race){
+        races.add(race);
+    }
+
+    public void addAthlete(Athlete athlete){
+        athletes.add(athlete);
     }
 }

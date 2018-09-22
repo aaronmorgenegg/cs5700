@@ -1,5 +1,5 @@
 
 
 public interface IMessage {
-    void process();
+    void process(String message, RaceManager raceManager);
 }
