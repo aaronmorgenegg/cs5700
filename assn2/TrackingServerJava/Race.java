@@ -1,6 +1,6 @@
 
 
-public class Race extends java.util.Observable {
+public class Race {
 
     private double distance;
     private String title;
@@ -14,20 +14,8 @@ public class Race extends java.util.Observable {
         return distance;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
-        setChanged();
-        notifyObservers();
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-        setChanged();
-        notifyObservers();
     }
 
 }

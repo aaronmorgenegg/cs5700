@@ -19,7 +19,7 @@ public class MessageProcessor implements IMessageProcessor {
         List<String> message_args = Arrays.asList(message.split("\\s*,\\s*"));
         String message_type = message_args.get(0);
         IMessage newMessage = messageTypeMap.get(message_type);
-        newMessage.process(message_args, raceManager);
+        newMessage.process(message_args, address, port, raceManager);
         receiveCount++;
     }
 

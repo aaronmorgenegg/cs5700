@@ -1,10 +1,11 @@
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class Message implements IMessage {
 
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         System.out.println(Arrays.toString(message.toArray()));
     }
 
@@ -16,11 +17,14 @@ public class Message implements IMessage {
         messageTypeMap.put("OnCourse", new MessageAthleteOnCourse());
         messageTypeMap.put("DidNotFinish", new MessageAthleteDidNotFinish());
         messageTypeMap.put("Finished", new MessageAthleteFinish());
+        messageTypeMap.put("Hello", new MessageClientHello());
+        messageTypeMap.put("Subscribe", new MessageClientSubscribe());
+        messageTypeMap.put("Unsubscribe", new MessageClientUnsubscribe());
     }
 }
 
 class MessageRaceStart extends Message{
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         String title = message.get(1);
         double distance = Double.parseDouble(message.get(2));
         Race newRace = new Race(title, distance);
@@ -29,7 +33,7 @@ class MessageRaceStart extends Message{
 }
 
 class MessageAthleteRegister extends Message{
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
         double time = Double.parseDouble(message.get(2));
         String first_name = message.get(3);
@@ -42,7 +46,7 @@ class MessageAthleteRegister extends Message{
 }
 
 class MessageAthleteStart extends Message{
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
         double time = Double.parseDouble(message.get(2));
         raceManager.startAthlete(bib, time);
@@ -50,7 +54,7 @@ class MessageAthleteStart extends Message{
 }
 
 class MessageAthleteDidNotStart extends Message{
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
         double time = Double.parseDouble(message.get(2));
         raceManager.didNotStartAthlete(bib, time);
@@ -58,7 +62,7 @@ class MessageAthleteDidNotStart extends Message{
 }
 
 class MessageAthleteOnCourse extends Message{
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
         double time = Double.parseDouble(message.get(2));
         double distance = Double.parseDouble(message.get(3));
@@ -67,13 +71,37 @@ class MessageAthleteOnCourse extends Message{
 }
 
 class MessageAthleteDidNotFinish extends Message{
-    public void process(List<String> message, RaceManager raceManager){
-
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
+        int bib = Integer.parseInt(message.get(1));
+        double time = Double.parseDouble(message.get(2));
+        raceManager.didNotFinishAthlete(bib, time);
     }
 }
 
 class MessageAthleteFinish extends Message{
-    public void process(List<String> message, RaceManager raceManager){
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
+        int bib = Integer.parseInt(message.get(1));
+        double time = Double.parseDouble(message.get(2));
+        raceManager.finishAthlete(bib, time);
+    }
+}
 
+class MessageClientHello extends Message{
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
+        raceManager.addClient(address, port);
+    }
+}
+
+class MessageClientSubscribe extends Message{
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
+        int bib = Integer.parseInt(message.get(1));
+        raceManager.clientSubscribe(address, port, bib);
+    }
+}
+
+class MessageClientUnsubscribe extends Message{
+    public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
+        int bib = Integer.parseInt(message.get(1));
+        raceManager.clientUnsubscribe(address, port, bib);
     }
 }

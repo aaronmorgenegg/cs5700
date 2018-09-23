@@ -1,5 +1,5 @@
-public class TrackingServerException extends Exception {
-    public TrackingServerException(String message){
+class TrackingServerException extends Exception {
+    TrackingServerException(String message){
         super(message);
     }
 }

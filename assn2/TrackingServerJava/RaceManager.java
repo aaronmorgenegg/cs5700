@@ -1,3 +1,4 @@
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,15 @@ public class RaceManager {
             }
         }
         throw new TrackingServerException("Error: Athlete not found for given bib");
+    }
+
+    public Client getClientByAddressPort(InetAddress address, int port) throws TrackingServerException{
+        for(Client client : clients){
+            if(client.getAddress()==address & client.getPort()==port){
+                return client;
+            }
+        }
+        throw new TrackingServerException("Error: Client not found for given address:port");
     }
 
     public void start(){
@@ -73,5 +83,72 @@ public class RaceManager {
         catch (TrackingServerException e){
             e.printStackTrace();
         }
+    }
+
+    public void didNotFinishAthlete(int bib, double end_time){
+        try {
+            Athlete athlete = getAthleteByBib(bib);
+            athlete.setEndTime(end_time);
+            athlete.setStatus("DidNotFinish");
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void finishAthlete(int bib, double end_time){
+        try {
+            Athlete athlete = getAthleteByBib(bib);
+            athlete.setEndTime(end_time);
+            athlete.setStatus("Finished");
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addClient(InetAddress address, int port){
+        Client client = new Client(address, port);
+        clients.add(client);
+    }
+
+    public void clientSubscribe(InetAddress address, int port, int bib){
+        Client client;
+        Athlete athlete;
+        try {
+            client = getClientByAddressPort(address, port);
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+            return;
+        }
+        try {
+            athlete = getAthleteByBib(bib);
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+            return;
+        }
+        athlete.addObserver(client);
+    }
+
+    public void clientUnsubscribe(InetAddress address, int port, int bib){
+        Client client;
+        Athlete athlete;
+        try {
+            client = getClientByAddressPort(address, port);
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+            return;
+        }
+        try {
+            athlete = getAthleteByBib(bib);
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+            return;
+        }
+        athlete.deleteObserver(client);
     }
 }
