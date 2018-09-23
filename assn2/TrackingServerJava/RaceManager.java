@@ -32,9 +32,8 @@ public class RaceManager {
     }
 
     public Client getClientByAddressPort(InetAddress address, int port) throws TrackingServerException{
-        System.out.println("lookup client by address: " + address + " and port: " + port);
         for(Client client : clients){
-            if(client.getAddress()==address & client.getPort()==port){
+            if(client.getAddress().equals(address) & client.getPort()==port){
                 return client;
             }
         }
