@@ -2,15 +2,15 @@
 
 public class Race {
 
-    private double distance;
+    private int distance;
     private String title;
 
-    Race(String title, double distance){
+    Race(String title, int distance){
         this.title = title;
         this.distance = distance;
     }
 
-    public double getDistance() {
+    public int getDistance() {
         return distance;
     }
 

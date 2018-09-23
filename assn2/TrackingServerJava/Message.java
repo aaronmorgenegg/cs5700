@@ -26,7 +26,7 @@ public class Message implements IMessage {
 class MessageRaceStart extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         String title = message.get(1);
-        double distance = Double.parseDouble(message.get(2));
+        int distance = Integer.parseInt(message.get(2));
         Race newRace = new Race(title, distance);
         raceManager.addRace(newRace);
     }
@@ -35,7 +35,7 @@ class MessageRaceStart extends Message{
 class MessageAthleteRegister extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
-        double time = Double.parseDouble(message.get(2));
+        int time = Integer.parseInt(message.get(2));
         String first_name = message.get(3);
         String last_name = message.get(4);
         String gender = message.get(5);
@@ -48,7 +48,7 @@ class MessageAthleteRegister extends Message{
 class MessageAthleteStart extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
-        double time = Double.parseDouble(message.get(2));
+        int time = Integer.parseInt(message.get(2));
         raceManager.startAthlete(bib, time);
     }
 }
@@ -56,7 +56,7 @@ class MessageAthleteStart extends Message{
 class MessageAthleteDidNotStart extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
-        double time = Double.parseDouble(message.get(2));
+        int time = Integer.parseInt(message.get(2));
         raceManager.didNotStartAthlete(bib, time);
     }
 }
@@ -64,8 +64,8 @@ class MessageAthleteDidNotStart extends Message{
 class MessageAthleteOnCourse extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
-        double time = Double.parseDouble(message.get(2));
-        double distance = Double.parseDouble(message.get(3));
+        int time = Integer.parseInt(message.get(2));
+        int distance = Integer.parseInt(message.get(3));
         raceManager.onCourseAthlete(bib, time, distance);
     }
 }
@@ -73,7 +73,7 @@ class MessageAthleteOnCourse extends Message{
 class MessageAthleteDidNotFinish extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
-        double time = Double.parseDouble(message.get(2));
+        int time = Integer.parseInt(message.get(2));
         raceManager.didNotFinishAthlete(bib, time);
     }
 }
@@ -81,7 +81,7 @@ class MessageAthleteDidNotFinish extends Message{
 class MessageAthleteFinish extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
-        double time = Double.parseDouble(message.get(2));
+        int time = Integer.parseInt(message.get(2));
         raceManager.finishAthlete(bib, time);
     }
 }

@@ -54,7 +54,7 @@ public class RaceManager {
         sendClientsAthleteRegister(athlete);
     }
 
-    public void startAthlete(int bib, double start_time){
+    public void startAthlete(int bib, int start_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setStartTime(start_time);
@@ -65,7 +65,7 @@ public class RaceManager {
         }
     }
 
-    public void didNotStartAthlete(int bib, double start_time){
+    public void didNotStartAthlete(int bib, int start_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setStartTime(start_time);
@@ -76,7 +76,7 @@ public class RaceManager {
         }
     }
 
-    public void onCourseAthlete(int bib, double update_time, double distance){
+    public void onCourseAthlete(int bib, int update_time, int distance){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setUpdateTime(update_time);
@@ -87,7 +87,7 @@ public class RaceManager {
         }
     }
 
-    public void didNotFinishAthlete(int bib, double end_time){
+    public void didNotFinishAthlete(int bib, int end_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setEndTime(end_time);
@@ -98,7 +98,7 @@ public class RaceManager {
         }
     }
 
-    public void finishAthlete(int bib, double end_time){
+    public void finishAthlete(int bib, int end_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setEndTime(end_time);
@@ -177,7 +177,7 @@ public class RaceManager {
 
     public void sendClientsRace(Race race){
         String title = race.getTitle();
-        double distance = race.getDistance();
+        int distance = race.getDistance();
         String output_message = String.format("Race,%s,%s", title, distance);
         for(Client client : clients){
             sendClientMessage(client,output_message);
