@@ -132,6 +132,7 @@ public class RaceManager {
             return;
         }
         athlete.addObserver(client);
+        client.sendMessageAthleteStatus(athlete);
     }
 
     public void clientUnsubscribe(InetAddress address, int port, int bib){
