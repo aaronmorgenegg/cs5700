@@ -46,6 +46,7 @@ public class RaceManager {
 
     public void addRace(Race race){
         races.add(race);
+        sendClientsRace(race);
     }
 
     public void addAthlete(Athlete athlete){
@@ -169,6 +170,15 @@ public class RaceManager {
         String gender = athlete.getGender();
         int age = athlete.getAge();
         String output_message = String.format("Athlete,%s,%s,%s,%s,%s", bib,first_name,last_name,gender,age);
+        for(Client client : clients){
+            sendClientMessage(client,output_message);
+        }
+    }
+
+    public void sendClientsRace(Race race){
+        String title = race.getTitle();
+        double distance = race.getDistance();
+        String output_message = String.format("Race,%s,%s", title, distance);
         for(Client client : clients){
             sendClientMessage(client,output_message);
         }
