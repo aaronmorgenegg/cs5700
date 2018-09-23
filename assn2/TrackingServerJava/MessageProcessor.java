@@ -7,11 +7,11 @@ import java.util.Map;
 public class MessageProcessor implements IMessageProcessor {
 
     private int receiveCount;
-    private RaceManager raceManager;
+    private TrackingServer trackingServer;
     Map<String, Message> messageTypeMap = new HashMap<>();
 
-    public MessageProcessor(RaceManager raceManager) {
-        this.raceManager = raceManager;
+    public MessageProcessor(TrackingServer trackingServer) {
+        this.trackingServer = trackingServer;
         Message.initializeTypeMap(messageTypeMap);
     }
     @Override
@@ -20,7 +20,7 @@ public class MessageProcessor implements IMessageProcessor {
         System.out.println("IN: " + Arrays.toString(message_args.toArray()));
         String message_type = message_args.get(0);
         IMessage newMessage = messageTypeMap.get(message_type);
-        newMessage.process(message_args, address, port, raceManager);
+        newMessage.process(message_args, address, port, trackingServer);
         receiveCount++;
     }
 
