@@ -17,6 +17,7 @@ public class MessageProcessor implements IMessageProcessor {
     @Override
     public void process(String message, InetAddress address, int port) {
         List<String> message_args = Arrays.asList(message.split("\\s*,\\s*"));
+        System.out.println("IN: " + Arrays.toString(message_args.toArray()));
         String message_type = message_args.get(0);
         IMessage newMessage = messageTypeMap.get(message_type);
         newMessage.process(message_args, address, port, raceManager);

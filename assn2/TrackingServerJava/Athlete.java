@@ -11,7 +11,7 @@ public class Athlete extends java.util.Observable {
     private int start_time;
     private int end_time;
     private String status;
-    private int distance;
+    private double distance;
 
 
     Athlete(int bib, int time, String first_name, String last_name, String gender, int age){
@@ -71,9 +71,9 @@ public class Athlete extends java.util.Observable {
         return age;
     }
 
-    public int getDistance() { return this.distance; }
+    public double getDistance() { return this.distance; }
 
-    public void setDistance(int distance){
+    public void setDistance(double distance){
         this.distance = distance;
         setChanged();
         notifyObservers();

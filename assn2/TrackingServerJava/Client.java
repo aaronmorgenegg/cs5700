@@ -26,7 +26,7 @@ public class Client implements java.util.Observer{
         int bib = athlete.getBib();
         String status = athlete.getStatus();
         int start_time = athlete.getStartTime();
-        int distance = athlete.getDistance();
+        double distance = athlete.getDistance();
         int update_time = athlete.getUpdateTime();
         int end_time = athlete.getEndTime();
 

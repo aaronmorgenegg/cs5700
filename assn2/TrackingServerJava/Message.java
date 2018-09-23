@@ -65,7 +65,7 @@ class MessageAthleteOnCourse extends Message{
     public void process(List<String> message, InetAddress address, int port, RaceManager raceManager){
         int bib = Integer.parseInt(message.get(1));
         int time = Integer.parseInt(message.get(2));
-        int distance = Integer.parseInt(message.get(3));
+        double distance = Double.parseDouble(message.get(3));
         raceManager.onCourseAthlete(bib, time, distance);
     }
 }

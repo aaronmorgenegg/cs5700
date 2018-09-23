@@ -32,6 +32,7 @@ public class RaceManager {
     }
 
     public Client getClientByAddressPort(InetAddress address, int port) throws TrackingServerException{
+        System.out.println("lookup client by address: " + address + " and port: " + port);
         for(Client client : clients){
             if(client.getAddress()==address & client.getPort()==port){
                 return client;
@@ -76,7 +77,7 @@ public class RaceManager {
         }
     }
 
-    public void onCourseAthlete(int bib, int update_time, int distance){
+    public void onCourseAthlete(int bib, int update_time, double distance){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setUpdateTime(update_time);
@@ -155,6 +156,7 @@ public class RaceManager {
     }
 
     public void sendClientMessage(Client client, String message){
+        System.out.println("OUT: " + message);
         try {
             communicator.send(message, client.getAddress(), client.getPort());
         }
