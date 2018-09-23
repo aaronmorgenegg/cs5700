@@ -32,4 +32,24 @@ public class RaceManager {
     public void addAthlete(Athlete athlete){
         athletes.add(athlete);
     }
+
+    public void startAthlete(int bib, double start_time){
+        for(Athlete athlete : athletes){
+            if(athlete.getBib()==bib){
+                athlete.setStartTime(start_time);
+                athlete.setStatus("Started");
+                return;
+            }
+        }
+    }
+
+    public void didNotStartAthlete(int bib, double start_time){
+        for(Athlete athlete : athletes){
+            if(athlete.getBib()==bib){
+                athlete.setStartTime(start_time);
+                athlete.setStatus("DidNotStart");
+                return;
+            }
+        }
+    }
 }

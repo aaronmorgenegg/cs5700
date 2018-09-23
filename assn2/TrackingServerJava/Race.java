@@ -2,19 +2,19 @@
 
 public class Race extends java.util.Observable {
 
-    private int distance;
+    private double distance;
     private String title;
 
-    Race(String title, int distance){
+    Race(String title, double distance){
         this.title = title;
         this.distance = distance;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
         setChanged();
         notifyObservers();

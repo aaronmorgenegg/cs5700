@@ -1,5 +1,5 @@
-
+import java.util.List;
 
 public interface IMessage {
-    void process(String message, RaceManager raceManager);
+    void process(List<String> message, RaceManager raceManager);
 }
