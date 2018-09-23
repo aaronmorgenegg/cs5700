@@ -50,6 +50,7 @@ public class RaceManager {
 
     public void addAthlete(Athlete athlete){
         athletes.add(athlete);
+        sendClientsAthleteRegister(athlete);
     }
 
     public void startAthlete(int bib, double start_time){
@@ -108,7 +109,7 @@ public class RaceManager {
     }
 
     public void addClient(InetAddress address, int port){
-        Client client = new Client(address, port);
+        Client client = new Client(address, port, this);
         clients.add(client);
     }
 
@@ -150,5 +151,26 @@ public class RaceManager {
             return;
         }
         athlete.deleteObserver(client);
+    }
+
+    public void sendClientMessage(Client client, String message){
+        try {
+            communicator.send(message, client.getAddress(), client.getPort());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendClientsAthleteRegister(Athlete athlete){
+        int bib = athlete.getBib();
+        String first_name = athlete.getFirstName();
+        String last_name = athlete.getLastName();
+        String gender = athlete.getGender();
+        int age = athlete.getAge();
+        String output_message = String.format("Athlete,%s,%s,%s,%s,%s", bib,first_name,last_name,gender,age);
+        for(Client client : clients){
+            sendClientMessage(client,output_message);
+        }
     }
 }
