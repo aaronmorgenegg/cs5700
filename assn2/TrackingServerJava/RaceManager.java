@@ -21,6 +21,15 @@ public class RaceManager {
         communicator.setProcessor(messageProcessor);
     }
 
+    public Athlete getAthleteByBib(int bib) throws TrackingServerException{
+        for(Athlete athlete : athletes){
+            if(athlete.getBib()==bib){
+                return athlete;
+            }
+        }
+        throw new TrackingServerException("Error: Athlete not found for given bib");
+    }
+
     public void start(){
         communicator.start();
     }
@@ -34,22 +43,35 @@ public class RaceManager {
     }
 
     public void startAthlete(int bib, double start_time){
-        for(Athlete athlete : athletes){
-            if(athlete.getBib()==bib){
-                athlete.setStartTime(start_time);
-                athlete.setStatus("Started");
-                return;
-            }
+        try {
+            Athlete athlete = getAthleteByBib(bib);
+            athlete.setStartTime(start_time);
+            athlete.setStatus("Started");
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
         }
     }
 
     public void didNotStartAthlete(int bib, double start_time){
-        for(Athlete athlete : athletes){
-            if(athlete.getBib()==bib){
-                athlete.setStartTime(start_time);
-                athlete.setStatus("DidNotStart");
-                return;
-            }
+        try {
+            Athlete athlete = getAthleteByBib(bib);
+            athlete.setStartTime(start_time);
+            athlete.setStatus("DidNotStart");
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void onCourseAthlete(int bib, double update_time, double distance){
+        try {
+            Athlete athlete = getAthleteByBib(bib);
+            athlete.setUpdateTime(update_time);
+            athlete.setDistance(distance);
+        }
+        catch (TrackingServerException e){
+            e.printStackTrace();
         }
     }
 }

@@ -35,7 +35,7 @@ class MessageAthleteRegister extends Message{
         String first_name = message.get(3);
         String last_name = message.get(4);
         String gender = message.get(5);
-        int age = Integer.parseInt(message.get(6);
+        int age = Integer.parseInt(message.get(6));
         Athlete newAthlete = new Athlete(bib,time,first_name,last_name,gender,age);
         raceManager.addAthlete(newAthlete);
     }
@@ -62,6 +62,7 @@ class MessageAthleteOnCourse extends Message{
         int bib = Integer.parseInt(message.get(1));
         double time = Double.parseDouble(message.get(2));
         double distance = Double.parseDouble(message.get(3));
+        raceManager.onCourseAthlete(bib, time, distance);
     }
 }
 
