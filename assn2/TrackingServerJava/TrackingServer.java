@@ -44,17 +44,22 @@ public class TrackingServer {
         communicator.start();
     }
 
-    public void addRace(Race race){
+    public void raceAdd(Race race){
         races.add(race);
         sendClientsRace(race);
     }
 
-    public void addAthlete(Athlete athlete){
+    public void athleteAdd(Athlete athlete){
         athletes.add(athlete);
         sendClientsAthleteRegister(athlete);
     }
 
-    public void startAthlete(int bib, int start_time){
+    public void clientAdd(InetAddress address, int port){
+        Client client = new Client(address, port, communicator);
+        clients.add(client);
+    }
+
+    public void athleteStart(int bib, int start_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setStartTime(start_time);
@@ -65,7 +70,7 @@ public class TrackingServer {
         }
     }
 
-    public void didNotStartAthlete(int bib, int start_time){
+    public void athleteDidNotStart(int bib, int start_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setStartTime(start_time);
@@ -76,7 +81,7 @@ public class TrackingServer {
         }
     }
 
-    public void onCourseAthlete(int bib, int update_time, double distance){
+    public void athleteOnCourse(int bib, int update_time, double distance){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setUpdateTime(update_time);
@@ -87,7 +92,7 @@ public class TrackingServer {
         }
     }
 
-    public void didNotFinishAthlete(int bib, int end_time){
+    public void athleteDidNotFinish(int bib, int end_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setEndTime(end_time);
@@ -98,7 +103,7 @@ public class TrackingServer {
         }
     }
 
-    public void finishAthlete(int bib, int end_time){
+    public void athleteFinish(int bib, int end_time){
         try {
             Athlete athlete = getAthleteByBib(bib);
             athlete.setEndTime(end_time);
@@ -107,11 +112,6 @@ public class TrackingServer {
         catch (TrackingServerException e){
             e.printStackTrace();
         }
-    }
-
-    public void addClient(InetAddress address, int port){
-        Client client = new Client(address, port, communicator);
-        clients.add(client);
     }
 
     public void clientSubscribe(InetAddress address, int port, int bib){
@@ -155,10 +155,6 @@ public class TrackingServer {
         athlete.deleteObserver(client);
     }
 
-    public void sendClientMessage(Client client, String message){
-       client.sendClientMessage(message);
-    }
-
     public void sendClientsAthleteRegister(Athlete athlete){
         int bib = athlete.getBib();
         String first_name = athlete.getFirstName();
@@ -167,7 +163,7 @@ public class TrackingServer {
         int age = athlete.getAge();
         String output_message = String.format("Athlete,%s,%s,%s,%s,%s", bib,first_name,last_name,gender,age);
         for(Client client : clients){
-            sendClientMessage(client,output_message);
+            client.sendClientMessage(output_message);
         }
     }
 
@@ -176,7 +172,7 @@ public class TrackingServer {
         int distance = race.getDistance();
         String output_message = String.format("Race,%s,%s", title, distance);
         for(Client client : clients){
-            sendClientMessage(client,output_message);
+            client.sendClientMessage(output_message);
         }
     }
 

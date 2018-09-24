@@ -28,7 +28,7 @@ class MessageRaceStart extends Message{
         String title = message.get(1);
         int distance = Integer.parseInt(message.get(2));
         Race newRace = new Race(title, distance);
-        trackingServer.addRace(newRace);
+        trackingServer.raceAdd(newRace);
     }
 }
 
@@ -41,7 +41,7 @@ class MessageAthleteRegister extends Message{
         String gender = message.get(5);
         int age = Integer.parseInt(message.get(6));
         Athlete newAthlete = new Athlete(bib,time,first_name,last_name,gender,age);
-        trackingServer.addAthlete(newAthlete);
+        trackingServer.athleteAdd(newAthlete);
     }
 }
 
@@ -49,7 +49,7 @@ class MessageAthleteStart extends Message{
     public void process(List<String> message, InetAddress address, int port, TrackingServer trackingServer){
         int bib = Integer.parseInt(message.get(1));
         int time = Integer.parseInt(message.get(2));
-        trackingServer.startAthlete(bib, time);
+        trackingServer.athleteStart(bib, time);
     }
 }
 
@@ -57,7 +57,7 @@ class MessageAthleteDidNotStart extends Message{
     public void process(List<String> message, InetAddress address, int port, TrackingServer trackingServer){
         int bib = Integer.parseInt(message.get(1));
         int time = Integer.parseInt(message.get(2));
-        trackingServer.didNotStartAthlete(bib, time);
+        trackingServer.athleteDidNotStart(bib, time);
     }
 }
 
@@ -66,7 +66,7 @@ class MessageAthleteOnCourse extends Message{
         int bib = Integer.parseInt(message.get(1));
         int time = Integer.parseInt(message.get(2));
         double distance = Double.parseDouble(message.get(3));
-        trackingServer.onCourseAthlete(bib, time, distance);
+        trackingServer.athleteOnCourse(bib, time, distance);
     }
 }
 
@@ -74,7 +74,7 @@ class MessageAthleteDidNotFinish extends Message{
     public void process(List<String> message, InetAddress address, int port, TrackingServer trackingServer){
         int bib = Integer.parseInt(message.get(1));
         int time = Integer.parseInt(message.get(2));
-        trackingServer.didNotFinishAthlete(bib, time);
+        trackingServer.athleteDidNotFinish(bib, time);
     }
 }
 
@@ -82,13 +82,13 @@ class MessageAthleteFinish extends Message{
     public void process(List<String> message, InetAddress address, int port, TrackingServer trackingServer){
         int bib = Integer.parseInt(message.get(1));
         int time = Integer.parseInt(message.get(2));
-        trackingServer.finishAthlete(bib, time);
+        trackingServer.athleteFinish(bib, time);
     }
 }
 
 class MessageClientHello extends Message{
     public void process(List<String> message, InetAddress address, int port, TrackingServer trackingServer){
-        trackingServer.addClient(address, port);
+        trackingServer.clientAdd(address, port);
     }
 }
 
