@@ -41,6 +41,7 @@ public class TrackingServer {
     }
 
     public void start(){
+        System.out.println("Tracking server listening on 127.0.0.1:12000");
         communicator.start();
     }
 
