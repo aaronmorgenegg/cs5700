@@ -4,12 +4,12 @@ import java.util.Observable;
 public class Client implements java.util.Observer{
     private InetAddress address;
     private int port;
-    private TrackingServer trackingServer;
+    private Communicator communicator;
 
-    Client(InetAddress address, int port, TrackingServer trackingServer){
+    Client(InetAddress address, int port, Communicator communicator){
         this.address = address;
         this.port = port;
-        this.trackingServer = trackingServer;
+        this.communicator = communicator;
     }
 
     public InetAddress getAddress() { return address; }
@@ -31,6 +31,16 @@ public class Client implements java.util.Observer{
         int end_time = athlete.getEndTime();
 
         String output_message = String.format("Status,%s,%s,%s,%s,%s,%s", bib,status,start_time,distance,update_time,end_time);
-        trackingServer.sendClientMessage(this, output_message);
+        sendClientMessage(output_message);
+    }
+
+    public void sendClientMessage(String message){
+        System.out.println("OUT: " + message);
+        try {
+            communicator.send(message, address, port);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

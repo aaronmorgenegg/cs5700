@@ -110,7 +110,7 @@ public class TrackingServer {
     }
 
     public void addClient(InetAddress address, int port){
-        Client client = new Client(address, port, this);
+        Client client = new Client(address, port, communicator);
         clients.add(client);
     }
 
@@ -156,13 +156,7 @@ public class TrackingServer {
     }
 
     public void sendClientMessage(Client client, String message){
-        System.out.println("OUT: " + message);
-        try {
-            communicator.send(message, client.getAddress(), client.getPort());
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+       client.sendClientMessage(message);
     }
 
     public void sendClientsAthleteRegister(Athlete athlete){
