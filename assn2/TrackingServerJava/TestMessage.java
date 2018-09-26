@@ -106,6 +106,9 @@ public class TestMessage{
         client = testTrackingServer.getClientByAddressPort(address, port+5);
         athlete = testTrackingServer.getAthleteByBib(1);
         assertEquals(athlete.countObservers(), 0);
+
+        // Athlete Available update
+        testTrackingServer.sendClientsAthleteRegister(athlete);
     }
 
 }
