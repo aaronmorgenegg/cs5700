@@ -44,6 +44,47 @@ public class TestMessage{
         assertEquals(athlete.getFirstName(), "Elvis");
         assertEquals(athlete.getLastName(), "Presley");
         assertEquals(athlete.getGender(), "male");
+
+        // Athlete Did not Start
+        message = "DidNotStart,1,3";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.getStatus(), "DidNotStart");
+        assertEquals(athlete.getStartTime(), 3);
+
+        // Athlete Started
+        message = "Started,1,4";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.getStatus(), "Started");
+        assertEquals(athlete.getStartTime(), 4);
+
+        // Athlete On Course Update
+        message = "OnCourse,1,5,2";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.getDistance(), 2, 0.01);
+        assertEquals(athlete.getUpdateTime(), 5);
+
+        // Athlete Did not finish
+        message = "DidNotFinish,1,6";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.getStatus(), "DidNotFinish");
+        assertEquals(athlete.getEndTime(), 6);
+
+        // Athlete finish
+        message = "Finished,1,7";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.getStatus(), "Finished");
+        assertEquals(athlete.getEndTime(), 7);
+
     }
 
 }
