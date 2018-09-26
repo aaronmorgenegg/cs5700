@@ -31,6 +31,15 @@ public class TrackingServer {
         throw new TrackingServerException("Error: Athlete not found for given bib");
     }
 
+    public Race getRaceByTitle(String title) throws TrackingServerException{
+        for(Race race : races){
+            if(race.getTitle().equals(title)){
+                return race;
+            }
+        }
+        throw new TrackingServerException("Error: Race not found for given title");
+    }
+
     public Client getClientByAddressPort(InetAddress address, int port) throws TrackingServerException{
         for(Client client : clients){
             if(client.getAddress().equals(address) & client.getPort()==port){
