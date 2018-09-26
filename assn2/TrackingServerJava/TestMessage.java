@@ -85,6 +85,27 @@ public class TestMessage{
         assertEquals(athlete.getStatus(), "Finished");
         assertEquals(athlete.getEndTime(), 7);
 
+        // Client Hello
+        message = "Hello";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        Client client = testTrackingServer.getClientByAddressPort(address, port+5);
+
+        // Client subscribe
+        message = "Subscribe,1";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        client = testTrackingServer.getClientByAddressPort(address, port+5);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.countObservers(), 1);
+
+        // Client unsubsribe
+        message = "Unsubscribe,1";
+        testCommunicator.send(message, address, port);
+        Thread.sleep(100);
+        client = testTrackingServer.getClientByAddressPort(address, port+5);
+        athlete = testTrackingServer.getAthleteByBib(1);
+        assertEquals(athlete.countObservers(), 0);
     }
 
 }
