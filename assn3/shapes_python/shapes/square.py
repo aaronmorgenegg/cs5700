@@ -14,5 +14,12 @@ class Square(Rectangle):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        Validator.validateSquare(self, "Square is invalid")
+        Square.validateSquare(self, "Square is invalid")
+
+    @staticmethod
+    def validateSquare(value, errorMessage):
+        Rectangle.validateRectangle(value, errorMessage)
+
+        Validator.validateLinesAreSameLength([value.line1, value.line2, value.line3, value.line4], "Lines of square are not same length.")
+
 

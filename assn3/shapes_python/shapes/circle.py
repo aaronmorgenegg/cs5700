@@ -8,13 +8,21 @@ Users of an circle can also compute its area and radius.
 """
 from shapes.constants import PI
 from shapes.ellipse import Ellipse
+from shapes.shape_exception import ShapeException
 from shapes.validator import Validator
 
 
 class Circle(Ellipse):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        Validator.validateCircle(self, "Circle is invalid")
+        Circle.validateCircle(self, "Circle is invalid")
+
+    @staticmethod
+    def validateCircle(value, errorMessage):
+        Ellipse.validateEllipse(value, errorMessage)
+
+        if value.axis1.computeLength() != value.axis2.computeLength():
+            raise ShapeException(errorMessage)
 
     def computeRadius(self):
         return self.axis1.computeLength()

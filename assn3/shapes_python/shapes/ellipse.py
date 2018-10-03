@@ -35,7 +35,7 @@ class Ellipse:
             self.__foci2 = [focus2, mirror2]
             self.__axis1 = Line(self.__center.copy(), Point(x4, y4))
             self.__axis2 = Line(self.__center.copy(), Point(x5, y5))
-            Validator.validateEllipse(value=self, errorMessage="Ellipse is invalid")
+            Ellipse.validateEllipse(value=self, errorMessage="Ellipse is invalid")
             return True
         except ShapeException:
             return False
@@ -51,19 +51,37 @@ class Ellipse:
             self.__foci2 = [focus2, mirror2]
             self.__axis1 = Line(self.__center.copy(), point4)
             self.__axis2 = Line(self.__center.copy(), point5)
-            Validator.validateEllipse(value=self, errorMessage="Ellipse is invalid")
+            Ellipse.validateEllipse(value=self, errorMessage="Ellipse is invalid")
             return True
         except ShapeException:
             return False
 
     def __getMirrorFocus(self, center, focus):
-        Validator.validatePoint(center, "Center point invalid")
-        Validator.validatePoint(focus, "Focus point invalid")
+        Point.validatePoint(center, "Center point invalid")
+        Point.validatePoint(focus, "Focus point invalid")
         dx = focus.x - center.x
         dy = focus.y - center.y
         x = focus.x - dx*2
         y = focus.y - dy*2
         return Point(x, y)
+
+    @staticmethod
+    def validateEllipse(value, errorMessage):
+        if not isinstance(value, Ellipse):
+            raise ShapeException(errorMessage)
+
+        Point.validatePoint(value.center, "Center is not a valid point.")
+        Point.validatePoint(value.focus1, "Focus1 is not a valid point.")
+        Point.validatePoint(value.focus2, "Focus2 is not a valid point.")
+        Line.validateLine(value.axis1, "Axis1 is not a valid line")
+        Line.validateLine(value.axis2, "Axis2 is not a valid line")
+
+        if value.computeArea() <= 0:
+            raise ShapeException(errorMessage)
+
+        Validator.validateLinesFormRightAngles([value.axis1, value.axis2], "Axis are not perpendicular")
+        Validator.validateFociAreAligned(value, "Foci are not aligned")
+
 
     @property
     def center(self):

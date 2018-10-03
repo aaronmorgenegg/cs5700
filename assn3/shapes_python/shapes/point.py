@@ -20,7 +20,19 @@ class Point:
         self.__x = x1
         self.__y = y1
 
-        Validator.validatePoint(value=self, errorMessage="Point construction failed")
+        self.validatePoint(self, errorMessage="Point construction failed")
+
+    @staticmethod
+    def validatePoint(value, errorMessage):
+        """
+        Method that validates that value is a valid point
+
+        :raises: ShapeException: If value is not a valid point
+        """
+        if not isinstance(value, Point):
+            raise ShapeException(errorMessage)
+        Validator.validateDouble(value.x, "Invalid x-location")
+        Validator.validateDouble(value.y, "Invalid y-location")
 
     @property
     def x(self):

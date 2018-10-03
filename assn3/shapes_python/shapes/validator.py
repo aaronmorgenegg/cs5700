@@ -38,105 +38,18 @@ class Validator:
             raise ShapeException(errorMessage)
 
     @staticmethod
-    def validatePoint(value, errorMessage):
-        """
-        Method that validates that value is a valid point
-
-        :raises: ShapeException: If value is not a valid point
-        """
-        from shapes.point import Point
-        if not isinstance(value, Point):
-            raise ShapeException(errorMessage)
-        Validator.validateDouble(value.x, "Invalid x-location")
-        Validator.validateDouble(value.y, "Invalid y-location")
-
-    @staticmethod
-    def validateLine(value, errorMessage):
-        """
-        Method that validates that a line is valid.
-
-        :raises: ShapeException: If the line is invalid
-        """
-        from shapes.line import Line
-        if not isinstance(value, Line):
-            raise ShapeException(errorMessage)
-        Validator.validatePoint(value.point1, "Invalid point1")
-        Validator.validatePoint(value.point2, "Invalid point2")
-        Validator.__validateLineHasLength(value, "A Line must have a length greater than 0")
-
-    @staticmethod
-    def validateTriangle(value, errorMessage):
-        from shapes.triangle import Triangle
-        if not isinstance(value, Triangle):
-            raise ShapeException(errorMessage)
-
-        Validator.validateLine(value.line1, "Line 1 has is not a valid line.")
-        Validator.validateLine(value.line2, "Line 2 has is not a valid line.")
-        Validator.validateLine(value.line3, "Line 3 has is not a valid line.")
-
-        Validator.__validateSlopesAreDifferent([value.line1, value.line2, value.line3], "Angles of lines form an invalid triangle")
-
-        Validator.__validateLinesFormLoop([value.line1, value.line2, value.line3], "Lines do not form an enclosed triangle")
-
-    @staticmethod
-    def validateRectangle(value, errorMessage):
-        from shapes.rectangle import Rectangle
-        if not isinstance(value, Rectangle):
-            raise ShapeException(errorMessage)
-
-        Validator.validateLine(value.line1, "Line 1 is not a valid line.")
-        Validator.validateLine(value.line2, "Line 2 is not a valid line.")
-        Validator.validateLine(value.line3, "Line 3 is not a valid line.")
-        Validator.validateLine(value.line4, "Line 4 is not a valid line.")
-
-        Validator.__validateLinesFormLoop([value.line1, value.line2, value.line3, value.line4], "Lines do not form an enclosed rectangle.")
-
-        Validator.__validateLinesFormRightAngles([value.line1, value.line2, value.line3, value.line4], "Lines do not form 90 degree angles.")
-
-    @staticmethod
-    def validateSquare(value, errorMessage):
-        Validator.validateRectangle(value, errorMessage)
-
-        Validator.__validateLinesAreSameLength([value.line1, value.line2, value.line3, value.line4], "Lines of square are not same length.")
-
-    @staticmethod
-    def validateEllipse(value, errorMessage):
-        from shapes.ellipse import Ellipse
-        if not isinstance(value, Ellipse):
-            raise ShapeException(errorMessage)
-
-        Validator.validatePoint(value.center, "Center is not a valid point.")
-        Validator.validatePoint(value.focus1, "Focus1 is not a valid point.")
-        Validator.validatePoint(value.focus2, "Focus2 is not a valid point.")
-        Validator.validateLine(value.axis1, "Axis1 is not a valid line")
-        Validator.validateLine(value.axis2, "Axis2 is not a valid line")
-
-        if value.computeArea() <= 0:
-            raise ShapeException(errorMessage)
-
-        Validator.__validateLinesFormRightAngles([value.axis1, value.axis2], "Axis are not perpendicular")
-        Validator.__validateFociAreAligned(value, "Foci are not aligned")
-
-    @staticmethod
-    def validateCircle(value, errorMessage):
-        Validator.validateEllipse(value, errorMessage)
-
-        if value.axis1.computeLength() != value.axis2.computeLength():
-            raise ShapeException(errorMessage)
-
-    @staticmethod
-    def __validateLineHasLength(value, errorMessage):
+    def validateLineHasLength(value, errorMessage):
         if value.computeLength() <= 0:
             raise ShapeException(errorMessage)
 
     @staticmethod
-    def __validateLinesFormLoop(lines, errorMessage):
+    def validateLinesFormLoop(lines, errorMessage):
         for i in range(len(lines)):
             if lines[i].point2 != lines[(i + 1) % len(lines)].point1:
                 raise ShapeException(errorMessage)
 
     @staticmethod
-    def __validateSlopesAreDifferent(lines, errorMessage):
+    def validateSlopesAreDifferent(lines, errorMessage):
         for line in lines:
             lineSlope = line.computeSlope()
             count = 0
@@ -147,7 +60,7 @@ class Validator:
                 raise ShapeException(errorMessage)
 
     @staticmethod
-    def __validateLinesFormRightAngles(lines, errorMessage):
+    def validateLinesFormRightAngles(lines, errorMessage):
         for i in range(len(lines)):
             m1 = lines[i].computeSlope()
             m2 = lines[(i+1)%len(lines)].computeSlope()
@@ -163,7 +76,7 @@ class Validator:
                     raise ShapeException(errorMessage)
 
     @staticmethod
-    def __validateLinesAreSameLength(lines, errorMessage):
+    def validateLinesAreSameLength(lines, errorMessage):
         last_length = lines[0].computeLength()
         for line in lines:
             length = line.computeLength()
@@ -172,7 +85,7 @@ class Validator:
             last_length = length
 
     @staticmethod
-    def __validateFociAreAligned(ellipse, errorMessage):
+    def validateFociAreAligned(ellipse, errorMessage):
         try:
             m1 = (ellipse.focus1.y-ellipse.center.y)/(ellipse.focus1.x-ellipse.center.x)
         except ZeroDivisionError:

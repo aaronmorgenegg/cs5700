@@ -27,7 +27,7 @@ class Rectangle:
             self.__line2 = Line(x2, y2, x3, y3)
             self.__line3 = Line(x3, y3, x4, y4)
             self.__line4 = Line(x4, y4, x1, y1)
-            Validator.validateRectangle(value=self, errorMessage="Invalid Rectangle")
+            Rectangle.validateRectangle(value=self, errorMessage="Invalid Rectangle")
             return True
         except ShapeException:
             return False
@@ -38,7 +38,7 @@ class Rectangle:
             self.__line2 = Line(point2, point3)
             self.__line3 = Line(point3, point4)
             self.__line4 = Line(point4, point1)
-            Validator.validateRectangle(value=self, errorMessage="Invalid Rectangle")
+            Rectangle.validateRectangle(value=self, errorMessage="Invalid Rectangle")
             return True
         except ShapeException:
             return False
@@ -49,10 +49,25 @@ class Rectangle:
             self.__line2 = line2
             self.__line3 = line3
             self.__line4 = line4
-            Validator.validateRectangle(value=self, errorMessage="Invalid Rectangle")
+            Rectangle.validateRectangle(value=self, errorMessage="Invalid Rectangle")
             return True
         except ShapeException:
             return False
+
+    @staticmethod
+    def validateRectangle(value, errorMessage):
+        if not isinstance(value, Rectangle):
+            raise ShapeException(errorMessage)
+
+        Line.validateLine(value.line1, "Line 1 is not a valid line.")
+        Line.validateLine(value.line2, "Line 2 is not a valid line.")
+        Line.validateLine(value.line3, "Line 3 is not a valid line.")
+        Line.validateLine(value.line4, "Line 4 is not a valid line.")
+
+        Validator.validateLinesFormLoop([value.line1, value.line2, value.line3, value.line4], "Lines do not form an enclosed rectangle.")
+
+        Validator.validateLinesFormRightAngles([value.line1, value.line2, value.line3, value.line4], "Lines do not form 90 degree angles.")
+
     
     @property
     def point1(self):

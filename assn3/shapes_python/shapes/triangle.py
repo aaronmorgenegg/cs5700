@@ -29,7 +29,7 @@ class Triangle:
             self.__line1 = Line(x1, y1, x2, y2)
             self.__line2 = Line(x2, y2, x3, y3)
             self.__line3 = Line(x3, y3, x1, y1)
-            Validator.validateTriangle(value=self, errorMessage="Triangle invalid")
+            Triangle.validateTriangle(value=self, errorMessage="Triangle invalid")
             return True
         except ShapeException:
             return False
@@ -39,7 +39,7 @@ class Triangle:
             self.__line1 = Line(point1, point2)
             self.__line2 = Line(point2, point3)
             self.__line3 = Line(point3, point1)
-            Validator.validateTriangle(value=self, errorMessage="Triangle invalid")
+            Triangle.validateTriangle(value=self, errorMessage="Triangle invalid")
             return True
         except ShapeException:
             return False
@@ -49,10 +49,24 @@ class Triangle:
             self.__line1 = line1
             self.__line2 = line2
             self.__line3 = line3
-            Validator.validateTriangle(value=self, errorMessage="Triangle invalid")
+            Triangle.validateTriangle(value=self, errorMessage="Triangle invalid")
             return True
         except ShapeException:
             return False
+
+    @staticmethod
+    def validateTriangle(value, errorMessage):
+        if not isinstance(value, Triangle):
+            raise ShapeException(errorMessage)
+
+        Line.validateLine(value.line1, "Line 1 has is not a valid line.")
+        Line.validateLine(value.line2, "Line 2 has is not a valid line.")
+        Line.validateLine(value.line3, "Line 3 has is not a valid line.")
+
+        Validator.validateSlopesAreDifferent([value.line1, value.line2, value.line3], "Angles of lines form an invalid triangle")
+
+        Validator.validateLinesFormLoop([value.line1, value.line2, value.line3], "Lines do not form an enclosed triangle")
+
     
     @property
     def point1(self):

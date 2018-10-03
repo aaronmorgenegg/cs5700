@@ -26,21 +26,34 @@ class Line:
         try:
             self.__point1 = Point(x1, y1)
             self.__point2 = Point(x2, y2)
-            Validator.validateLine(value=self, errorMessage="Line invalid")
+            Line.validateLine(value=self, errorMessage="Line invalid")
             return True
         except ShapeException:
             return False
 
     def __constructWithPoints(self, point1, point2):
         try:
-            Validator.validatePoint(point1, "Invalid point1")
-            Validator.validatePoint(point2, "Invalid point2")
+            Point.validatePoint(point1, "Invalid point1")
+            Point.validatePoint(point2, "Invalid point2")
             self.__point1 = point1
             self.__point2 = point2
-            Validator.validateLine(value=self, errorMessage="Line invalid")
+            Line.validateLine(value=self, errorMessage="Line invalid")
             return True
         except ShapeException:
             return False
+
+    @staticmethod
+    def validateLine(value, errorMessage):
+        """
+        Method that validates that a line is valid.
+
+        :raises: ShapeException: If the line is invalid
+        """
+        if not isinstance(value, Line):
+            raise ShapeException(errorMessage)
+        Point.validatePoint(value.point1, "Invalid point1")
+        Point.validatePoint(value.point2, "Invalid point2")
+        Validator.validateLineHasLength(value, "A Line must have a length greater than 0")
 
     @property
     def point1(self):
