@@ -7,6 +7,7 @@ This class represents rectangle objects that can be moved.
 Users of a rectangle can also compute its area, height, and width.
 """
 from shapes.line import Line
+from shapes.point import Point
 from shapes.shape import Shape
 from shapes.shape_exception import ShapeException
 from shapes.validator import Validator
@@ -14,7 +15,11 @@ from shapes.validator import Validator
 
 class Rectangle(Shape):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        if len(list(args)) == 3:
+            center = Point.getCenterPoint(args[0], args[2])
+            super().__init__(center, *args, **kwargs)
+        else:
+            super().__init__(*args, **kwargs)
         self.lines.append(Line(self.point1, self.point2))
         self.lines.append(Line(self.point2, self.point3))
         self.lines.append(Line(self.point3, self.point4))

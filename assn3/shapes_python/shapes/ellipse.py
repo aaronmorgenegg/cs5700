@@ -8,7 +8,6 @@ Users of an ellipse can also compute its area.
 """
 from shapes.constants import PI
 from shapes.line import Line
-from shapes.point import Point
 from shapes.shape import Shape
 from shapes.shape_exception import ShapeException
 from shapes.validator import Validator

@@ -34,6 +34,11 @@ class Point:
         Validator.validateDouble(value.x, "Invalid x-location")
         Validator.validateDouble(value.y, "Invalid y-location")
 
+    @staticmethod
+    def getCenterPoint(point1, point2):
+        """Return the point inbetween point1 and point2"""
+        return Point((point1.x+point2.x)/2, (point1.y+point2.y)/2)
+
     @property
     def x(self):
         return self.__x

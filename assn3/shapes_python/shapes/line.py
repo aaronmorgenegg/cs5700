@@ -15,6 +15,14 @@ from shapes.validator import Validator
 
 
 class Line(Shape):
+    def __init__(self, *args, **kwargs):
+        if len(list(args)) == 2:
+            center = Point.getCenterPoint(args[0], args[1])
+            super().__init__(center, *args, **kwargs)
+        else:
+            super().__init__(*args, **kwargs)
+        Line.validateLine(self, "Line is invalid")
+
     @staticmethod
     def validateLine(value, errorMessage):
         """

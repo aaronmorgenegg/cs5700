@@ -17,22 +17,16 @@ class TestCircle(unittest.TestCase):
         c1 = Circle(p1, p2, p3, p4, p5)
 
         self.assertEqual(p1, c1.center)
-        self.assertEqual(p2, c1.focus1)
-        self.assertEqual(p3, c1.focus2)
-        self.assertEqual(p4, c1.edge1)
-        self.assertEqual(p5, c1.edge2)
+        self.assertEqual(p4, c1.point1)
+        self.assertEqual(p5, c1.point2)
 
         c2 = Circle(1, 1, 4, 4, -2, 4, 6, 6, -4, 6)
         self.assertEqual(1, c2.center.x)
         self.assertEqual(1, c2.center.y)
-        self.assertEqual(4, c2.focus1.x)
-        self.assertEqual(4, c2.focus1.y)
-        self.assertEqual(-2, c2.focus2.x)
-        self.assertEqual(4, c2.focus2.y)
-        self.assertEqual(6, c2.edge1.x)
-        self.assertEqual(6, c2.edge1.y)
-        self.assertEqual(-4, c2.edge2.x)
-        self.assertEqual(6, c2.edge2.y)
+        self.assertEqual(6, c2.point1.x)
+        self.assertEqual(6, c2.point1.y)
+        self.assertEqual(-4, c2.point2.x)
+        self.assertEqual(6, c2.point2.y)
 
     def testInvalidConstruction(self):
         p1 = Point(0, 0)
