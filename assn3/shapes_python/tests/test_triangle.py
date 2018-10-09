@@ -9,6 +9,14 @@ from shapes.triangle import Triangle
 
 
 class TestTriangle(unittest.TestCase):
+    def testValidateTriangle(self):
+        t1 = Triangle(Point(1, 1), Point(-1, -5), Point(-3, -2))
+        Triangle.validateTriangle(t1, "Triangle unexpectedly invalid")
+
+        self.assertRaises(ShapeException, Triangle.validateTriangle, "(1, 1, -1, -5, -3, -2)",
+                          "String \'(1, 1, -1, -5, -3, -2)\' is not a valid triangle")
+        self.assertRaises(ShapeException, Triangle.validateTriangle, Point(1, 1), "Point is not a valid triangle")
+
     def testValidConstruction(self):
         p1 = Point(1, 2)
         p2 = Point(1, 1)

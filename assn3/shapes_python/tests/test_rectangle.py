@@ -9,6 +9,14 @@ from shapes.shape_exception import ShapeException
 
 
 class TestRectangle(unittest.TestCase):
+    def testValidateRectangle(self):
+        r1 = Rectangle(Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))
+        Rectangle.validateRectangle(r1, "Rectangle unexpectedly invalid")
+
+        self.assertRaises(ShapeException, Rectangle.validateRectangle, "(1, 1, 4, 1, 4, 3, 1, 3)",
+                          "String \'(1, 1, 4, 1, 4, 3, 4, 3)\' is not a valid rectangle")
+        self.assertRaises(ShapeException, Rectangle.validateRectangle, Point(1, 1), "Point is not a valid rectangle")
+
     def testValidConstruction(self):
         p1 = Point(1, 3)
         p2 = Point(5, 3)

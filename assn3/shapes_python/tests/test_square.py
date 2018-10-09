@@ -10,6 +10,14 @@ from shapes.square import Square
 
 
 class TestRectangle(unittest.TestCase):
+    def testValidateSquare(self):
+        s1 = Square(Point(1, 1), Point(3, 1), Point(3, 3), Point(1, 3))
+        Square.validateSquare(s1, "Square unexpectedly invalid")
+
+        self.assertRaises(ShapeException, Square.validateSquare, "(1, 1, 3, 1, 3, 3, 1, 3)",
+                          "String \'(1, 1, 3, 1, 3, 3, 3, 3)\' is not a valid square")
+        self.assertRaises(ShapeException, Square.validateSquare, Point(1, 1), "Point is not a valid square")
+
     def testValidConstruction(self):
         p1 = Point(1, 3)
         p2 = Point(5, 3)

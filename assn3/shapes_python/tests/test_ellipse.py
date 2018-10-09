@@ -8,19 +8,25 @@ from shapes.shape_exception import ShapeException
 
 
 class TestEllipse(unittest.TestCase):
+    def testValidateEllipse(self):
+        e1 = Ellipse(Point(0, 0), Point(3, 0), Point(0, 2))
+        Ellipse.validateEllipse(e1, "Ellipse unexpectedly invalid")
+
+        self.assertRaises(ShapeException, Ellipse.validateEllipse, "(0, 0, 3, 0, 0, 2)",
+                          "String \'(0, 0, 3, 0, 0, 2)\' is not a valid ellipse")
+        self.assertRaises(ShapeException, Ellipse.validateEllipse, Point(1, 1), "Point is not a valid ellipse")
+
     def testValidConstruction(self):
         p1 = Point(0, 0)
-        p2 = Point(2, 0)
-        p3 = Point(0, 1)
-        p4 = Point(3, 0)
-        p5 = Point(0, 2)
-        e1 = Ellipse(p1, p2, p3, p4, p5)
+        p2 = Point(3, 0)
+        p3 = Point(0, 2)
+        e1 = Ellipse(p1, p2, p3)
 
         self.assertEqual(p1, e1.center)
-        self.assertEqual(p4, e1.point1)
-        self.assertEqual(p5, e1.point2)
+        self.assertEqual(p2, e1.point1)
+        self.assertEqual(p3, e1.point2)
 
-        e2 = Ellipse(1, 1, 4, 4, -2, 4, 6, 6, -2, 4)
+        e2 = Ellipse(Point(1, 1), Point(6, 6), Point(-2, 4))
         self.assertEqual(1, e2.center.x)
         self.assertEqual(1, e2.center.y)
         self.assertEqual(6, e2.point1.x)
@@ -30,21 +36,17 @@ class TestEllipse(unittest.TestCase):
 
     def testInvalidConstruction(self):
         p1 = Point(0, 0)
-        p2 = Point(2, 0)
-        p3 = Point(1, 1)
-        p4 = Point(3, 0)
-        p5 = Point(2, 2)
-        self.assertRaises(ShapeException, Ellipse, p1, p2, p3, p4, p5)
+        p2 = Point(3, 0)
+        p3 = Point(2, 2)
+        self.assertRaises(ShapeException, Ellipse, p1, p2, p3)
 
         p1 = Point(0, 0)
         p2 = Point(0, 0)
         p3 = Point(0, 0)
-        p4 = Point(0, 0)
-        p5 = Point(0, 0)
-        self.assertRaises(ShapeException, Ellipse, p1, p2, p3, p4, p5)
+        self.assertRaises(ShapeException, Ellipse, p1, p2, p3)
 
     def testMove(self):
-        e1 = Ellipse(1, 1, 4, 4, -2, 4, 6, 6, -2, 4)
+        e1 = Ellipse(Point(1, 1), Point(6, 6), Point(-2, 4))
 
         e1.move(3, 4)
         self.assertAlmostEqual(4, e1.center.x)
@@ -90,7 +92,7 @@ class TestEllipse(unittest.TestCase):
         self.assertAlmostEqual(0, e1.point2.x)
         self.assertAlmostEqual(4, e1.point2.y)
 
-        e2 = Ellipse(Point(1, 1), Point(6, 6), Point(-2, 4))
+        e2 = Ellipse(Point(1, 1), Point(4, 4), Point(-2, 4))
 
         e2.scale(1/3)
         self.assertAlmostEqual(1, e2.center.x)

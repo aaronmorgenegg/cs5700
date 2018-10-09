@@ -8,19 +8,26 @@ from shapes.shape_exception import ShapeException
 
 
 class TestCircle(unittest.TestCase):
+    def testValidateCircle(self):
+        c1 = Circle(Point(0, 0), Point(2, 0), Point(0, 2))
+        Circle.validateCircle(c1, "Circle unexpectedly invalid")
+
+        self.assertRaises(ShapeException, Circle.validateCircle, "(0, 0, 2, 0, 0, 2)",
+                          "String \'(0, 0, 2, 0, 0, 2)\' is not a valid circle")
+        self.assertRaises(ShapeException, Circle.validateCircle, Point(1, 1), "Point is not a valid circle")
+
+
     def testValidConstruction(self):
         p1 = Point(0, 0)
-        p2 = Point(2, 0)
-        p3 = Point(0, 2)
-        p4 = Point(3, 0)
-        p5 = Point(0, 3)
-        c1 = Circle(p1, p2, p3, p4, p5)
+        p2 = Point(3, 0)
+        p3 = Point(0, 3)
+        c1 = Circle(p1, p2, p3)
 
         self.assertEqual(p1, c1.center)
-        self.assertEqual(p4, c1.point1)
-        self.assertEqual(p5, c1.point2)
+        self.assertEqual(p2, c1.point1)
+        self.assertEqual(p3, c1.point2)
 
-        c2 = Circle(1, 1, 4, 4, -2, 4, 6, 6, -4, 6)
+        c2 = Circle(Point(1, 1), Point(6, 6), Point(-4, 6))
         self.assertEqual(1, c2.center.x)
         self.assertEqual(1, c2.center.y)
         self.assertEqual(6, c2.point1.x)
@@ -30,28 +37,22 @@ class TestCircle(unittest.TestCase):
 
     def testInvalidConstruction(self):
         p1 = Point(0, 0)
-        p2 = Point(2, 0)
-        p3 = Point(0, 1)
-        p4 = Point(3, 0)
-        p5 = Point(0, 2)
-        self.assertRaises(ShapeException, Circle, p1, p2, p3, p4, p5)
+        p2 = Point(3, 0)
+        p3 = Point(0, 2)
+        self.assertRaises(ShapeException, Circle, p1, p2, p3)
 
         p1 = Point(0, 0)
         p2 = Point(0, 0)
         p3 = Point(0, 0)
-        p4 = Point(0, 0)
-        p5 = Point(0, 0)
-        self.assertRaises(ShapeException, Circle, p1, p2, p3, p4, p5)
+        self.assertRaises(ShapeException, Circle, p1, p2, p3)
 
     def testComputeRadius(self):
         p1 = Point(0, 0)
-        p2 = Point(1, 0)
-        p3 = Point(0, 1)
-        p4 = Point(2, 0)
-        p5 = Point(0, 2)
-        c1 = Circle(p1, p2, p3, p4, p5)
+        p2 = Point(2, 0)
+        p3 = Point(0, 2)
+        c1 = Circle(p1, p2, p3)
         self.assertAlmostEqual(2, c1.computeRadius(), places=3)
 
-        c2 = Circle(1, 1, 4, 4, -2, 4, 6, 6, -4, 6)
+        c2 = Circle(Point(1, 1), Point(6, 6), Point(-4, 6))
         self.assertAlmostEqual(7.071, c2.computeRadius(), places=3)
 

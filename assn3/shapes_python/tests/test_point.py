@@ -7,6 +7,13 @@ from shapes.shape_exception import ShapeException
 
 
 class TestPoint(unittest.TestCase):
+    def testValidatePoint(self):
+        p1 = Point(1, 1)
+        Point.validatePoint(p1, "Point unexpectedly invalid")
+
+        self.assertRaises(ShapeException, Point.validatePoint, "(1, 1)",
+                          "String \'(1, 1)\' is not a valid point")
+
     def testValidConstruction(self):
         p1 = Point(1, 2)
         self.assertEqual(1, p1.x)
