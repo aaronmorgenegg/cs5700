@@ -16,6 +16,13 @@ from shapes.validator import Validator
 
 
 class Triangle(Shape):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.lines.append(Line(self.point1, self.point2))
+        self.lines.append(Line(self.point2, self.point3))
+        self.lines.append(Line(self.point3, self.point1))
+        Triangle.validateTriangle(self, "Triangle is invalid")
+
     @staticmethod
     def validateTriangle(value, errorMessage):
         if not isinstance(value, Triangle):

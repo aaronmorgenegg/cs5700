@@ -13,21 +13,11 @@ from shapes.validator import Validator
 
 class Shape:
     def __init__(self, *args, **kwargs):
-        try:
-            if not self.__constructWithPoints(list(args)):
-                raise ShapeException("Shape construction failed")
-        except IndexError:
-            raise ShapeException("Invalid arguments for shape construction")
-
-    def __constructWithPoints(self, points):
-        try:
-            self.center = points.pop(0)
-            self.points = points
-            self.lines = []
-            Shape.validateShape(value=self, errorMessage="Invalid Shape")
-            return True
-        except ShapeException:
-            return False
+        points = list(args)
+        self.center = points.pop(0)
+        self.points = points
+        self.lines = []
+        Shape.validateShape(value=self, errorMessage="Invalid Shape")
 
     @staticmethod
     def validateShape(value, errorMessage):
@@ -46,8 +36,8 @@ class Shape:
     def scale(self, factor):
         Validator.validatePositiveDouble(factor, "Scale Factor not a valid double")
         for point in self.points:
-            dx = self.point.x - self.center.x
-            dy = self.point.y - self.center.y
+            dx = point.x - self.center.x
+            dy = point.y - self.center.y
             point.x = dx * factor + self.center.x
             point.y = dy * factor + self.center.y
 

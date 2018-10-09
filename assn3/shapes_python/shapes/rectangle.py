@@ -13,6 +13,14 @@ from shapes.validator import Validator
 
 
 class Rectangle(Shape):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.lines.append(Line(self.point1, self.point2))
+        self.lines.append(Line(self.point2, self.point3))
+        self.lines.append(Line(self.point3, self.point4))
+        self.lines.append(Line(self.point4, self.point1))
+        Rectangle.validateRectangle(self, "Rectangle is invalid")
+
     @staticmethod
     def validateRectangle(value, errorMessage):
         if not isinstance(value, Rectangle):

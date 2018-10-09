@@ -16,15 +16,16 @@ from shapes.validator import Validator
 
 class Ellipse(Shape):
     def __init__(self, *args, **kwargs):
-        # TODO: may need to validate here? do after factory
-        pass
+        super().__init__(*args, **kwargs)
+        self.lines.append(Line(self.center, self.point1))
+        self.lines.append(Line(self.center, self.point2))
+        Ellipse.validateEllipse(self, "Ellipse is invalid")
 
     @staticmethod
     def validateEllipse(value, errorMessage):
         if not isinstance(value, Ellipse):
             raise ShapeException(errorMessage)
 
-        Point.validatePoint(value.center, "Center is not a valid point.")
         Line.validateLine(value.axis1, "Axis1 is not a valid line")
         Line.validateLine(value.axis2, "Axis2 is not a valid line")
 
@@ -32,11 +33,6 @@ class Ellipse(Shape):
             raise ShapeException(errorMessage)
 
         Validator.validateLinesFormRightAngles([value.axis1, value.axis2], "Axis are not perpendicular")
-
-
-    @property
-    def center(self):
-        return self.center
 
     @property
     def axis1(self):
@@ -47,11 +43,11 @@ class Ellipse(Shape):
         return self.lines[1]
 
     @property
-    def edge1(self):
+    def point1(self):
         return self.points[0]
 
     @property
-    def edge2(self):
+    def point2(self):
         return self.points[1]
 
     def computeArea(self):
