@@ -9,7 +9,6 @@ Users of an circle can also compute its area and radius.
 from shapes.constants import PI
 from shapes.ellipse import Ellipse
 from shapes.shape_exception import ShapeException
-from shapes.validator import Validator
 
 
 class Circle(Ellipse):
