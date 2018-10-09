@@ -83,25 +83,3 @@ class Validator:
             if length != last_length:
                 raise ShapeException(errorMessage)
             last_length = length
-
-    @staticmethod
-    def validateFociAreAligned(ellipse, errorMessage):
-        try:
-            m1 = (ellipse.focus1.y-ellipse.center.y)/(ellipse.focus1.x-ellipse.center.x)
-        except ZeroDivisionError:
-            if (ellipse.center.y-ellipse.focus1.y) > 0:
-                m1 = float('inf')
-            else:
-                m1 = float('-inf')
-
-        try:
-            m2 = (ellipse.focus2.y-ellipse.center.y)/(ellipse.focus2.x-ellipse.center.x)
-        except ZeroDivisionError:
-            if (ellipse.center.y-ellipse.focus2.y) > 0:
-                m2 = float('-inf')
-            else:
-                m2 = float('inf')
-
-        if m1 != ellipse.axis1.computeSlope() or \
-           m2 != ellipse.axis2.computeSlope():
-            raise ShapeException(errorMessage)

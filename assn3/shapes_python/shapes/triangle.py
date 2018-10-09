@@ -10,50 +10,12 @@ Users of a triangle can also compute its area.
 import math
 
 from shapes.line import Line
+from shapes.shape import Shape
 from shapes.shape_exception import ShapeException
 from shapes.validator import Validator
 
 
-class Triangle:
-    def __init__(self, *args, **kwargs):
-        try:
-            if not self.__constructWithPoints(args[0], args[1], args[2]):
-                if not self.__constructWithLines(args[0], args[1], args[2]):
-                    if not self.__constructWithCoords(args[0], args[1], args[2], args[3], args[4], args[5]):
-                        raise ShapeException("Triangle construction failed")
-        except IndexError:
-            raise ShapeException("Invalid arguments for triangle construction")
-
-    def __constructWithCoords(self, x1, y1, x2, y2, x3, y3):
-        try:
-            self.__line1 = Line(x1, y1, x2, y2)
-            self.__line2 = Line(x2, y2, x3, y3)
-            self.__line3 = Line(x3, y3, x1, y1)
-            Triangle.validateTriangle(value=self, errorMessage="Triangle invalid")
-            return True
-        except ShapeException:
-            return False
-
-    def __constructWithPoints(self, point1, point2, point3):
-        try:
-            self.__line1 = Line(point1, point2)
-            self.__line2 = Line(point2, point3)
-            self.__line3 = Line(point3, point1)
-            Triangle.validateTriangle(value=self, errorMessage="Triangle invalid")
-            return True
-        except ShapeException:
-            return False
-
-    def __constructWithLines(self, line1, line2, line3):
-        try:
-            self.__line1 = line1
-            self.__line2 = line2
-            self.__line3 = line3
-            Triangle.validateTriangle(value=self, errorMessage="Triangle invalid")
-            return True
-        except ShapeException:
-            return False
-
+class Triangle(Shape):
     @staticmethod
     def validateTriangle(value, errorMessage):
         if not isinstance(value, Triangle):
@@ -67,41 +29,35 @@ class Triangle:
 
         Validator.validateLinesFormLoop([value.line1, value.line2, value.line3], "Lines do not form an enclosed triangle")
 
-    
     @property
     def point1(self):
-        return self.__line1.point1
+        return self.points[1]
 
     @property
     def point2(self):
-        return self.__line2.point1
+        return self.points[2]
 
     @property
     def point3(self):
-        return self.__line3.point1
+        return self.points[3]
 
     @property
     def line1(self):
-        return self.__line1
+        return self.lines[0]
 
     @property
     def line2(self):
-        return self.__line2
+        return self.lines[1]
 
     @property
     def line3(self):
-        return self.__line3
-
-    def move(self, deltaX, deltaY):
-        self.__line1.move(deltaX, deltaY)
-        self.__line2.move(deltaX, deltaY)
-        self.__line3.move(deltaX, deltaY)
+        return self.lines[3]
 
     def computeArea(self):
         """Compute area using Heron's formula"""
-        a = self.__line1.computeLength()
-        b = self.__line2.computeLength()
-        c = self.__line3.computeLength()
+        a = self.line1.computeLength()
+        b = self.line2.computeLength()
+        c = self.line3.computeLength()
         s = (a+b+c)/2
         return math.sqrt(s*(s-a)*(s-b)*(s-c))
 

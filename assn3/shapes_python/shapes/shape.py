@@ -23,6 +23,7 @@ class Shape:
         try:
             self.center = points.pop(0)
             self.points = points
+            self.lines = []
             Shape.validateShape(value=self, errorMessage="Invalid Shape")
             return True
         except ShapeException:
