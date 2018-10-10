@@ -15,7 +15,7 @@ from shapes.validator import Validator
 
 class Rectangle(Shape):
     def __init__(self, *args, **kwargs):
-        if len(list(args)) == 3:
+        if len(list(args)) == 4:
             center = Point.getCenterPoint(args[0], args[2])
             super().__init__(center, *args, **kwargs)
         else:

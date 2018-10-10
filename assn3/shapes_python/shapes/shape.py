@@ -24,7 +24,7 @@ class Shape:
         if not isinstance(value, Shape):
             raise ShapeException(errorMessage)
 
-        Point.validatePoint(value.center, "Center is not a valid line.")
+        Point.validatePoint(value.center, "Center is not a valid point.")
         for point in value.points:
             Point.validatePoint(point, "Point is not a valid point.")
 

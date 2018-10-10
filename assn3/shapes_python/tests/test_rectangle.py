@@ -6,11 +6,12 @@ from shapes.line import Line
 from shapes.point import Point
 from shapes.rectangle import Rectangle
 from shapes.shape_exception import ShapeException
+from shapes.shape_factory import ShapeFactory
 
 
 class TestRectangle(unittest.TestCase):
     def testValidateRectangle(self):
-        r1 = Rectangle(Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))
+        r1 = ShapeFactory.build("rectangle", Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))
         Rectangle.validateRectangle(r1, "Rectangle unexpectedly invalid")
 
         self.assertRaises(ShapeException, Rectangle.validateRectangle, "(1, 1, 4, 1, 4, 3, 1, 3)",
@@ -22,25 +23,25 @@ class TestRectangle(unittest.TestCase):
         p2 = Point(5, 3)
         p3 = Point(5, 1)
         p4 = Point(1, 1)
-        r1 = Rectangle(p1, p2, p3, p4)
+        r1 = ShapeFactory.build("rectangle", p1, p2, p3, p4)
 
         self.assertEqual(p1, r1.point1)
         self.assertEqual(p2, r1.point2)
         self.assertEqual(p3, r1.point3)
         self.assertEqual(p4, r1.point4)
 
-        l1 = Line(-3, 1, 1, 1)
-        l2 = Line(1, 1, 1, -5)
-        l3 = Line(1, -5, -3, -5)
-        l4 = Line(-3, -5, -3, 1)
-        r2 = Rectangle(l1, l2, l3, l4)
+        l1 = Line(Point(-3, 1), Point(1, 1))
+        l2 = Line(Point(1, 1), Point(1, -5))
+        l3 = Line(Point(1, -5), Point(-3, -5))
+        l4 = Line(Point(-3, -5), Point(-3, 1))
+        r2 = ShapeFactory.build("rectangle", l1.point1, l2.point1, l3.point1, l4.point1)
 
         self.assertEqual(l1, r2.line1)
         self.assertEqual(l2, r2.line2)
         self.assertEqual(l3, r2.line3)
         self.assertEqual(l4, r2.line4)
 
-        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        r3 = ShapeFactory.build("rectangle", Point(-.8, .4), Point(0, 2), Point(.8, 1.6), Point(0, 0))
         self.assertEqual(-.8, r3.point1.x)
         self.assertEqual(.4, r3.point1.y)
         self.assertEqual(0, r3.point2.x)
@@ -55,18 +56,12 @@ class TestRectangle(unittest.TestCase):
         p2 = Point(5, 3)
         p3 = Point(5, 1)
         p4 = Point(1, -1)
-        self.assertRaises(ShapeException, Rectangle, p1, p2, p3, p4)
+        self.assertRaises(ShapeException, ShapeFactory.build, "rectangle", p1, p2, p3, p4)
 
-        l1 = Line(-3, 1, 4, 1)
-        l2 = Line(1, 1, 1, -5)
-        l3 = Line(1, -5, -3, -5)
-        l4 = Line(-3, -5, -3, 1)
-        self.assertRaises(ShapeException, Rectangle, l1, l2, l3, l4)
-
-        self.assertRaises(ShapeException, Rectangle, -1, 0, 0, 2, 1, 1, 0, -1)
+        self.assertRaises(ShapeException, ShapeFactory.build, "rectangle", Point(-1, 0), Point(0, 2), Point(1, 1), Point(0, -1))
 
     def testMove(self):
-        r1 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        r1 = ShapeFactory.build("rectangle", Point(-.8, .4), Point(0, 2), Point(.8, 1.6), Point(0, 0))
 
         r1.move(3, 4)
         self.assertAlmostEqual(2.2, r1.point1.x)
@@ -99,31 +94,31 @@ class TestRectangle(unittest.TestCase):
         self.assertAlmostEqual(4, r1.point4.y)
 
     def testComputeWidth(self):
-        r1 = Rectangle(0, 1, 1, 1, 1, 0, 0, 0)
+        r1 = ShapeFactory.build("rectangle", Point(0, 1), Point(1, 1), Point(1, 0), Point(0, 0))
         self.assertAlmostEqual(1, r1.computeWidth(), places=4)
 
-        r2 = Rectangle(-2, 2, 3, 2, 3, 0, -2, 0)
+        r2 = ShapeFactory.build("rectangle", Point(-2, 2), Point(3, 2), Point(3, 0), Point(-2, 0))
         self.assertAlmostEqual(5, r2.computeWidth(), places=4)
 
-        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        r3 = ShapeFactory.build("rectangle", Point(-.8, .4), Point(0, 2), Point(.8, 1.6), Point(0, 0))
         self.assertAlmostEqual(1.7889, r3.computeWidth(), places=4)
 
     def testComputeHeight(self):
-        r1 = Rectangle(0, 1, 1, 1, 1, 0, 0, 0)
+        r1 = ShapeFactory.build("rectangle", Point(0, 1), Point(1, 1), Point(1, 0), Point(0, 0))
         self.assertAlmostEqual(1, r1.computeHeight(), places=4)
 
-        r2 = Rectangle(-2, 2, 3, 2, 3, 0, -2, 0)
+        r2 = ShapeFactory.build("rectangle", Point(-2, 2), Point(3, 2), Point(3, 0), Point(-2, 0))
         self.assertAlmostEqual(2, r2.computeHeight(), places=4)
 
-        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        r3 = ShapeFactory.build("rectangle", Point(-.8, .4), Point(0, 2), Point(.8, 1.6), Point(0, 0))
         self.assertAlmostEqual(.8944, r3.computeHeight(), places=4)
 
     def testComputeArea(self):
-        r1 = Rectangle(0, 1, 1, 1, 1, 0, 0, 0)
+        r1 = ShapeFactory.build("rectangle", Point(0, 1), Point(1, 1), Point(1, 0), Point(0, 0))
         self.assertAlmostEqual(1, r1.computeArea(), places=4)
 
-        r2 = Rectangle(-2, 2, 3, 2, 3, 0, -2, 0)
+        r2 = ShapeFactory.build("rectangle", Point(-2, 2), Point(3, 2), Point(3, 0), Point(-2, 0))
         self.assertAlmostEqual(10, r2.computeArea(), places=4)
 
-        r3 = Rectangle(-.8, .4, 0, 2, .8, 1.6, 0, 0)
+        r3 = ShapeFactory.build("rectangle", Point(-.8, .4), Point(0, 2), Point(.8, 1.6), Point(0, 0))
         self.assertAlmostEqual(1.6, r3.computeArea(), places=4)

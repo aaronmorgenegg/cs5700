@@ -43,15 +43,15 @@ class Triangle(Shape):
 
     @property
     def point1(self):
-        return self.points[1]
+        return self.points[0]
 
     @property
     def point2(self):
-        return self.points[2]
+        return self.points[1]
 
     @property
     def point3(self):
-        return self.points[3]
+        return self.points[2]
 
     @property
     def line1(self):
@@ -63,7 +63,7 @@ class Triangle(Shape):
 
     @property
     def line3(self):
-        return self.lines[3]
+        return self.lines[2]
 
     def computeArea(self):
         """Compute area using Heron's formula"""
