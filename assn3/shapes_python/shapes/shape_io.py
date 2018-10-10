@@ -25,5 +25,5 @@ class ShapeIO:
 
     def saveShape(self, shape, file=None):
         string = shape.toString()
-        print(string, file=file)
+        if file: print(string, file=file)
         return string

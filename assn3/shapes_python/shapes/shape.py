@@ -54,6 +54,7 @@ class Shape:
         value = "{},{}".format(name, str(self.center))
         for point in self.points:
             value += ",{}".format(str(point))
+        return value
 
     def __str__(self):
         return self.toString()
