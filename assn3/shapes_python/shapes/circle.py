@@ -23,6 +23,9 @@ class Circle(Ellipse):
         if value.axis1.computeLength() != value.axis2.computeLength():
             raise ShapeException(errorMessage)
 
+    def validate(self):
+        return Circle.validateCircle(self, "Circle is invalid")
+
     def computeRadius(self):
         return self.axis1.computeLength()
 

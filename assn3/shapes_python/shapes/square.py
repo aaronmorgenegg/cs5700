@@ -22,5 +22,8 @@ class Square(Rectangle):
 
         Validator.validateLinesAreSameLength([value.line1, value.line2, value.line3, value.line4], "Lines of square are not same length.")
 
+    def validate(self):
+        return Square.validateSquare(self, "Square is invalid")
+
     def toString(self, name="square"):
         return super().toString("square")

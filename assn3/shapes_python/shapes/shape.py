@@ -28,6 +28,9 @@ class Shape:
         for point in value.points:
             Point.validatePoint(point, "Point is not a valid point.")
 
+    def validate(self):
+        return Shape.validateShape(self, "Shape is invalid")
+
     def move(self, deltaX, deltaY):
         self.center.move(deltaX, deltaY)
         for point in self.points:

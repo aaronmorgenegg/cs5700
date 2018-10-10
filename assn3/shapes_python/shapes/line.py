@@ -36,6 +36,9 @@ class Line(Shape):
         Point.validatePoint(value.point2, "Invalid point2")
         Validator.validateLineHasLength(value, "A Line must have a length greater than 0")
 
+    def validate(self):
+        return Line.validateLine(self, "Line is invalid")
+
     @property
     def point1(self):
         return self.points[0]

@@ -40,6 +40,9 @@ class Rectangle(Shape):
 
         Validator.validateLinesFormRightAngles([value.line1, value.line2, value.line3, value.line4], "Lines do not form 90 degree angles.")
 
+    def validate(self):
+        return Rectangle.validateRectangle(self, "Rectangle is invalid")
+
     @property
     def point1(self):
         return self.points[0]

@@ -33,6 +33,9 @@ class Ellipse(Shape):
 
         Validator.validateLinesFormRightAngles([value.axis1, value.axis2], "Axis are not perpendicular")
 
+    def validate(self):
+        return Ellipse.validateEllipse(self, "Ellipse is invalid")
+
     @property
     def axis1(self):
         return self.lines[0]

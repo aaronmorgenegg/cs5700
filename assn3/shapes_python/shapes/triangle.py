@@ -41,6 +41,9 @@ class Triangle(Shape):
 
         Validator.validateLinesFormLoop([value.line1, value.line2, value.line3], "Lines do not form an enclosed triangle")
 
+    def validate(self):
+        return Triangle.validateTriangle(self, "Triangle is invalid")
+
     @property
     def point1(self):
         return self.points[0]

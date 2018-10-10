@@ -18,10 +18,13 @@ class ShapeIO:
         if file:
             with open(file, "r") as myfile:
                 string = myfile.readlines()
-        shape = self.parseString(string)
+        shape = self.parse(string)
         return ShapeFactory.build(shape.pop(0), *shape)
 
-    def parseString(self, string):
+    def parse(self, string):
+        return self.parseShape(string)
+
+    def parseShape(self, string):
         parsed_string = string.strip().split(",")
         shape = [parsed_string.pop(0)]
         for i in range(0, len(parsed_string), 2):
