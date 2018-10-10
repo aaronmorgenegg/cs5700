@@ -51,3 +51,6 @@ class Ellipse(Shape):
 
     def computeArea(self):
         return PI * self.axis1.computeLength() * self.axis2.computeLength()
+
+    def toString(self, name="ellipse"):
+        return super().toString("ellipse")

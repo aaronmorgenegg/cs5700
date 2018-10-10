@@ -80,3 +80,6 @@ class Rectangle(Shape):
 
     def computeArea(self):
         return self.computeWidth() * self.computeHeight()
+
+    def toString(self, name="rectangle"):
+        return super().toString("rectangle")

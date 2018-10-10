@@ -57,3 +57,6 @@ class Line(Shape):
                 return float('inf')
             else:
                 return float('-inf')
+
+    def toString(self, name="line"):
+        return super().toString("line")

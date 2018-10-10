@@ -4,7 +4,6 @@ import unittest
 
 from shapes.line import Line
 from shapes.point import Point
-from shapes.rectangle import Rectangle
 from shapes.shape_exception import ShapeException
 from shapes.shape_factory import ShapeFactory
 from shapes.square import Square

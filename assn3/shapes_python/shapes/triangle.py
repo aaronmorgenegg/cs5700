@@ -73,3 +73,5 @@ class Triangle(Shape):
         s = (a+b+c)/2
         return math.sqrt(s*(s-a)*(s-b)*(s-c))
 
+    def toString(self, name="triangle"):
+        return super().toString("triangle")

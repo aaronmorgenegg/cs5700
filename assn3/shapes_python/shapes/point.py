@@ -70,3 +70,9 @@ class Point:
             return (self.__x == other.x and self.__y == other.y)
         return False
 
+    def toString(self):
+        return str(self)
+
+    def __str__(self):
+        return "({},{})".format(self.x, self.y)
+
