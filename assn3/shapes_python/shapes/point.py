@@ -74,5 +74,5 @@ class Point:
         return str(self)
 
     def __str__(self):
-        return "({},{})".format(self.x, self.y)
+        return "{},{}".format(self.x, self.y)
 
