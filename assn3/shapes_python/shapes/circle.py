@@ -33,4 +33,4 @@ class Circle(Ellipse):
         return PI * (self.computeRadius()**2)
 
     def toString(self, name="circle"):
-        return super().toString("circle")
+        return super().toString(name)

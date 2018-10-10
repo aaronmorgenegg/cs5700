@@ -85,4 +85,4 @@ class Rectangle(Shape):
         return self.computeWidth() * self.computeHeight()
 
     def toString(self, name="rectangle"):
-        return super().toString("rectangle")
+        return super().toString(name)

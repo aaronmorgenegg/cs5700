@@ -56,4 +56,4 @@ class Ellipse(Shape):
         return PI * self.axis1.computeLength() * self.axis2.computeLength()
 
     def toString(self, name="ellipse"):
-        return super().toString("ellipse")
+        return super().toString(name)

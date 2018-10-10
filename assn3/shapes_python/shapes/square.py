@@ -26,4 +26,4 @@ class Square(Rectangle):
         return Square.validateSquare(self, "Square is invalid")
 
     def toString(self, name="square"):
-        return super().toString("square")
+        return super().toString(name)

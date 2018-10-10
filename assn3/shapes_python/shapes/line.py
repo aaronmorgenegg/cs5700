@@ -62,4 +62,4 @@ class Line(Shape):
                 return float('-inf')
 
     def toString(self, name="line"):
-        return super().toString("line")
+        return super().toString(name)
