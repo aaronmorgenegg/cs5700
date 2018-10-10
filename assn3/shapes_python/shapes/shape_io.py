@@ -22,14 +22,24 @@ class ShapeIO:
         return ShapeFactory.build(shape.pop(0), *shape)
 
     def parse(self, string):
-        return self.parseShape(string)
-
-    def parseShape(self, string):
         parsed_string = string.strip().split(",")
-        shape = [parsed_string.pop(0)]
-        for i in range(0, len(parsed_string), 2):
-            shape.append(Point(float(parsed_string[i]), float(parsed_string[i+1])))
-        return shape
+        shape_tree = self.parseShapeTree(parsed_string)
+        return self.buildShapes(shape_tree)
+
+    def parseShapeTree(self, parsed_string):
+        shape_tree = [parsed_string.pop(0)]
+        while len(parsed_string) > 0:
+            try:
+                shape_tree.append(Point(float(parsed_string[0]), float(parsed_string[1])))
+                parsed_string = parsed_string[2:]
+            except ValueError: # Not a number, ie shapename or begin/end composite
+                shape_tree.append(parsed_string.pop(0))
+
+        return shape_tree
+
+    def buildShapes(self):
+        # ['composite',0,0,'begin','triangle',1,1,2,2,4,4,'end']
+        pass
 
     def saveShape(self, shape, file=None):
         string = shape.toString()
