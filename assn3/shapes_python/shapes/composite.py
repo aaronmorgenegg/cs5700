@@ -15,6 +15,8 @@ class Composite(Shape):
     def __init__(self, *args, **kwargs):
         self.center = args[0]
         self.shapes = []
+        for i in range(1, len(args)):
+            self.addShape(args[i])
         Composite.validateComposite(self, "Composite is invalid")
 
     @staticmethod
@@ -64,3 +66,8 @@ class Composite(Shape):
         for shape in self.shapes:
             value += ",{}".format(shape.toString())
         return value+",end"
+
+    def __eq__(self, other):
+        if isinstance(other, Composite):
+            return (self.center == other.center and self.shapes == other.shapes)
+        return False

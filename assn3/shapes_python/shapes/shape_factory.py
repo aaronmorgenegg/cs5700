@@ -6,6 +6,7 @@ Shape Factory
 Class the constructs shape objects.
 """
 from shapes.circle import Circle
+from shapes.composite import Composite
 from shapes.ellipse import Ellipse
 from shapes.line import Line
 from shapes.rectangle import Rectangle
@@ -19,7 +20,8 @@ SHAPE_FACTORY_MAP = {
             'rectangle': Rectangle,
             'square': Square,
             'ellipse': Ellipse,
-            'circle': Circle
+            'circle': Circle,
+            'composite': Composite
                      }
 
 
