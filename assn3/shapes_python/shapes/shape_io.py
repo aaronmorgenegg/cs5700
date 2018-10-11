@@ -11,6 +11,24 @@ from shapes.shape_exception import ShapeException
 from shapes.shape_factory import ShapeFactory
 
 
+def findIndexOfFirstObject(list, type):
+    first_index = None
+    for i in range(len(list)):
+        if isinstance(list[i], type):
+            first_index = i
+    if first_index is None:
+        raise ShapeException('findIndexOfLastObject({}, {}) failed to find object in list'.format(list, type))
+    return first_index
+
+def findEnd(list, index):
+    begin_count = 1
+    for i in range(index, len(list)):
+        if list[i] == 'begin': begin_count += 1
+        elif list[i] == 'end':
+            begin_count -= 1
+            if begin_count == 0: return i
+    raise ShapeException('No matching end found for list<{}> index<{}>'.format(list, index))
+
 class ShapeIO:
     def loadShape(self, string=None, file=None):
         if string is None and file is None:
@@ -18,13 +36,14 @@ class ShapeIO:
         if file:
             with open(file, "r") as myfile:
                 string = myfile.readlines()
-        shape = self.parse(string)
-        return ShapeFactory.build(shape.pop(0), *shape)
+        return self.parse(string)
 
     def parse(self, string):
         parsed_string = string.strip().split(",")
         shape_tree = self.parseShapeTree(parsed_string)
-        return self.buildShapes(shape_tree)
+        shape = self.buildShapes(shape_tree)
+        print(shape)
+        return shape
 
     def parseShapeTree(self, parsed_string):
         shape_tree = [parsed_string.pop(0)]
@@ -37,9 +56,31 @@ class ShapeIO:
 
         return shape_tree
 
-    def buildShapes(self):
-        # ['composite',0,0,'begin','triangle',1,1,2,2,4,4,'end']
-        pass
+    def buildShapes(self, shape_tree):
+        # sample input trees
+        # ['composite',0,0,'begin','triangle',1,1,2,2,4,4,'composite',0,0,'begin','rectangle',1,1,2,2,3,3,4,4,'end','end']
+        # ['triangle',1,1,2,2,4,4]
+        for value in shape_tree: print(value)
+        print('-----')
+        shapes = [shape_tree[0]]
+        i = 1
+        while i < len(shape_tree):
+            if shape_tree[i] == 'begin':
+                begin = i+1
+                end = findEnd(shape_tree, i+begin)
+                sub_list = shape_tree[begin:end]
+                shapes.append(self.buildShapes(sub_list))
+                i = end
+            elif isinstance(shape_tree[i], str):
+                begin = i
+                end = findIndexOfFirstObject(shape_tree, str) + 1
+                sub_list = shape_tree[begin:end]
+                shapes.append(self.buildShapes(sub_list))
+                i = end - 1
+            else: # it's a point
+                shapes.append(shape_tree[i])
+            i += 1
+        return ShapeFactory.build(shapes.pop(0), *shapes)
 
     def saveShape(self, shape, file=None):
         string = shape.toString()
