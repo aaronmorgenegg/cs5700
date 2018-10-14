@@ -22,15 +22,12 @@ class ShapeIO:
 
     def parse(self, string):
         parsed_string = string.strip().split(",")
-        shape_tree = self.parseShapeTree(parsed_string)
-        print(shape_tree)
-        shape_tree = self.buildShapes(shape_tree)
-        print(shape_tree)
-        shape = self.buildComposites(shape_tree)
-        print(shape)
+        shape_tree = self._parseShapeTree(parsed_string)
+        shape_tree = self._buildShapes(shape_tree)
+        shape = self._buildComposites(shape_tree)
         return shape
 
-    def parseShapeTree(self, parsed_string):
+    def _parseShapeTree(self, parsed_string):
         """
         Parses input string into list of arguments
 
@@ -48,7 +45,7 @@ class ShapeIO:
 
         return shape_tree
 
-    def buildShapes(self, shape_tree):
+    def _buildShapes(self, shape_tree):
         """
         Builds non-composite shapes from a parsed shape_tree
 
@@ -89,7 +86,7 @@ class ShapeIO:
             return shapes, None, []
         return shapes, shape, points
 
-    def buildComposites(self, shape_tree):
+    def _buildComposites(self, shape_tree):
         """
         Build all of composite shapes in given shape_tree
 
@@ -98,13 +95,22 @@ class ShapeIO:
         composite center points, or shape objects
         :return: shape object (single shape or a composite shape)
         """
-        if shape_tree[0] == 'composite':
-            center = shape_tree[1]
-            begin = 2
-            end = self._findEnd(shape_tree, begin)
-            self.buildComposites(shape_tree[begin:end])
-            shape_tree[0] = ShapeFactory.build('composite', center, *shape_tree)
+        # TODO get this working
         return shape_tree[0]
+        # if shape_tree[0] == 'composite':
+        #     begin = 2
+        #     end = self._findEnd(shape_tree, begin+1)
+        #     shape_tree.pop(end)
+        #     shape_tree.pop(begin)
+        #     name = shape_tree.pop(0)
+        #     center = shape_tree.pop(0)
+        #     sublist = shape_tree[begin:end]
+        #     print(sublist)
+        #     if 'composite' in sublist:
+        #         self._buildComposites(sublist)
+        #
+        #     shape_tree[0] = ShapeFactory.build(name, center, *shape_tree)
+        # return shape_tree[0]
 
     def _findEnd(self, list, index):
         begin_count = 1
@@ -113,7 +119,7 @@ class ShapeIO:
                 begin_count += 1
             elif list[i] == 'end':
                 begin_count -= 1
-                if begin_count == 0: return len(list) - i
+                if begin_count == 0: return i
         raise ShapeException('No matching end found for list<{}> index<{}>'.format(list, index))
 
     def saveShape(self, shape, file=None):
