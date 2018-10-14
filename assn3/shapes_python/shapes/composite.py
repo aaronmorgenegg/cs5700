@@ -67,6 +67,10 @@ class Composite(Shape):
             value += ",{}".format(shape.toString())
         return value+",end"
 
+    def draw(self, graphics):
+        for shape in self.shapes:
+            shape.draw(graphics)
+
     def __eq__(self, other):
         if isinstance(other, Composite):
             return (self.center == other.center and self.shapes == other.shapes)

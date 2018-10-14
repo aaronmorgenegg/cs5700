@@ -63,3 +63,10 @@ class Line(Shape):
 
     def toString(self, name="line"):
         return super().toString(name)
+
+    def draw(self, graphics):
+        line = graphics.Line2D((self.point1.x, self.point1.y),
+                               (self.point2.x, self.point2.y),
+                               lw=1, color='k',)
+        graphics.gca().add_line(line)
+        graphics.axis('scaled')

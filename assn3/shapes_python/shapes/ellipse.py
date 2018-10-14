@@ -57,3 +57,12 @@ class Ellipse(Shape):
 
     def toString(self, name="ellipse"):
         return super().toString(name)
+
+    def draw(self, graphics):
+        from matplotlib.patches import Ellipse
+        center = (self.center.x, self.center.y)
+        width = self.axis1.computeLength()
+        height = self.axis2.computeLength()
+        ellipse = Ellipse(xy=center, width=width, height=height, fill=None, color='k')
+        graphics.gca().add_patch(ellipse)
+        graphics.axis('scaled')

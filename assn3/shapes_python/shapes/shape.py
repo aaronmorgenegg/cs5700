@@ -59,5 +59,14 @@ class Shape:
             value += ",{}".format(str(point))
         return value
 
+    def draw(self, graphics):
+        points = []
+        for point in self.points:
+            points.append([point.x, point.y])
+
+        shape = graphics.Polygon(points, fill=None)
+        graphics.gca().add_patch(shape)
+        graphics.axis('scaled')
+
     def __str__(self):
         return self.toString()
