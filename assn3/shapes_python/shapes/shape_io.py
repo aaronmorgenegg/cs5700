@@ -66,26 +66,55 @@ class ShapeIO:
         i = 0
         while i < len(shape_tree):
             if shape_tree[i] == 'begin' or shape_tree[i] == 'end':
+                shapes, current_shape, points = self._buildShape(shapes, current_shape, points)
                 shapes.append(shape_tree[i])
             elif shape_tree[i] == 'composite':
+                shapes, current_shape, points = self._buildShape(shapes, current_shape, points)
                 shapes.append(shape_tree[i])
+                shapes.append(shape_tree[i+1])
+                i += 1
             elif isinstance(shape_tree[i], str):
-                if len(points) > 0 and current_shape is not None:
-                    shapes.append(ShapeFactory.build(current_shape, *points))
-                    points = []
+                shapes, current_shape, points = self._buildShape(shapes, current_shape, points)
 
                 current_shape = shape_tree[i]
             else: # it's a point
                 points.append(shape_tree[i])
             i += 1
-
-        if len(points) > 0 and current_shape is not None:
-            shapes.append(ShapeFactory.build(current_shape, *points))
+        shapes, current_shape, points = self._buildShape(shapes, current_shape, points)
         return shapes
 
+    def _buildShape(self, shapes, shape, points):
+        if len(points) > 0 and shape is not None:
+            shapes.append(ShapeFactory.build(shape, *points))
+            return shapes, None, []
+        return shapes, shape, points
+
     def buildComposites(self, shape_tree):
-        print("TODO")
+        """
+        Build all of composite shapes in given shape_tree
+
+        Returns a single shape, which may be a composite shape
+        :param shape_tree: list of composite identifiers(composite, begin, end),
+        composite center points, or shape objects
+        :return: shape object (single shape or a composite shape)
+        """
+        if shape_tree[0] == 'composite':
+            center = shape_tree[1]
+            begin = 2
+            end = self._findEnd(shape_tree, begin)
+            self.buildComposites(shape_tree[begin:end])
+            shape_tree[0] = ShapeFactory.build('composite', center, *shape_tree)
         return shape_tree[0]
+
+    def _findEnd(self, list, index):
+        begin_count = 1
+        for i in range(index, len(list)):
+            if list[i] == 'begin':
+                begin_count += 1
+            elif list[i] == 'end':
+                begin_count -= 1
+                if begin_count == 0: return len(list) - i
+        raise ShapeException('No matching end found for list<{}> index<{}>'.format(list, index))
 
     def saveShape(self, shape, file=None):
         string = shape.toString()
