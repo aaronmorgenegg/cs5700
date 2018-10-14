@@ -11,24 +11,6 @@ from shapes.shape_exception import ShapeException
 from shapes.shape_factory import ShapeFactory
 
 
-def findIndexOfFirstObject(list, type):
-    first_index = None
-    for i in range(len(list)):
-        if isinstance(list[i], type):
-            first_index = i
-    if first_index is None:
-        raise ShapeException('findIndexOfLastObject({}, {}) failed to find object in list'.format(list, type))
-    return first_index
-
-def findEnd(list, index):
-    begin_count = 1
-    for i in range(index, len(list)):
-        if list[i] == 'begin': begin_count += 1
-        elif list[i] == 'end':
-            begin_count -= 1
-            if begin_count == 0: return i
-    raise ShapeException('No matching end found for list<{}> index<{}>'.format(list, index))
-
 class ShapeIO:
     def loadShape(self, string=None, file=None):
         if string is None and file is None:
@@ -41,11 +23,21 @@ class ShapeIO:
     def parse(self, string):
         parsed_string = string.strip().split(",")
         shape_tree = self.parseShapeTree(parsed_string)
-        shape = self.buildShapes(shape_tree)
+        print(shape_tree)
+        shape_tree = self.buildShapes(shape_tree)
+        print(shape_tree)
+        shape = self.buildComposites(shape_tree)
         print(shape)
         return shape
 
     def parseShapeTree(self, parsed_string):
+        """
+        Parses input string into list of arguments
+
+        Also builds points where appropriate
+        :param parsed_string: string of saved shape data
+        :return: list of arguments, which are either shape names or point objects
+        """
         shape_tree = [parsed_string.pop(0)]
         while len(parsed_string) > 0:
             try:
@@ -57,30 +49,43 @@ class ShapeIO:
         return shape_tree
 
     def buildShapes(self, shape_tree):
-        # sample input trees
-        # ['composite',0,0,'begin','triangle',1,1,2,2,4,4,'composite',0,0,'begin','rectangle',1,1,2,2,3,3,4,4,'end','end']
-        # ['triangle',1,1,2,2,4,4]
-        for value in shape_tree: print(value)
-        print('-----')
-        shapes = [shape_tree[0]]
-        i = 1
+        """
+        Builds non-composite shapes from a parsed shape_tree
+
+
+        sample input trees
+        ['composite',0,0,'begin','triangle',1,1,2,2,4,4,'composite',0,0,'begin','rectangle',1,1,2,2,3,3,4,4,'end','end']
+        ['triangle',1,1,2,2,4,4]
+
+        :param shape_tree: list of arguments of either shape names, or point objects
+        :return: list of composite names, or shape objects
+        """
+        shapes = []
+        points = []
+        current_shape = None
+        i = 0
         while i < len(shape_tree):
-            if shape_tree[i] == 'begin':
-                begin = i+1
-                end = findEnd(shape_tree, i+begin)
-                sub_list = shape_tree[begin:end]
-                shapes.append(self.buildShapes(sub_list))
-                i = end
-            elif isinstance(shape_tree[i], str):
-                begin = i
-                end = findIndexOfFirstObject(shape_tree, str) + 1
-                sub_list = shape_tree[begin:end]
-                shapes.append(self.buildShapes(sub_list))
-                i = end - 1
-            else: # it's a point
+            if shape_tree[i] == 'begin' or shape_tree[i] == 'end':
                 shapes.append(shape_tree[i])
+            elif shape_tree[i] == 'composite':
+                shapes.append(shape_tree[i])
+            elif isinstance(shape_tree[i], str):
+                if len(points) > 0 and current_shape is not None:
+                    shapes.append(ShapeFactory.build(current_shape, *points))
+                    points = []
+
+                current_shape = shape_tree[i]
+            else: # it's a point
+                points.append(shape_tree[i])
             i += 1
-        return ShapeFactory.build(shapes.pop(0), *shapes)
+
+        if len(points) > 0 and current_shape is not None:
+            shapes.append(ShapeFactory.build(current_shape, *points))
+        return shapes
+
+    def buildComposites(self, shape_tree):
+        print("TODO")
+        return shape_tree[0]
 
     def saveShape(self, shape, file=None):
         string = shape.toString()
