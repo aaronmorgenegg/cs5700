@@ -24,9 +24,9 @@ class Shape:
         if not isinstance(value, Shape):
             raise ShapeException(errorMessage)
 
-        Point.validatePoint(value.center, "Center is not a valid point.")
+        Point.validatePoint(value.center, "Center <{}> is not a valid point.".format(value.center))
         for point in value.points:
-            Point.validatePoint(point, "Point is not a valid point.")
+            Point.validatePoint(point, "Point <{}> is not a valid point.".format(point))
 
     def validate(self):
         return Shape.validateShape(self, "Shape is invalid")

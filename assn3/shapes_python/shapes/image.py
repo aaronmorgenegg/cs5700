@@ -13,9 +13,9 @@ from shapes.validator import Validator
 
 class Image(Rectangle):
     def __init__(self, *args, **kwargs):
-        self.source = args[-1]
-        del args[-1]
-        super().__init__(args, kwargs)
+        args_list = list(args)
+        self.source = args_list.pop()
+        super().__init__(*args_list, **kwargs)
         Image.validateImage(self, "Image is invalid")
 
     @staticmethod

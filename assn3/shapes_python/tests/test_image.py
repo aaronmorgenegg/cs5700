@@ -19,7 +19,7 @@ class TestImage(unittest.TestCase):
 
     def testValidConstruction(self):
         p1 = Point(1, 3)
-        p2 = Point(5, 5)
+        p2 = Point(5, 3)
         p3 = Point(5, 1)
         p4 = Point(1, 1)
         s1 = "images/red_eyed_tree_frog.png"
@@ -31,7 +31,7 @@ class TestImage(unittest.TestCase):
 
     def testInvalidConstruction(self):
         p1 = Point(1, 3)
-        p2 = Point(5, 5)
+        p2 = Point(5, 3)
         p3 = Point(5, 1)
         p4 = Point(1, 1)
         s1 = "images/red_eyed_tree_frog.png"
