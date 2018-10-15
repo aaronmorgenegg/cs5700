@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import numbers
+import imghdr
 
 from shapes.shape_exception import ShapeException
 
@@ -83,3 +84,9 @@ class Validator:
             if length != last_length:
                 raise ShapeException(errorMessage)
             last_length = length
+
+    @staticmethod
+    def validateSource(source):
+        """Validate a source for an image"""
+        if imghdr.what(source) != 'png':
+            raise ShapeException('Source is not a valid png image.')

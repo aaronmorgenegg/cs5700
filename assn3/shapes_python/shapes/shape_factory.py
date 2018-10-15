@@ -8,6 +8,7 @@ Class the constructs shape objects.
 from shapes.circle import Circle
 from shapes.composite import Composite
 from shapes.ellipse import Ellipse
+from shapes.image import Image
 from shapes.line import Line
 from shapes.rectangle import Rectangle
 from shapes.shape_exception import ShapeException
@@ -21,7 +22,8 @@ SHAPE_FACTORY_MAP = {
             'square': Square,
             'ellipse': Ellipse,
             'circle': Circle,
-            'composite': Composite
+            'composite': Composite,
+            'image': Image
                      }
 
 
