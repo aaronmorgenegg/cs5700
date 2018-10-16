@@ -2,6 +2,7 @@
 import numbers
 import imghdr
 
+from shapes.constants import VALID_IMAGES
 from shapes.shape_exception import ShapeException
 
 
@@ -88,5 +89,9 @@ class Validator:
     @staticmethod
     def validateSource(source):
         """Validate a source for an image"""
-        if imghdr.what(source) != 'png':
-            raise ShapeException('Source is not a valid png image.')
+        try:
+            if imghdr.what(source) not in VALID_IMAGES:
+                raise ShapeException('Source is not a valid image.')
+        except TypeError:
+            raise ShapeException('Source is not a valid image.')
+

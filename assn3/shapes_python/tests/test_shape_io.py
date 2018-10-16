@@ -28,6 +28,28 @@ class TestShapeIO(unittest.TestCase):
         self.assertEqual(r1.point4.x, 1)
         self.assertEqual(r1.point4.y, 3)
 
+    def testSaveImage(self):
+        s1 = "images/red_eyed_tree_frog.png"
+        i1 = ShapeFactory.build("image", Point(1, 3), Point(5, 3), Point(5, 1), Point(1, 1), s1)
+        expected = i1.toString()
+        testShapeIO = ShapeIO()
+        actual = testShapeIO.saveShape(i1)
+        self.assertEqual(expected, actual)
+
+    def testLoadImage(self):
+        image = "image,3.0,2.0,1,3,5,3,5,1,1,1,images/red_eyed_tree_frog.png"
+        testShapeIO = ShapeIO()
+        i1 = testShapeIO.loadShape(string=image)
+        self.assertEqual(i1.point1.x, 1)
+        self.assertEqual(i1.point1.y, 3)
+        self.assertEqual(i1.point2.x, 5)
+        self.assertEqual(i1.point2.y, 3)
+        self.assertEqual(i1.point3.x, 5)
+        self.assertEqual(i1.point3.y, 1)
+        self.assertEqual(i1.point4.x, 1)
+        self.assertEqual(i1.point4.y, 1)
+        self.assertEqual(i1.source, "images/red_eyed_tree_frog.png")
+
     def testSaveComposite(self):
         center = Point(0, 0)
         r1 = ShapeFactory.build("rectangle", Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))

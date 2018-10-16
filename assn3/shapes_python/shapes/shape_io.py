@@ -6,6 +6,7 @@ Handles shape IO
 Load and save shapes in a simple scripting format,
 either to/from a string, stdin, or a file
 """
+from shapes.constants import VALID_IMAGES
 from shapes.point import Point
 from shapes.shape_exception import ShapeException
 from shapes.shape_factory import ShapeFactory
@@ -70,6 +71,8 @@ class ShapeIO:
                 shapes.append(shape_tree[i])
                 shapes.append(shape_tree[i+1])
                 i += 1
+            elif isinstance(shape_tree[i], str) and shape_tree[i].endswith(VALID_IMAGES):
+                points.append(shape_tree[i])
             elif isinstance(shape_tree[i], str):
                 shapes, current_shape, points = self._buildShape(shapes, current_shape, points)
 
