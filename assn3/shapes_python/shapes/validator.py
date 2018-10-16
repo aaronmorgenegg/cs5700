@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os.path
 import numbers
 import imghdr
 
@@ -89,9 +90,10 @@ class Validator:
     @staticmethod
     def validateSource(source):
         """Validate a source for an image"""
+        if not os.path.isfile(source):
+            raise ShapeException('Source image not found')
         try:
             if imghdr.what(source) not in VALID_IMAGES:
                 raise ShapeException('Source is not a valid image.')
         except TypeError:
             raise ShapeException('Source is not a valid image.')
-
