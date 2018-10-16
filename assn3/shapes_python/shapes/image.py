@@ -38,7 +38,6 @@ class Image(Rectangle):
         except Exception as e:
             raise ShapeException(e)
 
-
     def draw(self, graphics):
         image = self.loadSource()
         graphics.imshow(image, extent=[self.point1.x, self.point1.y, self.point3.y, self.point3.x], aspect='auto')

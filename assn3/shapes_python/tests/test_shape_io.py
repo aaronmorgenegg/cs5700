@@ -64,7 +64,25 @@ class TestShapeIO(unittest.TestCase):
         actual = testShapeIO.saveShape(cm3)
         self.assertEqual(expected, actual)
 
-    def testLoadComposite(self):
+    def testLoadSingleComposite(self):
+        center = Point(0, 0)
+        r1 = ShapeFactory.build("rectangle", Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))
+        t1 = ShapeFactory.build("triangle", Point(1, 2), Point(5, 1), Point(3, 3))
+        c1 = ShapeFactory.build("circle", Point(0, 0), Point(2, 0), Point(0, 2))
+        e1 = ShapeFactory.build("ellipse", Point(0, 0), Point(3, 0), Point(0, 2))
+        cm1 = ShapeFactory.build("composite", center, r1, t1, c1, e1)
+        expected = cm1
+        testShapeIO = ShapeIO()
+        composite_string = "composite,0,0,begin," \
+                                "rectangle,2.5,2.0,1,1,4,1,4,3,1,3," \
+                                "triangle,3.0,2.25,1,2,5,1,3,3," \
+                                "circle,0,0,2,0,0,2," \
+                                "ellipse,0,0,3,0,0,2," \
+                           "end"
+        actual = testShapeIO.loadShape(composite_string)
+        self.assertEqual(expected, actual)
+
+    def testLoadNestedComposite(self):
         center = Point(0, 0)
         r1 = ShapeFactory.build("rectangle", Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))
         t1 = ShapeFactory.build("triangle", Point(1, 2), Point(5, 1), Point(3, 3))

@@ -98,22 +98,19 @@ class ShapeIO:
         composite center points, or shape objects
         :return: shape object (single shape or a composite shape)
         """
-        # TODO get this working
+        # TODO get this working for nested composites
+        if shape_tree[0] == 'composite':
+            begin = 2
+            end = self._findEnd(shape_tree, begin+1)
+            shape_tree.pop(end)
+            shape_tree.pop(begin)
+            name = shape_tree.pop(0)
+            center = shape_tree.pop(0)
+            # sublist = shape_tree[begin:end]
+            # if 'composite' in sublist:
+            #     self._buildComposites(sublist)
+            shape_tree[0] = ShapeFactory.build(name, center, *shape_tree)
         return shape_tree[0]
-        # if shape_tree[0] == 'composite':
-        #     begin = 2
-        #     end = self._findEnd(shape_tree, begin+1)
-        #     shape_tree.pop(end)
-        #     shape_tree.pop(begin)
-        #     name = shape_tree.pop(0)
-        #     center = shape_tree.pop(0)
-        #     sublist = shape_tree[begin:end]
-        #     print(sublist)
-        #     if 'composite' in sublist:
-        #         self._buildComposites(sublist)
-        #
-        #     shape_tree[0] = ShapeFactory.build(name, center, *shape_tree)
-        # return shape_tree[0]
 
     def _findEnd(self, list, index):
         begin_count = 1

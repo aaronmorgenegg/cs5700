@@ -39,3 +39,6 @@ class TestImage(unittest.TestCase):
 
         s2 = "images/red_eyed_tree_frog.txt"
         self.assertRaises(ShapeException, ShapeFactory.build, "image", p1, p2, p3, p4, s2)
+
+    def testLoadSource(self):
+        pass # TODO
