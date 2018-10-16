@@ -41,4 +41,4 @@ class Image(Rectangle):
 
     def draw(self, graphics):
         image = self.loadSource()
-        graphics.imshow(image, extent=[self.point3.x, self.point3.y, self.point1.x, self.point1.y], aspect='auto')
+        graphics.imshow(image, extent=[self.point1.x, self.point1.y, self.point3.y, self.point3.x], aspect='auto')
