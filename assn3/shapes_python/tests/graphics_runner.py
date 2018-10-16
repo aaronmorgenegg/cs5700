@@ -6,7 +6,7 @@ A manual testing script to draw shapes.
 Run the script and verify that the shapes
 look as they should.
 
-python graphicsRunner.py
+python graphics_runner.py
 """
 import matplotlib.pyplot as graphics
 from shapes.point import Point
@@ -74,10 +74,18 @@ def drawComposite(graphics):
     t1 = ShapeFactory.build("triangle", Point(1, 2), Point(5, 1), Point(3, 3))
     c1 = ShapeFactory.build("circle", Point(0, 0), Point(2, 0), Point(0, 2))
     e1 = ShapeFactory.build("ellipse", Point(0, 0), Point(3, 0), Point(0, 2))
+    s1 = "images/red_eyed_tree_frog.png"
+    i1 = ShapeFactory.build("image", Point(1, 3), Point(5, 3), Point(5, 1), Point(1, 1), s1)
     cm1 = ShapeFactory.build("composite", center, r1)
     cm2 = ShapeFactory.build("composite", center, t1, c1)
-    cm3 = ShapeFactory.build("composite", center, cm1, e1, cm2)
+    cm3 = ShapeFactory.build("composite", center, cm1, e1, i1, cm2)
     cm3.draw(graphics)
+    graphics.show()
+
+def drawImage(graphics):
+    s1 = "images/red_eyed_tree_frog.png"
+    i1 = ShapeFactory.build("image", Point(1, 3), Point(5, 3), Point(5, 1), Point(1, 1), s1)
+    i1.draw(graphics)
     graphics.show()
 
 
@@ -89,3 +97,4 @@ drawSquare(graphics)
 drawEllipse(graphics)
 drawCircle(graphics)
 drawComposite(graphics)
+drawImage(graphics)

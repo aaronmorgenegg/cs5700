@@ -14,6 +14,8 @@ from shapes.validator import Validator
 class Shape:
     def __init__(self, *args, **kwargs):
         points = list(args)
+        if len(points) < 1:
+            raise ShapeException('No points provided during shape construction')
         self.center = points.pop(0)
         self.points = points
         self.lines = []

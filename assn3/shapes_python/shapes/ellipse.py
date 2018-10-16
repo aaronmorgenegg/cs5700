@@ -6,6 +6,7 @@ Ellipse
 This class represents ellipse objects that can be moved and scaled.
 Users of an ellipse can also compute its area.
 """
+from matplotlib.patches import Ellipse as EllipsePatch
 from shapes.constants import PI
 from shapes.line import Line
 from shapes.shape import Shape
@@ -59,10 +60,9 @@ class Ellipse(Shape):
         return super().toString(name)
 
     def draw(self, graphics):
-        from matplotlib.patches import Ellipse
         center = (self.center.x, self.center.y)
         width = self.axis1.computeLength()
         height = self.axis2.computeLength()
-        ellipse = Ellipse(xy=center, width=width, height=height, fill=None, color='k')
+        ellipse = EllipsePatch(xy=center, width=width, height=height, fill=None, color='k')
         graphics.gca().add_patch(ellipse)
         graphics.axis('scaled')
