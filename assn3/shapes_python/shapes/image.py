@@ -6,14 +6,15 @@ Image Shape
 This class represents embedded image shapes that contain an image.
 Users of an image shape can also compute its area
 """
-import os.path
-import matplotlib.image as mpimg
+from shapes.image_cache import ImageCache
 from shapes.rectangle import Rectangle
 from shapes.shape_exception import ShapeException
 from shapes.validator import Validator
 
 
 class Image(Rectangle):
+    image_cache = ImageCache()
+
     def __init__(self, *args, **kwargs):
         args_list = list(args)
         self.source = args_list.pop()
@@ -34,12 +35,7 @@ class Image(Rectangle):
         return super().toString(name) + ", {}".format(self.source)
 
     def loadSource(self):
-        if not os.path.isfile(self.source):
-            raise ShapeException('Source image not found')
-        try:
-            return mpimg.imread(self.source)
-        except Exception as e:
-            raise ShapeException(e)
+        return Image.image_cache.loadSource(self.source)
 
     def draw(self, graphics):
         image = self.loadSource()
