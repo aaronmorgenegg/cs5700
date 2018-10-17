@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 """
-Image Shape
+Image Cache
 
-This class represents embedded image shapes that contain an image.
-Users of an image shape can also compute its area
+This class represents image objects that are loaded from
+an image. Each image is loaded once and shared between
+many image shapes.
 """
 import os.path
 import matplotlib.image as mpimg
