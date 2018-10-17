@@ -61,9 +61,6 @@ class Line(Shape):
             else:
                 return float('-inf')
 
-    def computeArea(self):
-        return 0
-
     def toString(self, name="line"):
         return super().toString(name)
 

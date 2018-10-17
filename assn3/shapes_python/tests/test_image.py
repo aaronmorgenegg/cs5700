@@ -50,4 +50,4 @@ class TestImage(unittest.TestCase):
         p4 = Point(1, 1)
         s1 = "images/red_eyed_tree_frog.png"
         i1 = ShapeFactory.build("image", p1, p2, p3, p4, s1)
-        i1.loadSource()
+        i1._loadSource()

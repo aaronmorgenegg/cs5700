@@ -55,6 +55,9 @@ class Shape:
             return (self.center == other.center and self.points == other.points)
         return False
 
+    def computeArea(self):
+        return 0
+
     def toString(self, name="shape"):
         value = "{},{}".format(name, str(self.center))
         for point in self.points:

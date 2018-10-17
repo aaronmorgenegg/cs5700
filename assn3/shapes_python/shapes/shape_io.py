@@ -19,9 +19,9 @@ class ShapeIO:
         if file:
             with open(file, "r") as myfile:
                 string = myfile.readlines()
-        return self.parse(string)
+        return self._parse(string)
 
-    def parse(self, string):
+    def _parse(self, string):
         parsed_string = string.strip().split(",")
         shape_tree = self._parseShapeTree(parsed_string)
         shape_tree = self._buildShapes(shape_tree)

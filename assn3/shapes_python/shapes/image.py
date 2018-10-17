@@ -34,9 +34,9 @@ class Image(Rectangle):
     def toString(self, name="image"):
         return super().toString(name) + ", {}".format(self.source)
 
-    def loadSource(self):
+    def _loadSource(self):
         return Image.image_cache.loadSource(self.source)
 
     def draw(self, graphics):
-        image = self.loadSource()
+        image = self._loadSource()
         graphics.imshow(image, extent=[self.point1.x, self.point1.y, self.point3.y, self.point3.x], aspect='auto')
