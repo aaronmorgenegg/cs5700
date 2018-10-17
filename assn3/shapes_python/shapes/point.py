@@ -5,6 +5,8 @@ Point
 
 This class represents point objects that can be moved and copied
 """
+import math
+
 from shapes.shape_exception import ShapeException
 from shapes.validator import Validator
 
@@ -70,7 +72,7 @@ class Point:
     def __eq__(self, other):
         """Override the default comparison operator"""
         if isinstance(other, Point):
-            return (self.__x == other.x and self.__y == other.y)
+            return math.isclose(self.__x, other.x) and math.isclose(self.__y, other.y)
         return False
 
     def toString(self):
