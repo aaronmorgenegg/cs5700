@@ -47,7 +47,10 @@ class TestRectangle(unittest.TestCase):
         self.assertEqual(center, cm4.center)
 
     def testInvalidConstruction(self):
-        pass # TODO
+        center = Point(0,0)
+        r1 = ShapeFactory.build("rectangle", Point(1, 1), Point(4, 1), Point(4, 3), Point(1, 3))
+        self.assertRaises(AttributeError, ShapeFactory.build, "composite", center, r1.toString())
+        self.assertRaises(AttributeError, ShapeFactory.build, "composite", r1, r1.toString())
 
     def testMove(self):
         center = Point(0, 0)
