@@ -12,3 +12,7 @@ run the tests
 
 	python3 -m unittest
 
+To run the manual graphics tests, run
+
+	python3 tests/graphics_runner.py
+
