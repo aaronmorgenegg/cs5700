@@ -9,13 +9,17 @@ class SudokuSolver:
 
     def solve(self):
         self.timer.startTimer()
-        
+
         try:
             self.sudoku_board.validate()
         except sudoku_board_exception as e:
-            return self.sudoku_board.toString() + "\n" + e
+            return self._invalidSolutionToString(e)
 
-        return self.toString()
+        return self._solutionToString()
 
-    def toString(self):
-        return self.sudoku_board.toString()
+    def _invalidSolutionToString(self, error):
+        return self.sudoku_board.toString() + "\n" + error
+
+    def _solutionToString(self):
+        string = self.sudoku_board.toString()
+        string += "\nTotal time: " + self.timer.stopTimer()

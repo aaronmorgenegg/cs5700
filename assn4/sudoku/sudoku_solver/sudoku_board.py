@@ -1,3 +1,5 @@
+import math
+
 from sudoku_solver.constants import BLANK_CELL, VALID_SIZES
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
 
@@ -7,7 +9,31 @@ class SudokuBoard:
         self.size = size
         self.valid_symbols = valid_symbols
         self.initial_board = initial_board
-        self.current_board = initial_board
+        self.rows = initial_board
+        self._initCols()
+        self._initBlocks()
+
+    def _initCols(self):
+        self.columns = []
+        for i in range(self.size):
+            self.columns.append([x[i] for x in self.rows])
+
+    def _initBlocks(self):
+        self.blocks = []
+        block_size = int(math.sqrt(self.size))
+        for i in range(self.size):
+            block = []
+            for j in range(block_size):
+                for k in range(block_size):
+                    block = [self.rows[(i%block_size)+j][(i%block_size)+k]]
+            self.blocks.append(block)
+
+    def setCell(self, row, col, value):
+        """Set given cell to value"""
+        try:
+            self.rows[row][col] = value
+        except IndexError:
+            print("Error: setCell({},{},{}) out of bounds".format(row,col,value))
 
     def toString(self):
         string = ""
@@ -49,11 +75,11 @@ class SudokuBoard:
                 raise SudokuBoardException("Symbol cannot be the same as a blank cell ({})".format(BLANK_CELL))
 
     def _validateBoard(self):
-        if type(self.current_board) != list:
+        if type(self.rows) != list:
             raise SudokuBoardException("Board list error")
-        if len(self.current_board) != self.size:
+        if len(self.rows) != self.size:
             raise SudokuBoardException("Not enough rows for sudoku board")
-        for row in self.current_board:
+        for row in self.rows:
             if type(row) != list:
                 raise SudokuBoardException("Board row list error")
             if len(row) != self.size:
