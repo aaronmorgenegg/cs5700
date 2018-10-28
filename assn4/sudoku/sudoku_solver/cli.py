@@ -1,6 +1,9 @@
 import argparse
 import os
 
+from sudoku_solver.PuzzleReader import PuzzleReader
+from sudoku_solver.sudoku_solver import SudokuSolver
+
 
 class CLI:
     def __init__(self):
@@ -10,34 +13,33 @@ class CLI:
 
     def _initParser(self):
         parser = argparse.ArgumentParser(description='Sudoku Solver')
-        parser.add_argument('-i', '--input', help='Input puzzle file or directory', required=True)
+        parser.add_argument('-i', '--input', help='input puzzle file or directory', required=True)
         parser.add_argument('-o', '--output', help='Output puzzle file or directory')
         return parser
 
     def _processArgs(self):
-        directory_mode = False
-        if os.path.isfile(self.args['input']):
-            input_root = "Input"
-            input_file = self.args['input']
-        else:
-            input_root = self.args['input']
-            directory_mode = True
-
+        output_dir = "sample_puzzles/output"
+        output_file = self.args['input'].split("/").pop()
         if self.args['output']:
             if os.path.isfile(self.args['output']):
-                output_root = "Output"
                 output_file = self.args['output']
             else:
-                output_root = self.args['output']
-                directory_mode = True
+                output_dir = self.args['output']
 
-        if directory_mode:
-            pass
+        if os.path.isfile(self.args['input']):
+            input_file = self.args['input']
+            self._solveFile(input_file, output_dir + "/" + output_file)
         else:
-            self._solveFile(input_file, output_root + "/" + output_file)
+            input_dir = self.args['input']
+            self._solveDirectory(input_dir, output_dir)
 
     def _solveFile(self, input_file, output_file):
-        pass
+        puzzle_reader = PuzzleReader()
+        board = puzzle_reader.readPuzzle(input_file)
+        sudoku_solver = SudokuSolver(board)
+        sudoku_solver.solve()
+        puzzle_reader.savePuzzle(sudoku_solver.toString(), output_file)
 
     def _solveDirectory(self, input_dir, output_dir):
-        pass
+        for filename in os.listdir(input_dir):
+            self._solveFile(filename, output_dir+"/"+filename)

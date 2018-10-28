@@ -13,12 +13,10 @@ class SudokuBoard:
         for symbol in self.valid_symbols:
             string += str(symbol) + " "
         string += "\n"
-        string += self._boardToString(self.initial_board)
-        string += "Solution:\n"
-        string += self._boardToString(self.current_board)
+        string += self.boardToString(self.initial_board)
         return string
 
-    def _boardToString(self, board):
+    def boardToString(self, board):
         string = ""
         for row in board:
             for cell in row:
