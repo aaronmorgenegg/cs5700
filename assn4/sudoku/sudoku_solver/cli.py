@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from sudoku_solver.PuzzleReader import PuzzleReader
+from sudoku_solver.puzzle_reader import PuzzleReader
 from sudoku_solver.sudoku_solver import SudokuSolver
 
 
@@ -41,8 +41,7 @@ class CLI:
         puzzle_reader = PuzzleReader()
         board = puzzle_reader.readPuzzle(input_file)
         sudoku_solver = SudokuSolver(board)
-        sudoku_solver.solve()
-        puzzle_reader.savePuzzle(sudoku_solver.sudoku_board, output_file)
+        puzzle_reader.savePuzzle(sudoku_solver.solve(), output_file)
 
     def _solveDirectory(self, input_dir, output_dir):
         for filename in os.listdir(input_dir):

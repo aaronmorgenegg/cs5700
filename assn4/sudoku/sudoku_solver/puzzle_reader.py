@@ -1,4 +1,4 @@
-from sudoku_solver.SudokuBoard import SudokuBoard
+from sudoku_solver.sudoku_board import SudokuBoard
 
 
 class PuzzleReader:
@@ -9,9 +9,9 @@ class PuzzleReader:
         board = [x.strip().split(" ") for x in data]
         return SudokuBoard(size, valid_symbols, board)
 
-    def savePuzzle(self, puzzle, filename):
+    def savePuzzle(self, puzzle_string, filename):
         with open(filename, 'w') as f:
-            f.write(puzzle.toString())
+            f.write(puzzle_string)
 
     def _readFileToList(self, filename):
         with open(filename, 'r') as f:

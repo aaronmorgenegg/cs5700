@@ -1,6 +1,6 @@
 import unittest
 
-from sudoku_solver.PuzzleReader import PuzzleReader
+from sudoku_solver.puzzle_reader import PuzzleReader
 
 
 class TestPuzzleReader(unittest.TestCase):

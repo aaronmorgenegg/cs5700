@@ -1,0 +1,2 @@
+BLANK_CELL = "-"
+VALID_SIZES = [4,9,16,25]
