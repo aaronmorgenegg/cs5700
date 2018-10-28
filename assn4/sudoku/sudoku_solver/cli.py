@@ -18,13 +18,7 @@ class CLI:
         return parser
 
     def _processArgs(self):
-        output_dir = "sample_puzzles/output"
-        output_file = self.args['input'].split("/").pop()
-        if self.args['output']:
-            if os.path.isfile(self.args['output']):
-                output_file = self.args['output']
-            else:
-                output_dir = self.args['output']
+        output_dir, output_file = self._processOutput()
 
         if os.path.isfile(self.args['input']):
             input_file = self.args['input']
@@ -32,6 +26,16 @@ class CLI:
         else:
             input_dir = self.args['input']
             self._solveDirectory(input_dir, output_dir)
+
+    def _processOutput(self):
+        output_dir = "sample_puzzles/output"
+        output_file = self.args['input'].split("/").pop()
+        if self.args['output']:
+            if os.path.isfile(self.args['output']):
+                output_file = self.args['output']
+            else:
+                output_dir = self.args['output']
+        return output_dir, output_file
 
     def _solveFile(self, input_file, output_file):
         puzzle_reader = PuzzleReader()
