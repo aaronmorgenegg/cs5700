@@ -25,7 +25,9 @@ class SudokuBoard:
             block = []
             for j in range(block_size):
                 for k in range(block_size):
-                    block = [self.rows[(i%block_size)+j][(i%block_size)+k]]
+                    row = j+(i//block_size)*block_size
+                    col = k+(i*block_size)%self.size
+                    block.append(self.rows[row][col])
             self.blocks.append(block)
 
     def setCell(self, row, col, value):
