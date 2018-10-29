@@ -33,9 +33,21 @@ class SudokuBoard:
     def setCell(self, row, col, value):
         """Set given cell to value"""
         try:
-            self.rows[row][col] = value
+            self._setRowCell(row, col, value)
+            self._setColumnCell(row, col, value)
+            self._setBlockCell(row, col, value)
+            self.columns[col][row] = value
         except IndexError:
-            print("Error: setCell({},{},{}) out of bounds".format(row,col,value))
+            print("Error: setCell({},{},{}) out of bounds".format(row, col, value))
+
+    def _setRowCell(self, row, col, value):
+        self.rows[row][col] = value
+
+    def _setColumnCell(self, row, col, value):
+        self.columns[col][row] = value
+
+    def _setBlockCell(self, row, col, value):
+        self.blocks[row][col] = value
 
     def toString(self):
         string = ""
