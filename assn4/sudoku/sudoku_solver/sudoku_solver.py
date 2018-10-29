@@ -15,6 +15,8 @@ class SudokuSolver:
         except sudoku_board_exception as e:
             return self._invalidSolutionToString(e)
 
+        # TODO: implement strategies to solve sudoku puzzle
+
         return self._solutionToString()
 
     def _invalidSolutionToString(self, error):

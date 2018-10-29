@@ -9,15 +9,14 @@ class CLI:
     def __init__(self):
         self.parser = self._initParser()
         self.args = vars(self.parser.parse_args())
-        self._processArgs()
 
     def _initParser(self):
         parser = argparse.ArgumentParser(description='Sudoku Solver')
-        parser.add_argument('-i', '--input', help='input puzzle file or directory', required=True)
+        parser.add_argument('-i', '--input', help='Input puzzle file or directory', required=True)
         parser.add_argument('-o', '--output', help='Output puzzle file or directory')
         return parser
 
-    def _processArgs(self):
+    def processArgs(self):
         output_dir, output_file = self._processOutput()
 
         if os.path.isfile(self.args['input']):

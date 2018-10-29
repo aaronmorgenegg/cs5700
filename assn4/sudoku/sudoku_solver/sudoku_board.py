@@ -58,10 +58,12 @@ class SudokuBoard:
         for symbol in self.valid_symbols:
             string += str(symbol) + " "
         string += "\n"
-        string += self.boardToString(self.initial_board)
+        string += SudokuBoard.boardToString(self.initial_board)
         return string
 
-    def boardToString(self, board):
+    @staticmethod
+    def boardToString(board):
+        """Print a board/2d array to a string"""
         string = ""
         for row in board:
             for cell in row:
