@@ -47,7 +47,10 @@ class SudokuBoard:
         self.columns[col][row] = value
 
     def _setBlockCell(self, row, col, value):
-        self.blocks[row][col] = value
+        block_size = int(math.sqrt(self.size))
+        block = (row//block_size)*block_size+(col//block_size)
+        index = (row%block_size)*block_size+(col%block_size)
+        self.blocks[block][index] = value
 
     def toString(self):
         string = ""
