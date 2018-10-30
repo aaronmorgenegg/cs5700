@@ -2,7 +2,7 @@ from sudoku_solver.sudoku_board import SudokuBoard
 
 
 class PuzzleReader:
-    def readPuzzle(self, filename):
+    def loadPuzzle(self, filename):
         data = self._readFileToList(filename)
         size = int(data.pop(0))
         valid_symbols = data.pop(0).strip().split(" ")

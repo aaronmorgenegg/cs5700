@@ -7,7 +7,7 @@ class SudokuSolver:
         self.sudoku_board = sudoku_board
         self.timer = Timer()
 
-    def solve(self):
+    def solvePuzzle(self):
         self.timer.startTimer()
 
         try:

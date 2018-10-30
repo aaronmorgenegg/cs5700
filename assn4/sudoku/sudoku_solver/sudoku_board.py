@@ -12,6 +12,7 @@ class SudokuBoard:
         self.rows = initial_board
         self._initCols()
         self._initBlocks()
+        self._initBlanks()
 
     def _initCols(self):
         self.columns = []
@@ -30,13 +31,30 @@ class SudokuBoard:
                     block.append(self.rows[row][col])
             self.blocks.append(block)
 
+    def _initBlanks(self):
+        self.num_blank_cells = 0
+        for row in self.rows:
+            for cell in row:
+                if cell == BLANK_CELL:
+                    self.num_blank_cells += 1
+
+    def getCell(self, row, col):
+        return self.rows[row][col]
+
     def setCell(self, row, col, value):
         """Set given cell to value"""
+        if value not in self.valid_symbols or value != BLANK_CELL:
+            raise SudokuBoardException("Error: Attempting to set cell to non-valid symbol")
         try:
+            old_cell = self.getCell(row, col)
             self._setRowCell(row, col, value)
             self._setColumnCell(row, col, value)
             self._setBlockCell(row, col, value)
             self.columns[col][row] = value
+            if old_cell == BLANK_CELL and value != BLANK_CELL:
+                self.num_blank_cells -= 1
+            elif old_cell != BLANK_CELL and value == BLANK_CELL:
+                self.num_blank_cells += 1
         except IndexError:
             print("Error: setCell({},{},{}) out of bounds".format(row, col, value))
 

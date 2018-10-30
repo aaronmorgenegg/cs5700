@@ -38,9 +38,9 @@ class CLI:
 
     def _solveFile(self, input_file, output_file):
         puzzle_reader = PuzzleReader()
-        board = puzzle_reader.readPuzzle(input_file)
+        board = puzzle_reader.loadPuzzle(input_file)
         sudoku_solver = SudokuSolver(board)
-        puzzle_reader.savePuzzle(sudoku_solver.solve(), output_file)
+        puzzle_reader.savePuzzle(sudoku_solver.solvePuzzle(), output_file)
 
     def _solveDirectory(self, input_dir, output_dir):
         for filename in os.listdir(input_dir):
