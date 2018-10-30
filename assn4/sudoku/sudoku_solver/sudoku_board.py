@@ -43,7 +43,7 @@ class SudokuBoard:
 
     def setCell(self, row, col, value):
         """Set given cell to value"""
-        if value not in self.valid_symbols or value != BLANK_CELL:
+        if value not in self.valid_symbols and value != BLANK_CELL:
             raise SudokuBoardException("Error: Attempting to set cell to non-valid symbol")
         try:
             old_cell = self.getCell(row, col)
