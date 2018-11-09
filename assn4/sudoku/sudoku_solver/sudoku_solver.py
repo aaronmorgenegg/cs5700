@@ -16,6 +16,8 @@ class SudokuSolver:
             return self._invalidSolutionToString(e)
 
         # TODO: implement strategies to solve sudoku puzzle
+        while self.sudoku_board.num_blank_cells > 0:
+            pass
 
         return self._solutionToString()
 

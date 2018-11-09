@@ -1,6 +1,7 @@
 import math
 
 from sudoku_solver.constants import BLANK_CELL, VALID_SIZES
+from sudoku_solver.coordinates import Coordinates
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
 
 
@@ -50,7 +51,6 @@ class SudokuBoard:
             self._setRowCell(row, col, value)
             self._setColumnCell(row, col, value)
             self._setBlockCell(row, col, value)
-            self.columns[col][row] = value
             if old_cell == BLANK_CELL and value != BLANK_CELL:
                 self.num_blank_cells -= 1
             elif old_cell != BLANK_CELL and value == BLANK_CELL:
@@ -59,16 +59,16 @@ class SudokuBoard:
             print("Error: setCell({},{},{}) out of bounds".format(row, col, value))
 
     def _setRowCell(self, row, col, value):
-        self.rows[row][col] = value
+        x, y = Coordinates.convert(row, col, "row")
+        self.rows[x][y] = value
 
     def _setColumnCell(self, row, col, value):
-        self.columns[col][row] = value
+        x, y = Coordinates.convert(row, col, "column")
+        self.columns[x][y] = value
 
     def _setBlockCell(self, row, col, value):
-        block_size = int(math.sqrt(self.size))
-        block = (row//block_size)*block_size+(col//block_size)
-        index = (row%block_size)*block_size+(col%block_size)
-        self.blocks[block][index] = value
+        x, y = Coordinates.convert(row, col, "block")
+        self.blocks[x][y] = value
 
     def toString(self):
         string = ""
