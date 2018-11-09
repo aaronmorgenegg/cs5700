@@ -59,15 +59,15 @@ class SudokuBoard:
             print("Error: setCell({},{},{}) out of bounds".format(row, col, value))
 
     def _setRowCell(self, row, col, value):
-        x, y = Coordinates.convert(row, col, "row")
+        x, y = Coordinates.convert(row, col, "row", size=self.size)
         self.rows[x][y] = value
 
     def _setColumnCell(self, row, col, value):
-        x, y = Coordinates.convert(row, col, "column")
+        x, y = Coordinates.convert(row, col, "column", size=self.size)
         self.columns[x][y] = value
 
     def _setBlockCell(self, row, col, value):
-        x, y = Coordinates.convert(row, col, "block")
+        x, y = Coordinates.convert(row, col, "block", size=self.size)
         self.blocks[x][y] = value
 
     def toString(self):
@@ -116,11 +116,13 @@ class SudokuBoard:
             raise SudokuBoardException("Board list error")
         if len(self.rows) != self.size:
             raise SudokuBoardException("Not enough rows for sudoku board")
+        if len(self.columns) != self.size:
+            raise SudokuBoardException("Not enough columns for sudoku board")
         for row in self.rows:
             if type(row) != list:
                 raise SudokuBoardException("Board row list error")
             if len(row) != self.size:
                 raise SudokuBoardException("Not enough cells in row for sudoku board")
             for cell in row:
-                if cell not in self.valid_symbols or cell != BLANK_CELL:
+                if cell not in self.valid_symbols and cell != BLANK_CELL:
                     raise SudokuBoardException("Invalid symbol for cell ({})".format(cell))

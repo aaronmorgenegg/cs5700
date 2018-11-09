@@ -5,7 +5,7 @@ from sudoku_solver.constants import COLUMN_MODE, BLOCK_MODE
 
 class Coordinates:
     @staticmethod
-    def convert(x, y, mode, size=9):
+    def convert(x, y, mode, size):
         """Converts coordinates from columns or blocks into row coordinates"""
         if mode.lower() in COLUMN_MODE:
             return y, x

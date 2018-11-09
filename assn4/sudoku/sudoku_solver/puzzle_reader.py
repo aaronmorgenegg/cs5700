@@ -6,7 +6,7 @@ class PuzzleReader:
         data = self._readFileToList(filename)
         size = int(data.pop(0))
         valid_symbols = data.pop(0).strip().split(" ")
-        board = [x.strip().split(" ") for x in data]
+        board = [x.strip().split(" ") for x in data if len(x) >= 2]
         return SudokuBoard(size, valid_symbols, board)
 
     def savePuzzle(self, puzzle_string, filename):

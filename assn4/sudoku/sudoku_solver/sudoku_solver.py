@@ -18,7 +18,7 @@ class SudokuSolver:
 
         # TODO: implement strategies to solve sudoku puzzle
         max_iter = 100
-        while self.sudoku_board.num_blank_cells > 0 or max_iter >= 0:
+        while self.sudoku_board.num_blank_cells > 0 and max_iter >= 0:
             strategy = OnlyChoice()
             strategy.invoke(self.sudoku_board)
             max_iter -= 1
@@ -32,4 +32,5 @@ class SudokuSolver:
 
     def _solutionToString(self):
         string = self.sudoku_board.toString()
-        string += "\nTotal time: " + self.timer.stopTimer()
+        string += "\nTotal time: " + str(self.timer.stopTimer())
+        return string

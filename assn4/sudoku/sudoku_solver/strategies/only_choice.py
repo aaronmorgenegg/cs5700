@@ -11,15 +11,15 @@ class OnlyChoice(Strategy):
     def _findCoords(self, sudoku_board):
         for index, row in enumerate(sudoku_board.rows):
             if row.count(BLANK_CELL) == 1:
-                x, y = Coordinates.convert(index, row.index(BLANK_CELL), "row")
+                x, y = Coordinates.convert(index, row.index(BLANK_CELL), "row", size=sudoku_board.size)
                 return {'row': x, 'column': y}
         for index, col in enumerate(sudoku_board.columns):
             if col.count(BLANK_CELL) == 1:
-                x, y = Coordinates.convert(index, col.index(BLANK_CELL), "column")
+                x, y = Coordinates.convert(index, col.index(BLANK_CELL), "column", size=sudoku_board.size)
                 return {'row': x, 'column': y}
         for index, block in enumerate(sudoku_board.blocks):
             if block.count(BLANK_CELL) == 1:
-                x, y = Coordinates.convert(index, block.index(BLANK_CELL), "block")
+                x, y = Coordinates.convert(index, block.index(BLANK_CELL), "block", size=sudoku_board.size)
                 return {'row': x, 'column': y}
         return {}
 
