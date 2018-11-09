@@ -1,6 +1,6 @@
 import math
 
-from sudoku_solver.constants import BLANK_CELL, VALID_SIZES
+from sudoku_solver.constants import BLANK_CELL, VALID_SIZES, VERBOSITY
 from sudoku_solver.coordinates import Coordinates
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
 
@@ -105,7 +105,7 @@ class SudokuBoard:
             raise SudokuBoardException("Valid symbol list error")
         if len(self.valid_symbols) != self.size:
             raise SudokuBoardException("Valid symbol list does not match board size")
-        if len(self.valid_symbols > len(set(self.valid_symbols))):
+        if len(self.valid_symbols) > len(set(self.valid_symbols)):
             raise SudokuBoardException("One or more symbols are not unique")
         for symbol in self.valid_symbols:
             if symbol == BLANK_CELL:

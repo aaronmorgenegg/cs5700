@@ -1,4 +1,5 @@
-from sudoku_solver import sudoku_board_exception
+from sudoku_solver.strategies.only_choice import OnlyChoice
+from sudoku_solver.sudoku_board_exception import SudokuBoardException
 from sudoku_solver.timer import Timer
 
 
@@ -12,17 +13,22 @@ class SudokuSolver:
 
         try:
             self.sudoku_board.validate()
-        except sudoku_board_exception as e:
+        except SudokuBoardException as e:
             return self._invalidSolutionToString(e)
 
         # TODO: implement strategies to solve sudoku puzzle
-        while self.sudoku_board.num_blank_cells > 0:
-            pass
+        max_iter = 100
+        while self.sudoku_board.num_blank_cells > 0 or max_iter >= 0:
+            strategy = OnlyChoice()
+            strategy.invoke(self.sudoku_board)
+            max_iter -= 1
+            if max_iter == 0:
+                print("Max iterations achieved")
 
         return self._solutionToString()
 
     def _invalidSolutionToString(self, error):
-        return self.sudoku_board.toString() + "\n" + error
+        return self.sudoku_board.toString() + "\n" + str(error)
 
     def _solutionToString(self):
         string = self.sudoku_board.toString()
