@@ -1,5 +1,6 @@
 from sudoku_solver.strategies.only_choice import OnlyChoice
 from sudoku_solver.strategies.single_possibility import SinglePossibility
+from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
 from sudoku_solver.timer import Timer
 
@@ -47,6 +48,8 @@ class SudokuSolver:
 
     def _solutionToString(self):
         string = self.sudoku_board.toString()
+        string += "="*((2*self.sudoku_board.size)-1)
+        string += SudokuBoard.boardToString(self.sudoku_board.rows)
         string += "\nTotal time               : " + Timer.prettyPrintTime(self.time['total'])
         string += "\nChoosing Strategies time : " + Timer.prettyPrintTime((self.time['choosing_strategy']))
         string += "\nApplying Strategies time : " + Timer.prettyPrintTime((self.time['applying_strategy']))

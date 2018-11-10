@@ -1,3 +1,4 @@
+import copy
 import math
 
 from sudoku_solver.constants import BLANK_CELL, VALID_SIZES, VERBOSITY
@@ -10,7 +11,7 @@ class SudokuBoard:
         self.size = size
         self.valid_symbols = valid_symbols
         self.initial_board = initial_board
-        self.rows = initial_board
+        self.rows = copy.deepcopy(initial_board)
         self._initCols()
         self._initBlocks()
         self._initBlanks()
@@ -75,14 +76,13 @@ class SudokuBoard:
         string += str(self.size) + "\n"
         for symbol in self.valid_symbols:
             string += str(symbol) + " "
-        string += "\n"
         string += SudokuBoard.boardToString(self.initial_board)
         return string
 
     @staticmethod
     def boardToString(board):
         """Print a board/2d array to a string"""
-        string = ""
+        string = "\n"
         for row in board:
             for cell in row:
                 string += cell + " "
