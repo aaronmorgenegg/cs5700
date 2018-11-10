@@ -21,18 +21,25 @@ class SudokuSolver:
         while self.sudoku_board.num_blank_cells > 0:
             solve_timer = Timer()
             solve_timer.startTimer()
-            for strategy in self.strategies:
-                if strategy.isAppropriate(self.sudoku_board):
-                    self.time['choosing_strategy'] += solve_timer.stopTimer()
-                    solve_timer.startTimer()
-                    strategy.invoke(self.sudoku_board)
-                    self.time['applying_strategy'] += solve_timer.stopTimer()
-                    break
-            # This means none of the strategies worked
-            return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
+
+            strategy = self._findAppropriateStrategy()
+            if strategy is None:
+                # This means none of the strategies worked
+                return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
+
+            self.time['choosing_strategy'] += solve_timer.stopTimer()
+            solve_timer.startTimer()
+            strategy.invoke(self.sudoku_board)
+            self.time['applying_strategy'] += solve_timer.stopTimer()
 
         self.time['total'] += total_timer.stopTimer()
         return self._solutionToString()
+
+    def _findAppropriateStrategy(self):
+        for strategy in self.strategies:
+            if strategy.isAppropriate(self.sudoku_board):
+                return strategy
+        return None
 
     def _invalidSolutionToString(self, error):
         return self.sudoku_board.toString() + "\n" + str(error)
@@ -42,4 +49,13 @@ class SudokuSolver:
         string += "\nTotal time               : " + str(self.time['total'])
         string += "\nChoosing Strategies time : " + str(self.time['choosing_strategy'])
         string += "\nApplying Strategies time : " + str(self.time['applying_strategy'])
+        string += self._strategiesToString()
+        return string
+
+    def _strategiesToString(self):
+        string = "\nStrategies:"
+        for strategy in self.strategies:
+            string += "\n{}".format(type(strategy).__name__)
+            string += "\n   Choosing Strategy Time: {}".format(strategy.choosing_time)
+            string += "\n   Applying Strategy Time: {}".format(strategy.applying_time)
         return string
