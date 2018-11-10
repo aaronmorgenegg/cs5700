@@ -10,8 +10,8 @@ class Strategy:
     def invoke(self, sudoku_board):
         timer = Timer()
         timer.startTimer()
-        coords = self._findCoords(sudoku_board)
-        self._applyChanges(sudoku_board, coords)
+        changes = self._findChanges(sudoku_board)
+        self._applyChanges(sudoku_board, changes)
         self.applying_time += timer.stopTimer()
 
     def isAppropriate(self, sudoku_board):
@@ -19,13 +19,13 @@ class Strategy:
            would work for a given sudoku board"""
         timer = Timer()
         timer.startTimer()
-        if len(self._findCoords(sudoku_board)) == 0:
+        if len(self._findChanges(sudoku_board)) == 0:
             self.choosing_time += timer.stopTimer()
             return False
         self.choosing_time += timer.stopTimer()
         return True
 
-    def _findCoords(self, sudoku_board):
+    def _findChanges(self, sudoku_board):
         return {}
 
     def _applyChanges(self, sudoku_board, coords):

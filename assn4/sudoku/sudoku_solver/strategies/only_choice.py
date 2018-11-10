@@ -4,25 +4,23 @@ from sudoku_solver.strategies.strategy import Strategy
 
 
 class OnlyChoice(Strategy):
-    def _applyChanges(self, sudoku_board, coords):
-        if len(coords) == 0: return
-        self._insertMissingCell(sudoku_board, coords)
+    def _applyChanges(self, sudoku_board, changes):
+        if len(changes) == 0: return
+        sudoku_board.setCell(changes['row'], changes['column'], changes['cell'])
 
-    def _findCoords(self, sudoku_board):
+    def _findChanges(self, sudoku_board):
         for index, row in enumerate(sudoku_board.rows):
             if row.count(BLANK_CELL) == 1:
-                x, y = Coordinates.convert(index, row.index(BLANK_CELL), "row", size=sudoku_board.size)
-                return {'row': x, 'column': y}
+                return self._getChanges(index, row.index(BLANK_CELL), "row", sudoku_board)
         for index, col in enumerate(sudoku_board.columns):
             if col.count(BLANK_CELL) == 1:
-                x, y = Coordinates.convert(index, col.index(BLANK_CELL), "column", size=sudoku_board.size)
-                return {'row': x, 'column': y}
+                return self._getChanges(index, col.index(BLANK_CELL), "column", sudoku_board)
         for index, block in enumerate(sudoku_board.blocks):
             if block.count(BLANK_CELL) == 1:
-                x, y = Coordinates.convert(index, block.index(BLANK_CELL), "block", size=sudoku_board.size)
-                return {'row': x, 'column': y}
+                return self._getChanges(index, block.index(BLANK_CELL), "block", sudoku_board)
         return {}
 
-    def _insertMissingCell(self, sudoku_board, coordinates):
-        missing_cell = list(set(sudoku_board.valid_symbols) - set(sudoku_board.rows[coordinates['row']]))[0]
-        sudoku_board.setCell(coordinates['row'], coordinates['column'], missing_cell)
+    def _getChanges(self, index, blank_cell_index, mode, sudoku_board):
+        x, y = Coordinates.convert(index, blank_cell_index, mode, sudoku_board.size)
+        missing_cell = list(set(sudoku_board.valid_symbols) - set(sudoku_board.rows[x]))[0]
+        return {'row': x, 'column': y, 'choice': missing_cell}
