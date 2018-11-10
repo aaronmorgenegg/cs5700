@@ -4,10 +4,7 @@ from sudoku_solver.strategies.strategy import Strategy
 
 
 class OnlyChoice(Strategy):
-    def _applyChanges(self, sudoku_board, changes):
-        if len(changes) == 0: return
-        sudoku_board.setCell(changes['row'], changes['column'], changes['cell'])
-
+    """If there is only 1 blank cell in a row, column, or block"""
     def _findChanges(self, sudoku_board):
         for index, row in enumerate(sudoku_board.rows):
             if row.count(BLANK_CELL) == 1:
@@ -23,4 +20,4 @@ class OnlyChoice(Strategy):
     def _getChanges(self, index, blank_cell_index, mode, sudoku_board):
         x, y = Coordinates.convert(index, blank_cell_index, mode, sudoku_board.size)
         missing_cell = list(set(sudoku_board.valid_symbols) - set(sudoku_board.rows[x]))[0]
-        return {'row': x, 'column': y, 'choice': missing_cell}
+        return {'row': x, 'column': y, 'cell': missing_cell}

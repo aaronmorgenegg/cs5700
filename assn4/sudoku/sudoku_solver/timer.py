@@ -17,6 +17,12 @@ class Timer:
     def stopTimer(self):
         return self.getCurrentTime() - self.getStartTime()
 
+    @staticmethod
+    def prettyPrintTime(time):
+        """Converts a float to a pretty string of the time"""
+        seconds = str(int(time))
+        return seconds + ':{0:02.0f}:{1:02.0f}'.format(*divmod(time*1000000, 60))
+
     def timeFunction(self, function, *args):
         """
         Function to time the runtime of another function

@@ -8,6 +8,7 @@ class Strategy:
         self.applying_time = 0
 
     def invoke(self, sudoku_board):
+        self.num_usages += 1
         timer = Timer()
         timer.startTimer()
         changes = self._findChanges(sudoku_board)
@@ -28,5 +29,8 @@ class Strategy:
     def _findChanges(self, sudoku_board):
         return {}
 
-    def _applyChanges(self, sudoku_board, coords):
-        pass
+    def _applyChanges(self, sudoku_board, changes):
+        try:
+            sudoku_board.setCell(changes['row'], changes['column'], changes['cell'])
+        except KeyError:
+            return
