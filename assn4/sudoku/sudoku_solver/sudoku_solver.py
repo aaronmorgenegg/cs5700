@@ -24,7 +24,7 @@ class SudokuSolver:
 
     def _tryStrategies(self):
         while self.sudoku_board.num_blank_cells > 0:
-            strategy, choosing_time = self.timer.timeFunction(self._findAppropriateStrategy())
+            strategy, choosing_time = self.timer.timeFunction(self._findAppropriateStrategy)
             if strategy is None:
                 # This means none of the strategies worked
                 return self._invalidSolutionToString("No strategy could be found to solve this puzzle")

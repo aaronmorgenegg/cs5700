@@ -131,7 +131,7 @@ class SudokuBoard:
                 raise SudokuBoardException("Not enough cells in row for sudoku board")
             found_cells = []
             for cell in row:
-                if cell in found_cells:
+                if cell in found_cells and self.num_blank_cells == 0:
                     raise SudokuBoardException("Multiple of symbol ({}) found in row".format(cell))
                 found_cells.append(cell)
                 if cell not in self.valid_symbols and cell != BLANK_CELL:
@@ -139,12 +139,12 @@ class SudokuBoard:
         for col in self.columns:
             found_cells = []
             for cell in col:
-                if cell in found_cells:
+                if cell in found_cells and self.num_blank_cells == 0:
                     raise SudokuBoardException("Multiple of symbol ({}) found in column".format(cell))
                 found_cells.append(cell)
         for block in self.blocks:
             found_cells = []
             for cell in block:
-                if cell in found_cells:
+                if cell in found_cells and self.num_blank_cells == 0:
                     raise SudokuBoardException("Multiple of symbol ({}) found in block".format(cell))
                 found_cells.append(cell)
