@@ -29,5 +29,5 @@ class Timer:
         Call with TimeFunction(function_name, arg1, arg2, ...,argn)
         """
         start_time = timeit.default_timer()
-        function(*args)
-        return timeit.default_timer() - start_time
+        result = function(*args)
+        return result, (timeit.default_timer() - start_time)

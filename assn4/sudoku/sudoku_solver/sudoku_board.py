@@ -1,7 +1,7 @@
 import copy
 import math
 
-from sudoku_solver.constants import BLANK_CELL, VALID_SIZES, VERBOSITY
+from sudoku_solver.constants import BLANK_CELL, VALID_SIZES
 from sudoku_solver.coordinates import Coordinates
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
 
@@ -129,6 +129,22 @@ class SudokuBoard:
                 raise SudokuBoardException("Board row list error")
             if len(row) != self.size:
                 raise SudokuBoardException("Not enough cells in row for sudoku board")
+            found_cells = []
             for cell in row:
+                if cell in found_cells:
+                    raise SudokuBoardException("Multiple of symbol ({}) found in row".format(cell))
+                found_cells.append(cell)
                 if cell not in self.valid_symbols and cell != BLANK_CELL:
-                    raise SudokuBoardException("Invalid symbol for cell ({})".format(cell))
+                    raise SudokuBoardException("Invalid symbol ({}) for cell".format(cell))
+        for col in self.columns:
+            found_cells = []
+            for cell in col:
+                if cell in found_cells:
+                    raise SudokuBoardException("Multiple of symbol ({}) found in column".format(cell))
+                found_cells.append(cell)
+        for block in self.blocks:
+            found_cells = []
+            for cell in block:
+                if cell in found_cells:
+                    raise SudokuBoardException("Multiple of symbol ({}) found in block".format(cell))
+                found_cells.append(cell)

@@ -10,31 +10,35 @@ class SudokuSolver:
         self.sudoku_board = sudoku_board
         self.strategies = [OnlyChoice(), SinglePossibility()]
         self.time = {'total': 0, 'choosing_strategy': 0, 'applying_strategy': 0}
+        self.timer = Timer()
 
     def solvePuzzle(self):
-        total_timer = Timer()
-        total_timer.startTimer()
+        self.timer.startTimer()
 
         try:
             self.sudoku_board.validate()
         except SudokuBoardException as e:
             return self._invalidSolutionToString(e)
 
-        while self.sudoku_board.num_blank_cells > 0:
-            solve_timer = Timer()
-            solve_timer.startTimer()
+        return self._tryStrategies()
 
-            strategy = self._findAppropriateStrategy()
+    def _tryStrategies(self):
+        while self.sudoku_board.num_blank_cells > 0:
+            strategy, choosing_time = self.timer.timeFunction(self._findAppropriateStrategy())
             if strategy is None:
                 # This means none of the strategies worked
                 return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
 
-            self.time['choosing_strategy'] += solve_timer.stopTimer()
-            solve_timer.startTimer()
-            strategy.invoke(self.sudoku_board)
-            self.time['applying_strategy'] += solve_timer.stopTimer()
+            self.time['choosing_strategy'] += choosing_time
+            _, apply_time = self.timer.timeFunction(strategy.invoke, self.sudoku_board)
+            self.time['applying_strategy'] += apply_time
 
-        self.time['total'] += total_timer.stopTimer()
+        try:
+            self.sudoku_board.validate()
+        except SudokuBoardException as e:
+            return self._invalidSolutionToString("Puzzle could not be solved.\n"+str(e))
+
+        self.time['total'] += self.timer.stopTimer()
         return self._solutionToString()
 
     def _findAppropriateStrategy(self):
