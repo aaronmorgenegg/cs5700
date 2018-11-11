@@ -2,6 +2,7 @@ import argparse
 import os
 
 from sudoku_solver.puzzle_reader import PuzzleReader
+from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_solver import SudokuSolver
 from sudoku_solver import constants
 
@@ -49,8 +50,11 @@ class CLI:
     def _solveFile(self, input_file, output_file):
         puzzle_reader = PuzzleReader()
         board = puzzle_reader.loadPuzzle(input_file)
-        sudoku_solver = SudokuSolver(board)
-        puzzle_reader.savePuzzle(sudoku_solver.solvePuzzle(), output_file)
+        if type(board) == SudokuBoard:
+            sudoku_solver = SudokuSolver(board)
+            puzzle_reader.savePuzzle(sudoku_solver.solvePuzzle(), output_file)
+        elif type(board) == str:
+            puzzle_reader.savePuzzle(board, output_file)
 
     def _solveDirectory(self, input_dir, output_dir):
         for filename in os.listdir(input_dir):
