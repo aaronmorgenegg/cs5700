@@ -1,4 +1,5 @@
 from sudoku_solver.sudoku_board import SudokuBoard
+from sudoku_solver.sudoku_board_exception import SudokuBoardException
 
 
 class PuzzleReader:
@@ -9,7 +10,7 @@ class PuzzleReader:
             valid_symbols = data.pop(0).strip().split(" ")
             board = [x.strip().split(" ") for x in data if len(x) >= 2]
             return SudokuBoard(size, valid_symbols, board)
-        except Exception:
+        except SudokuBoardException:
             data = self._readFileToList(filename)
             return ''.join(data) + "\nBad Puzzle"
 

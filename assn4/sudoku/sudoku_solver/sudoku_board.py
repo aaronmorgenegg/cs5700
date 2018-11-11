@@ -18,20 +18,26 @@ class SudokuBoard:
 
     def _initCols(self):
         self.columns = []
-        for i in range(self.size):
-            self.columns.append([x[i] for x in self.rows])
+        try:
+            for i in range(self.size):
+                self.columns.append([x[i] for x in self.rows])
+        except IndexError:
+            raise SudokuBoardException
 
     def _initBlocks(self):
         self.blocks = []
         block_size = int(math.sqrt(self.size))
-        for i in range(self.size):
-            block = []
-            for j in range(block_size):
-                for k in range(block_size):
-                    row = j+(i//block_size)*block_size
-                    col = k+(i*block_size)%self.size
-                    block.append(self.rows[row][col])
-            self.blocks.append(block)
+        try:
+            for i in range(self.size):
+                block = []
+                for j in range(block_size):
+                    for k in range(block_size):
+                        row = j+(i//block_size)*block_size
+                        col = k+(i*block_size)%self.size
+                        block.append(self.rows[row][col])
+                self.blocks.append(block)
+        except IndexError:
+            raise SudokuBoardException
 
     def _initBlanks(self):
         self.num_blank_cells = 0
