@@ -7,26 +7,26 @@ class Strategy:
         self.choosing_time = 0
         self.applying_time = 0
 
-    def invoke(self, sudoku_board):
+    def invoke(self, sudoku_board, choices):
         self.num_usages += 1
         timer = Timer()
         timer.startTimer()
-        changes = self._findChanges(sudoku_board)
+        changes = self._findChanges(sudoku_board, choices)
         self._applyChanges(sudoku_board, changes)
         self.applying_time += timer.stopTimer()
 
-    def isAppropriate(self, sudoku_board):
+    def isAppropriate(self, sudoku_board, choices):
         """Returns bool that indicates whether this strategy
            would work for a given sudoku board"""
         timer = Timer()
         timer.startTimer()
-        if len(self._findChanges(sudoku_board)) == 0:
+        if len(self._findChanges(sudoku_board, choices)) == 0:
             self.choosing_time += timer.stopTimer()
             return False
         self.choosing_time += timer.stopTimer()
         return True
 
-    def _findChanges(self, sudoku_board):
+    def _findChanges(self, sudoku_board, choices):
         return {}
 
     def _applyChanges(self, sudoku_board, changes):
