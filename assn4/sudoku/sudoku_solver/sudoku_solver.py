@@ -1,3 +1,4 @@
+from sudoku_solver.strategies.hidden_single import HiddenSingle
 from sudoku_solver.strategies.only_choice import OnlyChoice
 from sudoku_solver.strategies.single_possibility import SinglePossibility
 from sudoku_solver.sudoku_board import SudokuBoard
@@ -8,7 +9,7 @@ from sudoku_solver.timer import Timer
 class SudokuSolver:
     def __init__(self, sudoku_board):
         self.sudoku_board = sudoku_board
-        self.strategies = [OnlyChoice(), SinglePossibility()]
+        self.strategies = [OnlyChoice(), SinglePossibility(), HiddenSingle()]
         self.time = {'total': 0, 'choosing_strategy': 0, 'applying_strategy': 0}
         self.timer = Timer()
 
