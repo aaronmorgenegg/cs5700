@@ -1,6 +1,7 @@
 from sudoku_solver.constants import BLANK_CELL, VERBOSITY
 from sudoku_solver.coordinates import Coordinates
 from sudoku_solver.strategies.hidden_single import HiddenSingle
+from sudoku_solver.strategies.naked_pair import NakedPair
 from sudoku_solver.strategies.single_possibility import SinglePossibility
 from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
@@ -11,7 +12,7 @@ class SudokuSolver:
     def __init__(self, sudoku_board):
         self.sudoku_board = sudoku_board
         self.solve_strategies = [SinglePossibility(), HiddenSingle()]
-        self.choices_strategies = []
+        self.choices_strategies = [NakedPair()]
         self.time = {'total': 0, 'computing_choices': 0, 'choosing_strategy': 0, 'applying_strategy': 0}
         self.timer = Timer()
 
@@ -63,11 +64,8 @@ class SudokuSolver:
 
     def _applyChoicesStrategies(self, choices):
         for strategy in self.choices_strategies:
-            if strategy.isAppropriate(self.sudoku_board, choices):
-                if VERBOSITY > 2: print("Applying {} strategy".format(type(strategy).__name__))
-                strategy.invoke(self.sudoku_board, choices)
-                self._applyChoicesStrategies(choices)
-        return None
+            if VERBOSITY > 2: print("Applying {} strategy".format(type(strategy).__name__))
+            strategy.invoke(self.sudoku_board, choices)
 
     def _findChoices(self, sudoku_board, row_x, row_y):
         col_x, col_y = Coordinates.convert(row_x, row_y, "column", sudoku_board.size)
@@ -104,9 +102,10 @@ class SudokuSolver:
         string += "\nChoosing Strategies time  : " + Timer.prettyPrintTime((self.time['choosing_strategy']))
         string += "\nApplying Strategies time  : " + Timer.prettyPrintTime((self.time['applying_strategy']))
         string += "\nStrategies:"
-        for strategy in self.solve_strategies:
-            string += "\n{}".format(type(strategy).__name__)
-            string += "\n   Number of times used   : {}".format(strategy.num_usages)
-            string += "\n   Choosing Strategy Time : {}".format(Timer.prettyPrintTime(strategy.choosing_time))
-            string += "\n   Applying Strategy Time : {}".format(Timer.prettyPrintTime(strategy.applying_time))
+        for seq in (self.choices_strategies, self.solve_strategies):
+            for strategy in seq:
+                string += "\n{}".format(type(strategy).__name__)
+                string += "\n   Number of times used   : {}".format(strategy.num_usages)
+                string += "\n   Choosing Strategy Time : {}".format(Timer.prettyPrintTime(strategy.choosing_time))
+                string += "\n   Applying Strategy Time : {}".format(Timer.prettyPrintTime(strategy.applying_time))
         return string
