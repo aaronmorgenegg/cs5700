@@ -118,17 +118,34 @@ class SudokuBoard:
                 raise SudokuBoardException("Symbol cannot be the same as a blank cell ({})".format(BLANK_CELL))
 
     def _validateBoard(self):
+        self._validateTypes()
+        self._validateBoardSizes()
+        self._validateRows()
+        self._validateColumns()
+        self._validateBlocks()
+
+    def _validateTypes(self):
         if type(self.rows) != list:
-            raise SudokuBoardException("Board list error")
+            raise SudokuBoardException("Board row list error")
+        if type(self.columns) != list:
+            raise SudokuBoardException("Board column list error")
+        if type(self.blocks) != list:
+            raise SudokuBoardException("Board block list error")
+
+    def _validateBoardSizes(self):
         if len(self.rows) != self.size:
-            raise SudokuBoardException("Not enough rows for sudoku board")
+            raise SudokuBoardException("Incorrect number of rows for sudoku board")
         if len(self.columns) != self.size:
-            raise SudokuBoardException("Not enough columns for sudoku board")
+            raise SudokuBoardException("Incorrect number of columns for sudoku board")
+        if len(self.blocks) != self.size:
+            raise SudokuBoardException("Incorrect number of blocks for sudoku board")
+
+    def _validateRows(self):
         for row in self.rows:
             if type(row) != list:
                 raise SudokuBoardException("Board row list error")
             if len(row) != self.size:
-                raise SudokuBoardException("Not enough cells in row for sudoku board")
+                raise SudokuBoardException("Incorrect number of cells in row for sudoku board")
             found_cells = []
             for cell in row:
                 if cell in found_cells:
@@ -136,13 +153,25 @@ class SudokuBoard:
                 if cell != BLANK_CELL: found_cells.append(cell)
                 if cell not in self.valid_symbols and cell != BLANK_CELL:
                     raise SudokuBoardException("Invalid symbol ({}) for cell".format(cell))
+
+    def _validateColumns(self):
         for col in self.columns:
+            if type(col) != list:
+                raise SudokuBoardException("Board column list error")
+            if len(col) != self.size:
+                raise SudokuBoardException("Incorrect number of cells in column for sudoku board")
             found_cells = []
             for cell in col:
                 if cell in found_cells:
                     raise SudokuBoardException("Multiple of symbol ({}) found in column".format(cell))
                 if cell != BLANK_CELL: found_cells.append(cell)
+
+    def _validateBlocks(self):
         for block in self.blocks:
+            if type(block) != list:
+                raise SudokuBoardException("Board block list error")
+            if len(block) != self.size:
+                raise SudokuBoardException("Incorrect number of cells in block for sudoku board")
             found_cells = []
             for cell in block:
                 if cell in found_cells:

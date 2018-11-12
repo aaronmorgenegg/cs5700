@@ -11,7 +11,7 @@ class TestTimer(unittest.TestCase):
         expected = 0.1
         time.sleep(expected)
         actual = timer.stopTimer()
-        self.assertAlmostEqual(expected, actual, places=3)
+        self.assertAlmostEqual(expected, actual, places=2)
 
     def testPrettyPrintTime(self):
         expected = "0.00014s"
