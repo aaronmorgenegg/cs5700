@@ -1,6 +1,7 @@
 import unittest
 
 from sudoku_solver.sudoku_board import SudokuBoard
+from sudoku_solver.sudoku_board_exception import SudokuBoardException
 
 
 class TestSudokuBoard(unittest.TestCase):
@@ -83,3 +84,58 @@ class TestSudokuBoard(unittest.TestCase):
         self.assertEqual('2', sudoku_board1.rows[7][6])
         self.assertEqual('2', sudoku_board1.columns[6][7])
         self.assertEqual('2', sudoku_board1.blocks[8][3])
+
+    def testValidate(self):
+        size = 9
+        valid_symbols = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+        initial_board1 = [['-', '-', '-', '6', '4', '-', '-', '-', '-'],
+                          ['-', '3', '-', '-', '7', '9', '-', '6', '8'],
+                          ['-', '8', '-', '-', '-', '-', '-', '-', '1'],
+                          ['9', '-', '-', '-', '2', '6', '-', '5', '3'],
+                          ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+                          ['6', '5', '-', '8', '3', '-', '-', '-', '2'],
+                          ['8', '-', '-', '-', '-', '-', '-', '3', '-'],
+                          ['3', '6', '-', '7', '8', '-', '-', '4', '-'],
+                          ['-', '-', '-', '-', '6', '1', '-', '-', '-']
+                         ]
+        sudoku_board1 = SudokuBoard(size, valid_symbols, initial_board1)
+        sudoku_board1.validate()
+
+        initial_board2 = [['9', '-', '-', '6', '4', '-', '-', '-', '-'],
+                          ['-', '3', '-', '-', '7', '9', '-', '6', '8'],
+                          ['-', '8', '-', '-', '-', '-', '-', '-', '1'],
+                          ['9', '-', '-', '-', '2', '6', '-', '5', '3'],
+                          ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+                          ['6', '5', '-', '8', '3', '-', '-', '-', '2'],
+                          ['8', '-', '-', '-', '-', '-', '-', '3', '-'],
+                          ['3', '6', '-', '7', '8', '-', '-', '4', '-'],
+                          ['-', '-', '-', '-', '6', '1', '-', '-', '-']
+                         ]
+        sudoku_board2 = SudokuBoard(size, valid_symbols, initial_board2)
+        self.assertRaises(SudokuBoardException, sudoku_board2.validate)
+
+        initial_board3 = [['-', '-', '-', '6', '4', '-', '-', '-', '-'],
+                          ['-', '3', '-', '-', '7', '9', '-', '6', '8'],
+                          ['-', '8', '-', '-', '-', '-', '-', '-', '1'],
+                          ['9', '-', '-', '-', '2', '6', '-', '5', '3'],
+                          ['-', '-', '-', '-', '-', '2', '-', '-', '-'],
+                          ['6', '5', '-', '8', '3', '-', '-', '-', '2'],
+                          ['8', '-', '-', '-', '-', '-', '-', '3', '-'],
+                          ['3', '6', '-', '7', '8', '-', '-', '4', '-'],
+                          ['-', '-', '-', '-', '6', '1', '-', '-', '-']
+                         ]
+        sudoku_board3 = SudokuBoard(size, valid_symbols, initial_board3)
+        self.assertRaises(SudokuBoardException, sudoku_board3.validate)
+
+        initial_board4 = [['9', '-', '-', '6', '4', '-', '-', '-', '-'],
+                          ['-', '3', '-', '-', '7', '9', '-', '6', '8'],
+                          ['-', '8', '-', '-', '-', '-', '-', '-', '1'],
+                          ['9', '-', '-', '-', '2', '6', '-', '5', '3'],
+                          ['-', '-', '-', '-', '-', '-', '-', '-', '-'],
+                          ['6', '5', '-', '8', '3', '-', '-', '-', '2'],
+                          ['8', '-', '-', '-', '-', '-', '-', '3', '-'],
+                          ['3', '6', '-', '7', '8', '-', '-', '4', '-'],
+                          ['-', '-', '-', '-', '6', '1', '-', '5', '-']
+                         ]
+        sudoku_board4 = SudokuBoard(size, valid_symbols, initial_board4)
+        self.assertRaises(SudokuBoardException, sudoku_board4.validate)

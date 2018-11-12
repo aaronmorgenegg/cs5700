@@ -5,24 +5,26 @@ class Timer:
     def __init__(self):
         self.start_time = 0
 
-    def getCurrentTime(self):
+    @staticmethod
+    def getCurrentTime():
         return timeit.default_timer()
 
     def getStartTime(self):
         return self.start_time
 
     def startTimer(self):
-        self.start_time = self.getCurrentTime()
+        self.start_time = Timer.getCurrentTime()
 
     def stopTimer(self):
-        return self.getCurrentTime() - self.getStartTime()
+        return Timer.getCurrentTime() - self.getStartTime()
 
     @staticmethod
     def prettyPrintTime(time):
         """Converts a float to a pretty string of the time"""
-        return '{0:.5f}'.format(time)
+        return '{0:.5f}s'.format(time)
 
-    def timeFunction(self, function, *args):
+    @staticmethod
+    def timeFunction(function, *args):
         """
         Function to time the runtime of another function
         Call with TimeFunction(function_name, arg1, arg2, ...,argn)

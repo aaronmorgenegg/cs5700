@@ -24,13 +24,13 @@ class SudokuSolver:
 
     def _tryStrategies(self):
         while self.sudoku_board.num_blank_cells > 0:
-            strategy, choosing_time = self.timer.timeFunction(self._findAppropriateStrategy)
+            strategy, choosing_time = Timer.timeFunction(self._findAppropriateStrategy)
             self.time['choosing_strategy'] += choosing_time
             if strategy is None:
                 # This means none of the strategies worked
                 return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
 
-            _, apply_time = self.timer.timeFunction(strategy.invoke, self.sudoku_board)
+            _, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board)
             self.time['applying_strategy'] += apply_time
 
         try:
