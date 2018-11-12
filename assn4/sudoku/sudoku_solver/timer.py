@@ -20,8 +20,7 @@ class Timer:
     @staticmethod
     def prettyPrintTime(time):
         """Converts a float to a pretty string of the time"""
-        seconds = str(int(time))
-        return seconds + ':{0:02.0f}:{1:02.0f}'.format(*divmod(time*1000000, 60))
+        return '{0:.5f}'.format(time)
 
     def timeFunction(self, function, *args):
         """
