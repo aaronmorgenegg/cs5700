@@ -58,9 +58,9 @@ class HiddenSingle(Strategy):
     def _findChoice(self, sudoku_board, row_x, row_y):
         col_x, col_y = Coordinates.convert(row_x, row_y, "column", sudoku_board.size)
         block_x, block_y = Coordinates.convert(row_x, row_y, "block", sudoku_board.size)
-        row_choices = list(set(sudoku_board.valid_symbols) - set(sudoku_board.rows[row_x]))
-        col_choices = list(set(sudoku_board.valid_symbols) - set(sudoku_board.columns[col_x]))
-        block_choices = list(set(sudoku_board.valid_symbols) - set(sudoku_board.blocks[block_x]))
+        row_choices = list(set(sudoku_board.valid_symbols) - set(sudoku_board.rows[row_x])-set(BLANK_CELL))
+        col_choices = list(set(sudoku_board.valid_symbols) - set(sudoku_board.columns[col_x])-set(BLANK_CELL))
+        block_choices = list(set(sudoku_board.valid_symbols) - set(sudoku_board.blocks[block_x])-set(BLANK_CELL))
 
         choice = [choice for choice in row_choices if choice in col_choices]
         choice = [choice for choice in choice if choice in block_choices]

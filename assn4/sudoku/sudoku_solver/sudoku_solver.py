@@ -1,5 +1,4 @@
 from sudoku_solver.strategies.hidden_single import HiddenSingle
-from sudoku_solver.strategies.only_choice import OnlyChoice
 from sudoku_solver.strategies.single_possibility import SinglePossibility
 from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
@@ -9,7 +8,7 @@ from sudoku_solver.timer import Timer
 class SudokuSolver:
     def __init__(self, sudoku_board):
         self.sudoku_board = sudoku_board
-        self.strategies = [OnlyChoice(), SinglePossibility(), HiddenSingle()]
+        self.strategies = [SinglePossibility(), HiddenSingle()]
         self.time = {'total': 0, 'choosing_strategy': 0, 'applying_strategy': 0}
         self.timer = Timer()
 
@@ -49,7 +48,7 @@ class SudokuSolver:
         return None
 
     def _invalidSolutionToString(self, error):
-        return self.sudoku_board.toString() + "\n" + str(error) + "\n" + self._timeToString()
+        return self._solutionToString() + "\n\nCould not be solved: " + str(error)
 
     def _solutionToString(self):
         string = self.sudoku_board.toString()
