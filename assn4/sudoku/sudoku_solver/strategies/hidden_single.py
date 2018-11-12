@@ -3,6 +3,10 @@ from sudoku_solver.strategies.strategy import Strategy
 
 
 class HiddenSingle(Strategy):
+    def __init__(self):
+        super().__init__()
+        self.type = "solve"
+
     def _findChanges(self, sudoku_board, choices):
         for row_x, row in enumerate(choices):
             for row_y, choice_list in enumerate(row):

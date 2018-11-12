@@ -4,6 +4,10 @@ from sudoku_solver.strategies.strategy import Strategy
 
 class SinglePossibility(Strategy):
     """If there is only 1 possibility for a cell in a given row/column/block"""
+    def __init__(self):
+        super().__init__()
+        self.type = "solve"
+
     def _findChanges(self, sudoku_board, choices):
         for row_x, row in enumerate(sudoku_board.rows):
             for row_y, cell in enumerate(row):
