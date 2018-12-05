@@ -12,7 +12,7 @@ class NakedPair(Strategy):
                 if len(choice_list) == 2:
                     self._checkRows(row_x, row_y, choices, choice_list)
                     self._checkColumns(row_x, row_y, choices, choice_list)
-                    self._checkBlocks(row_x, row_y, choices, choice_list)
+                    # self._checkBlocks(row_x, row_y, choices, choice_list)
         return {}
 
     def _checkRows(self, row_x, row_y, choices, choice_list):
