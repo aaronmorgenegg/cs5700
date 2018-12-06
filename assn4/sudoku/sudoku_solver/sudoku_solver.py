@@ -109,3 +109,9 @@ class SudokuSolver:
                 string += "\n   Choosing Strategy Time : {}".format(Timer.prettyPrintTime(strategy.choosing_time))
                 string += "\n   Applying Strategy Time : {}".format(Timer.prettyPrintTime(strategy.applying_time))
         return string
+
+    def toString(self):
+        if self.sudoku_board.num_blank_cells == 0:
+            return self._solutionToString()
+        else:
+            return self._invalidSolutionToString("Board saved before being completely solved")
