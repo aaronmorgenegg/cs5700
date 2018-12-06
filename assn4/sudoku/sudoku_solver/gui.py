@@ -6,6 +6,9 @@ from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_solver import SudokuSolver
 
 
+CANVAS_WIDTH = 600
+CANVAS_HEIGHT = 600
+
 class GUI:
     def __init__(self):
         self.puzzle_reader = PuzzleReader()
@@ -17,12 +20,13 @@ class GUI:
         self._startGUI()
 
     def _initOptions(self):
-        self.btn_position=0
+        self.btn_position = 0
         self.showPossibilities = False
+        self.sudoku_solver = None
 
     def _initWindow(self):
         self.window = Tk()
-        self.window.geometry("750x800")
+        self.window.geometry("600x700")
         self.window.title("Sudoku Solver")
 
     def _initButtons(self):
@@ -32,7 +36,7 @@ class GUI:
 
     def _addButton(self, name, function):
         btn = Button(self.window, text=name, command=function)
-        btn.grid(column=self.btn_position, row=26)
+        btn.grid(column=0, row=self.btn_position)
         self.btn_position += 1
 
     def _initMenu(self):
@@ -49,7 +53,26 @@ class GUI:
         self.window.mainloop()
 
     def _initBoard(self):
-        pass
+        self.canvas = Canvas(self.window, height=CANVAS_HEIGHT, width=CANVAS_WIDTH)
+        self.canvas.grid(column=0, row=self.btn_position)
+        self._drawBoard()
+
+    def _drawBoard(self):
+        self.canvas.delete("all")
+
+        x = 7
+        y = 2
+        if self.sudoku_solver is None:
+            board_size = 9
+        else:
+            board_size = len(self.sudoku_solver.sudoku_board.rows)
+        cell_size = CANVAS_WIDTH/board_size-2
+        for i in range(board_size):
+            for j in range(board_size):
+                self.canvas.create_rectangle(x, y, x+cell_size, y+cell_size)
+                x += cell_size
+            y += cell_size
+            x = 7
 
     def _loadPuzzle(self):
         filename = filedialog.askopenfilename()
@@ -59,6 +82,7 @@ class GUI:
             self.sudoku_solver = SudokuSolver(board)
         elif type(board) == str:
             self._displayMessage(board, "Parse Error")
+        self._drawBoard()
 
     def _savePuzzle(self):
         filename = filedialog.askopenfilename()
