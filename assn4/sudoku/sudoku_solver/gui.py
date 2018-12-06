@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, filedialog
 
+from sudoku_solver.constants import BLANK_CELL
 from sudoku_solver.puzzle_reader import PuzzleReader
 from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_solver import SudokuSolver
@@ -70,9 +71,26 @@ class GUI:
         for i in range(board_size):
             for j in range(board_size):
                 self.canvas.create_rectangle(x, y, x+cell_size, y+cell_size)
+                if self.sudoku_solver is None:
+                    cell = BLANK_CELL
+                else:
+                    cell = self.sudoku_solver.sudoku_board.rows[i][j]
+                if cell != BLANK_CELL:
+                    self.canvas.create_text(x+cell_size/2, y+cell_size/2, text=cell,
+                                            font="Times {} italic bold".format(self._getCellFontSize(board_size)))
                 x += cell_size
             y += cell_size
             x = 7
+
+    def _getCellFontSize(self, board_size):
+        if board_size == 4:
+            return 40
+        if board_size == 9:
+            return 25
+        if board_size == 16:
+            return 16
+        if board_size == 25:
+            return 9
 
     def _loadPuzzle(self):
         filename = filedialog.askopenfilename()
