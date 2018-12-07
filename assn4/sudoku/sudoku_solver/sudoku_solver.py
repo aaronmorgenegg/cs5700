@@ -15,6 +15,7 @@ class SudokuSolver:
         self.choices_strategies = [NakedPair()]
         self.time = {'total': 0, 'computing_choices': 0, 'choosing_strategy': 0, 'applying_strategy': 0}
         self.timer = Timer()
+        self.history = []
 
     def solvePuzzle(self):
         self.timer.startTimer()
@@ -37,6 +38,7 @@ class SudokuSolver:
             self.time['total'] += self.timer.stopTimer()
             return self._invalidSolutionToString("Puzzle could not be solved.\n"+str(e))
 
+        self.history.append({'type': 'solvePuzzle'})
         self.time['total'] += self.timer.stopTimer()
         return self._solutionToString()
 
@@ -50,8 +52,25 @@ class SudokuSolver:
             self.time['total'] += self.timer.stopTimer()
             return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
 
-        _, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board, choices)
+        change, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board, choices)
+        if change is not None:
+            self.history.append(change)
         self.time['applying_strategy'] += apply_time
+
+    def undo(self):
+        change = self.history.pop()
+        if change['type'] == 'setCell':
+            self._undoSetCell(change)
+        elif change['type'] == 'solvePuzzle':
+            self._undoSolvePuzzle(change)
+
+    def _undoSetCell(self, change):
+        self.sudoku_board.setCell(change['row'], change['column'], change['old'])
+
+    def _undoSolvePuzzle(self, change):
+        for change in self.history:
+            self._undoSetCell(change)
+        self.history = []
 
     def _updateChoicesArray(self):
         choices=[]

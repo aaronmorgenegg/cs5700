@@ -100,19 +100,20 @@ class GUI:
         self._displayMessage("Saved puzzle to {}".format(filename), "Success")
 
     def _solveCell(self):
-        command = CommandFactory.build("solve_cell", self.sudoku_solver)
-        command.execute()
-        self._drawBoard()
+        self._executeCommand("solve_cell")
 
     def _solvePuzzle(self):
-        self.sudoku_solver.solvePuzzle()
-        self._drawBoard()
+        self._executeCommand("solve_puzzle")
 
     def _togglePossibilities(self):
         self.showPossibilities = not self.showPossibilities
 
     def _undo(self):
-        # TODO
+        self._executeCommand("undo")
+
+    def _executeCommand(self, command_name):
+        command = CommandFactory.build(command_name, self.sudoku_solver)
+        command.execute()
         self._drawBoard()
 
     def _displayMessage(self, message, title='Message'):

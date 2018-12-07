@@ -7,6 +7,7 @@ class Strategy:
         self.choosing_time = 0
         self.applying_time = 0
         self.type = None
+        self.change = None
 
     def invoke(self, sudoku_board, choices):
         self.num_usages += 1
@@ -18,6 +19,7 @@ class Strategy:
         elif self.type == "choice":
             self._applyChanges(choices, changes)
         self.applying_time += timer.stopTimer()
+        return self.change
 
     def isAppropriate(self, sudoku_board, choices):
         """Returns bool that indicates whether this strategy
@@ -38,6 +40,8 @@ class Strategy:
             if self.type == "choice":
                 target[changes['row']][changes['column']] = changes['choice_list']
             elif self.type == "solve":
+                self.change = {'type': 'setCell', 'row': changes['row'], 'column': changes['column'],
+                               'old': target.getCell(changes['row'], changes['column']), 'new': changes['cell']}
                 target.setCell(changes['row'], changes['column'], changes['cell'])
         except KeyError:
             return
