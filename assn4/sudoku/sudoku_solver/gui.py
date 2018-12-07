@@ -5,6 +5,7 @@ from sudoku_solver.commands.command_factory import CommandFactory
 from sudoku_solver.constants import BLANK_CELL
 from sudoku_solver.puzzle_reader import PuzzleReader
 from sudoku_solver.sudoku_board import SudokuBoard
+from sudoku_solver.sudoku_board_exception import SudokuBoardException
 from sudoku_solver.sudoku_solver import SudokuSolver
 
 
@@ -85,11 +86,17 @@ class GUI:
             x = 7
 
     def _loadPuzzle(self):
+        self.sudoku_solver = None
         filename = filedialog.askopenfilename()
 
         board = self.puzzle_reader.loadPuzzle(filename)
         if type(board) == SudokuBoard:
             self.sudoku_solver = SudokuSolver(board)
+            try:
+                self.sudoku_solver.sudoku_board.validate()
+            except SudokuBoardException as e:
+                self._displayMessage(e, "Sudoku Board Error")
+                self.sudoku_solver = None
         elif type(board) == str:
             self._displayMessage(board, "Parse Error")
         self._drawBoard()
