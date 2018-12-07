@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox, filedialog
 
+from sudoku_solver.commands.command_factory import CommandFactory
 from sudoku_solver.constants import BLANK_CELL
 from sudoku_solver.puzzle_reader import PuzzleReader
 from sudoku_solver.sudoku_board import SudokuBoard
@@ -9,6 +10,7 @@ from sudoku_solver.sudoku_solver import SudokuSolver
 
 CANVAS_WIDTH = 600
 CANVAS_HEIGHT = 600
+CELL_FONT_SIZE = {4: 40, 9: 25, 16:16, 25:9}
 
 class GUI:
     def __init__(self):
@@ -31,7 +33,7 @@ class GUI:
         self.window.title("Sudoku Solver")
 
     def _initButtons(self):
-        self._addButton("Solve Square", self._solveSquare)
+        self._addButton("Solve Cell", self._solveCell)
         self._addButton("Solve Puzzle", self._solvePuzzle)
         self._addButton("Undo", self._undo)
 
@@ -77,20 +79,10 @@ class GUI:
                     cell = self.sudoku_solver.sudoku_board.rows[i][j]
                 if cell != BLANK_CELL:
                     self.canvas.create_text(x+cell_size/2, y+cell_size/2, text=cell,
-                                            font="Times {} italic bold".format(self._getCellFontSize(board_size)))
+                                            font="Times {} bold".format(CELL_FONT_SIZE[board_size]))
                 x += cell_size
             y += cell_size
             x = 7
-
-    def _getCellFontSize(self, board_size):
-        if board_size == 4:
-            return 40
-        if board_size == 9:
-            return 25
-        if board_size == 16:
-            return 16
-        if board_size == 25:
-            return 9
 
     def _loadPuzzle(self):
         filename = filedialog.askopenfilename()
@@ -107,17 +99,21 @@ class GUI:
         self.puzzle_reader.savePuzzle(self.sudoku_solver.toString(), filename)
         self._displayMessage("Saved puzzle to {}".format(filename), "Success")
 
-    def _solveSquare(self):
-        pass
+    def _solveCell(self):
+        command = CommandFactory.build("solve_cell", self.sudoku_solver)
+        command.execute()
+        self._drawBoard()
 
     def _solvePuzzle(self):
-        pass
+        self.sudoku_solver.solvePuzzle()
+        self._drawBoard()
 
     def _togglePossibilities(self):
         self.showPossibilities = not self.showPossibilities
 
     def _undo(self):
-        pass
+        # TODO
+        self._drawBoard()
 
     def _displayMessage(self, message, title='Message'):
         messagebox.showinfo(title, message)

@@ -25,21 +25,11 @@ class SudokuSolver:
             self.time['total'] += self.timer.stopTimer()
             return self._invalidSolutionToString(e)
 
-        return self._tryStrategies()
+        return self.tryStrategies()
 
-    def _tryStrategies(self):
+    def tryStrategies(self):
         while self.sudoku_board.num_blank_cells > 0:
-            choices, choices_time = Timer.timeFunction(self._updateChoicesArray)
-            self.time['computing_choices'] += choices_time
-            strategy, choosing_time = Timer.timeFunction(self._findAppropriateSolveStrategy, choices)
-            self.time['choosing_strategy'] += choosing_time
-            if strategy is None:
-                # This means none of the strategies worked
-                self.time['total'] += self.timer.stopTimer()
-                return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
-
-            _, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board, choices)
-            self.time['applying_strategy'] += apply_time
+            self.tryStrategy()
 
         try:
             self.sudoku_board.validate()
@@ -49,6 +39,19 @@ class SudokuSolver:
 
         self.time['total'] += self.timer.stopTimer()
         return self._solutionToString()
+
+    def tryStrategy(self):
+        choices, choices_time = Timer.timeFunction(self._updateChoicesArray)
+        self.time['computing_choices'] += choices_time
+        strategy, choosing_time = Timer.timeFunction(self._findAppropriateSolveStrategy, choices)
+        self.time['choosing_strategy'] += choosing_time
+        if strategy is None:
+            # This means none of the strategies worked
+            self.time['total'] += self.timer.stopTimer()
+            return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
+
+        _, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board, choices)
+        self.time['applying_strategy'] += apply_time
 
     def _updateChoicesArray(self):
         choices=[]
