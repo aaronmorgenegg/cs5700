@@ -32,6 +32,11 @@ class Strategy:
         self.choosing_time += timer.stopTimer()
         return True
 
+    @staticmethod
+    def undo(sudoku_board, change):
+        if change is not None:
+            sudoku_board.setCell(change['row'], change['column'], change['old'])
+
     def _findChanges(self, sudoku_board, choices):
         return {}
 
@@ -40,7 +45,7 @@ class Strategy:
             if self.type == "choice":
                 target[changes['row']][changes['column']] = changes['choice_list']
             elif self.type == "solve":
-                self.change = {'type': 'setCell', 'row': changes['row'], 'column': changes['column'],
+                self.change = {'type': self.__class__.__name__, 'row': changes['row'], 'column': changes['column'],
                                'old': target.getCell(changes['row'], changes['column']), 'new': changes['cell']}
                 target.setCell(changes['row'], changes['column'], changes['cell'])
         except KeyError:

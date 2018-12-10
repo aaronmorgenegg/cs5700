@@ -3,6 +3,7 @@ from sudoku_solver.coordinates import Coordinates
 from sudoku_solver.strategies.hidden_single import HiddenSingle
 from sudoku_solver.strategies.naked_pair import NakedPair
 from sudoku_solver.strategies.single_possibility import SinglePossibility
+from sudoku_solver.strategies.strategy import Strategy
 from sudoku_solver.sudoku_board import SudokuBoard
 from sudoku_solver.sudoku_board_exception import SudokuBoardException
 from sudoku_solver.timer import Timer
@@ -59,15 +60,15 @@ class SudokuSolver:
 
     def undo(self):
         change = self.history.pop()
-        if change['type'] == 'setCell':
+        if change['type'] == 'solvePuzzle':
+            self._undoSolvePuzzle()
+        else:
             self._undoSetCell(change)
-        elif change['type'] == 'solvePuzzle':
-            self._undoSolvePuzzle(change)
 
     def _undoSetCell(self, change):
-        self.sudoku_board.setCell(change['row'], change['column'], change['old'])
+        Strategy.undo(self.sudoku_board, change)
 
-    def _undoSolvePuzzle(self, change):
+    def _undoSolvePuzzle(self):
         for change in self.history:
             self._undoSetCell(change)
         self.history = []
