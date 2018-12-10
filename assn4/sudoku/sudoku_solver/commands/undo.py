@@ -2,5 +2,5 @@ from sudoku_solver.commands.command import Command
 
 
 class Undo(Command):
-    def execute(self):
+    def invoke(self):
         self.receiver.undo()

@@ -17,6 +17,7 @@ class SudokuSolver:
         self.time = {'total': 0, 'computing_choices': 0, 'choosing_strategy': 0, 'applying_strategy': 0}
         self.timer = Timer()
         self.history = []
+        self.choices = []
 
     def solvePuzzle(self):
         self.timer.startTimer()
@@ -45,16 +46,16 @@ class SudokuSolver:
         return self._solutionToString()
 
     def tryStrategy(self):
-        choices, choices_time = Timer.timeFunction(self._updateChoicesArray)
+        _, choices_time = Timer.timeFunction(self._updateChoicesArray)
         self.time['computing_choices'] += choices_time
-        strategy, choosing_time = Timer.timeFunction(self._findAppropriateSolveStrategy, choices)
+        strategy, choosing_time = Timer.timeFunction(self._findAppropriateSolveStrategy)
         self.time['choosing_strategy'] += choosing_time
         if strategy is None:
             # This means none of the strategies worked
             self.time['total'] += self.timer.stopTimer()
             return self._invalidSolutionToString("No strategy could be found to solve this puzzle")
 
-        change, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board, choices)
+        change, apply_time = Timer.timeFunction(strategy.invoke, self.sudoku_board, self.choices)
         if change is not None:
             self.history.append(change)
         self.time['applying_strategy'] += apply_time
@@ -77,21 +78,20 @@ class SudokuSolver:
             self._undoSetCell(change)
 
     def _updateChoicesArray(self):
-        choices=[]
+        self.choices = []
         for row_x, row in enumerate(self.sudoku_board.rows):
-            choices.append([])
+            self.choices.append([])
             for row_y, cell in enumerate(row):
                 if self.sudoku_board.rows[row_x][row_y] == BLANK_CELL:
-                    choices[row_x].append(self._findChoices(self.sudoku_board, row_x, row_y))
+                    self.choices[row_x].append(self._findChoices(self.sudoku_board, row_x, row_y))
                 else:
-                    choices[row_x].append([])
-        self._applyChoicesStrategies(choices)
-        return choices
+                    self.choices[row_x].append([])
+        self._applyChoicesStrategies()
 
-    def _applyChoicesStrategies(self, choices):
+    def _applyChoicesStrategies(self):
         for strategy in self.choices_strategies:
             if VERBOSITY > 2: print("Applying {} strategy".format(type(strategy).__name__))
-            strategy.invoke(self.sudoku_board, choices)
+            strategy.invoke(self.sudoku_board, self.choices)
 
     def _findChoices(self, sudoku_board, row_x, row_y):
         col_x, col_y = Coordinates.convert(row_x, row_y, "column", sudoku_board.size)
@@ -105,9 +105,9 @@ class SudokuSolver:
 
         return choice
 
-    def _findAppropriateSolveStrategy(self, choices):
+    def _findAppropriateSolveStrategy(self):
         for strategy in self.solve_strategies:
-            if strategy.isAppropriate(self.sudoku_board, choices):
+            if strategy.isAppropriate(self.sudoku_board, self.choices):
                 if VERBOSITY > 2: print("Applying {} strategy".format(type(strategy).__name__))
                 return strategy
         return None

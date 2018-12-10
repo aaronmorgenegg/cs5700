@@ -81,6 +81,14 @@ class GUI:
                 if cell != BLANK_CELL:
                     self.canvas.create_text(x+cell_size/2, y+cell_size/2, text=cell,
                                             font="Times {} bold".format(CELL_FONT_SIZE[board_size]))
+                elif self.showPossibilities and self.sudoku_solver is not None:
+                    if len(self.sudoku_solver.choices)!=0:
+                        for k in range(len(self.sudoku_solver.choices[i][j])):
+                            font_size = int(CELL_FONT_SIZE[board_size]/3)
+                            self.canvas.create_text(x+(cell_size/10+font_size*k),
+                                                    y+(cell_size/10)+font_size*(k%board_size),
+                                                    text=self.sudoku_solver.choices[i][j][k],
+                                                    font="Times {} bold".format(font_size))
                 x += cell_size
             y += cell_size
             x = 7
@@ -114,13 +122,14 @@ class GUI:
 
     def _togglePossibilities(self):
         self.showPossibilities = not self.showPossibilities
+        self._drawBoard()
 
     def _undo(self):
         self._executeCommand("undo")
 
     def _executeCommand(self, command_name):
         command = CommandFactory.build(command_name, self.sudoku_solver)
-        command.execute()
+        command.invoke()
         self._drawBoard()
 
     def _displayMessage(self, message, title='Message'):
