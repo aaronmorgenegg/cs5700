@@ -21,6 +21,7 @@ class SudokuSolver:
     def solvePuzzle(self):
         self.timer.startTimer()
 
+        self.history.append({'type': 'startSolvePuzzle'})
         try:
             self.sudoku_board.validate()
         except SudokuBoardException as e:
@@ -69,9 +70,11 @@ class SudokuSolver:
         Strategy.undo(self.sudoku_board, change)
 
     def _undoSolvePuzzle(self):
-        for change in self.history:
+        for i in range(len(self.history)):
+            change = self.history.pop()
+            if change['type'] == 'startSolvePuzzle':
+                return
             self._undoSetCell(change)
-        self.history = []
 
     def _updateChoicesArray(self):
         choices=[]
