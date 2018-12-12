@@ -1,0 +1,18 @@
+For the final homework assignment, I chose to refactor my sudoku
+solver to add a GUI in addition to the existing CLI.
+
+To start with, I chose to use the tkinter library for the GUI 
+design. I had never used it before, but I found it fairly easy
+to pick up and make a simple GUI program with it.
+
+As part of this refactoring assignment, I used the Command pattern 
+to improve the sudoku solver. I used it in two places : First I used 
+it for the sudoku solving strategies as part of the back end sudoku 
+solver code. This allows the sudoku solver to manage a history of 
+these commands, and to undo them.
+
+I also used the Command pattern along with a Command Factory as 
+part of the GUI. The commands used here were much simpler. This 
+was done to reduce coupling between the GUI and the underlying 
+sudoku solver class.
+
